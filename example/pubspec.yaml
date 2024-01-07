@@ -1,0 +1,23 @@
+name: rotation_sensor_example
+description: "Demonstrates how to use the rotation_sensor plugin."
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  rotation_sensor:
+    path: ../
+  vector_math: any
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
