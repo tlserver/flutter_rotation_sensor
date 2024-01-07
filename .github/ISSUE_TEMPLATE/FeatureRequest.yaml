@@ -1,0 +1,77 @@
+name: Feature Request
+description: Suggest an idea or enhancement for the FlutterRotationSensor plugin.
+title: "[Feature Request]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # ✨ Feature Request
+
+        Thank you for taking the time to suggest a feature for FlutterRotationSensor!
+
+        Before submitting your feature request, please consider the following:
+        - Check if a similar feature request [has already been submitted](https://github.com/tlserver/flutter_rotation_sensor/issues?q=is%3Aissue+label%3Aenhancement).
+        - Review the [documentation](https://pub.dev/documentation/flutter_map_location_marker/latest/) to ensure your feature doesn't already exist.
+
+        If you have a specific idea in mind, fill out the template below. Detailed proposals have a higher chance of being considered.
+
+  - type: input
+    id: feature-summary
+    attributes:
+      label: Feature Summary
+      description: A short, descriptive title for your feature request.
+      placeholder: e.g., Support for XYZ sensor data
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Detailed Description
+      description: Provide a detailed description of your feature request. What problem does it solve or functionality does it add?
+    validations:
+      required: true
+
+  - type: textarea
+    id: potential-benefits
+    attributes:
+      label: Potential Benefits
+      description: Explain the benefits this feature would provide to users or developers.
+    validations:
+      required: true
+
+  - type: textarea
+    id: possible-solutions
+    attributes:
+      label: Possible Solutions
+      description: If you have ideas on how to implement this feature, please share them here.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, links, or screenshots about the feature request here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: additional-checks
+    attributes:
+      label: Preliminary Checks
+      description: Ensure you've considered what's necessary before we proceed with this feature request.
+      options:
+        - label: I've checked if this feature request does not already exist.
+          required: true
+        - label: I've considered and outlined any potential impact on existing functionality.
+          required: true
