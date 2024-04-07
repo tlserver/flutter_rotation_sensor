@@ -10,14 +10,15 @@ dependencies:
     sdk: flutter
   rotation_sensor:
     path: ../
+  simple_3d_renderer: ^19.1.0
   vector_math: any
 
 dev_dependencies:
-  integration_test:
-    sdk: flutter
+  flutter_lints: ^3.0.2
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.2
+  integration_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true
