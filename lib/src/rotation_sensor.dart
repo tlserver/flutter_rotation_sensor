@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 
+import 'coordinate_system.dart';
 import 'orientation_event.dart';
 import 'rotation_sensor_platform_interface.dart';
 import 'sensor_interval.dart';
@@ -30,9 +31,18 @@ class RotationSensor {
   /// [samplingPeriod], simply call this method again with the new desired
   /// value. All existing listeners will then receive events at the updated
   /// sampling rate.
-  static Stream<OrientationEvent> getOrientationStream([
-    Duration? samplingPeriod,
-  ]) =>
-      RotationSensorPlatform.instance
-          .getOrientationStream(samplingPeriod: samplingPeriod);
+  static Stream<OrientationEvent> get orientationStream =>
+      RotationSensorPlatform.instance.orientationStream;
+
+  static Duration get samplingPeriod =>
+      RotationSensorPlatform.instance.samplingPeriod;
+
+  static set samplingPeriod(Duration value) =>
+      RotationSensorPlatform.instance.samplingPeriod = value;
+
+  static CoordinateSystem get coordinateSystem =>
+      RotationSensorPlatform.instance.coordinateSystem;
+
+  static set coordinateSystem(CoordinateSystem value) =>
+      RotationSensorPlatform.instance.coordinateSystem = value;
 }

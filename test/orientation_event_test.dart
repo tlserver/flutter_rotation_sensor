@@ -55,11 +55,11 @@ void main() {
 
   test('remapCoordinateSystem throws error with invalid axes', () {
     expect(
-          () => event1.remapCoordinateSystem(Axis.X, Axis.X),
+          () => event1.remapCoordinateSystem(Axis3D.X, Axis3D.X),
       throwsUnsupportedError,
     );
     expect(
-          () => event1.remapCoordinateSystem(Axis.X, -Axis.X),
+          () => event1.remapCoordinateSystem(Axis3D.X, -Axis3D.X),
       throwsUnsupportedError,
     );
   });
@@ -68,7 +68,7 @@ void main() {
     'remapCoordinateSystem returns a new OrientationEvent with transformed '
         'coordinate system',
         () {
-      final event1xy = event1.remapCoordinateSystem(Axis.X, Axis.Y);
+      final event1xy = event1.remapCoordinateSystem(Axis3D.X, Axis3D.Y);
       expect(
         event1xy.rotationMatrix,
         closeToMatrix3(
@@ -90,7 +90,7 @@ void main() {
         ),
       );
 
-      final event1xz = event1.remapCoordinateSystem(Axis.X, Axis.Z);
+      final event1xz = event1.remapCoordinateSystem(Axis3D.X, Axis3D.Z);
       expect(
         event1xz.rotationMatrix,
         closeToMatrix3(
@@ -112,7 +112,7 @@ void main() {
         ),
       );
 
-      final event1yZ = event1.remapCoordinateSystem(Axis.Y, -Axis.Z);
+      final event1yZ = event1.remapCoordinateSystem(Axis3D.Y, -Axis3D.Z);
       expect(
         event1yZ.rotationMatrix,
         closeToMatrix3(
@@ -134,7 +134,7 @@ void main() {
         ),
       );
 
-      final event1YX = event1.remapCoordinateSystem(-Axis.Y, -Axis.X);
+      final event1YX = event1.remapCoordinateSystem(-Axis3D.Y, -Axis3D.X);
       expect(
         event1YX.rotationMatrix,
         closeToMatrix3(
@@ -157,7 +157,7 @@ void main() {
       );
 
       expect(
-        event2.remapCoordinateSystem(Axis.X, Axis.Z).rotationMatrix,
+        event2.remapCoordinateSystem(Axis3D.X, Axis3D.Z).rotationMatrix,
         closeToMatrix3(
           matrix(
             [-0.0524597, 00.9982457, -0.0274485],
@@ -168,7 +168,7 @@ void main() {
       );
 
       expect(
-        event2.remapCoordinateSystem(Axis.Y, -Axis.Z).rotationMatrix,
+        event2.remapCoordinateSystem(Axis3D.Y, -Axis3D.Z).rotationMatrix,
         closeToMatrix3(
           matrix(
             [-0.2459166, -0.0395535, -0.9684836],
@@ -179,7 +179,7 @@ void main() {
       );
 
       expect(
-        event2.remapCoordinateSystem(-Axis.Y, -Axis.X).rotationMatrix,
+        event2.remapCoordinateSystem(-Axis3D.Y, -Axis3D.X).rotationMatrix,
         closeToMatrix3(
           matrix(
             [00.2459171, 00.0395531, 00.9684835],
@@ -197,10 +197,10 @@ void main() {
         () {
       expect(
         event2
-            .remapCoordinateSystem(-Axis.Y, Axis.Z)
-            .remapCoordinateSystem(-Axis.Y, Axis.Z),
+            .remapCoordinateSystem(-Axis3D.Y, Axis3D.Z)
+            .remapCoordinateSystem(-Axis3D.Y, Axis3D.Z),
         closeToOrientationEvent(
-          event2.remapCoordinateSystem(-Axis.Z, -Axis.X),
+          event2.remapCoordinateSystem(-Axis3D.Z, -Axis3D.X),
         ),
       );
     },
@@ -210,7 +210,7 @@ void main() {
     'should result in a matrix close to the original rotation matrix '
         'transposed after remapping and multiplying by coordinate system',
         () {
-      final remapped = event2.remapCoordinateSystem(-Axis.Y, Axis.Z);
+      final remapped = event2.remapCoordinateSystem(-Axis3D.Y, Axis3D.Z);
       expect(
         remapped.coordinateSystem * remapped.rotationMatrix,
         closeToMatrix3(
@@ -231,7 +231,7 @@ coordinateSystem:
 [1] [0.0,1.0,0.0]
 [2] [0.0,0.0,1.0]
 )''');
-    expect(event2.remapCoordinateSystem(-Axis.Y, -Axis.X).toString(), '''
+    expect(event2.remapCoordinateSystem(-Axis3D.Y, -Axis3D.X).toString(), '''
 OrientationEvent(
 quaternion: 0.7892594933509827, 0.02914547175168991, 0.6133451461791992 @ 0.005260601174086332,
 accuracy: -1.0,

@@ -55,7 +55,7 @@ void main() {
     () async {
       expectedSamplingPeriod = SensorInterval.normalInterval.inMicroseconds;
       expect(
-        await platform.getOrientationStream().first,
+        await platform.orientationStream.first,
         isA<OrientationEvent>(),
       );
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -72,11 +72,10 @@ void main() {
       // samplingPeriod is should be replaced with 0 since 1-3 is a
       // reserved value for Android.
       expectedSamplingPeriod = 0;
+      platform.samplingPeriod = const Duration(microseconds: 1);
+      await Future.microtask(() => null);
       expect(
-        await platform
-            .getOrientationStream(
-                samplingPeriod: const Duration(microseconds: 1))
-            .first,
+        await platform.orientationStream.first,
         isA<OrientationEvent>(),
       );
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger

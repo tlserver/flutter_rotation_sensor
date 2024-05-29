@@ -4,32 +4,32 @@ import 'package:vector_math/vector_math.dart';
 /// Represents an axis of a 3D coordinate system, internally storing a unit
 /// vector that indicates the direction of the axis.
 @immutable
-class Axis {
+class Axis3D {
   /// Represents an invalid axis, often used as a placeholder or error state.
-  static final invalid = Axis._(Vector3(0, 0, 0));
+  static final invalid = Axis3D._(Vector3(0, 0, 0));
 
   /// Represents the X-axis of a 3D coordinate system.
-  static final X = Axis._(Vector3(1, 0, 0));
+  static final X = Axis3D._(Vector3(1, 0, 0));
 
   /// Represents the Y-axis of a 3D coordinate system.
-  static final Y = Axis._(Vector3(0, 1, 0));
+  static final Y = Axis3D._(Vector3(0, 1, 0));
 
   /// Represents the Z-axis of a 3D coordinate system.
-  static final Z = Axis._(Vector3(0, 0, 1));
+  static final Z = Axis3D._(Vector3(0, 0, 1));
 
   /// The vector representation of the axis.
   final Vector3 _vector;
 
   /// Constructs a Axis.
-  const Axis._(this._vector);
+  const Axis3D._(this._vector);
 
   /// Negates the axis vector, effectively representing the axis in the opposite
   /// direction.
-  Axis operator -() => Axis._(-_vector);
+  Axis3D operator -() => Axis3D._(-_vector);
 
-  /// Computes the cross product of this axis with another [Axis], resulting in
+  /// Computes the cross product of this axis with another [Axis3D], resulting in
   /// a new Axis that is orthogonal to both.
-  Axis operator *(Axis other) => Axis._(_vector.cross(other._vector));
+  Axis3D operator *(Axis3D other) => Axis3D._(_vector.cross(other._vector));
 
   /// The vector representation of the axis.
   Vector3 get vector => Vector3.copy(_vector);
@@ -39,7 +39,7 @@ class Axis {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Axis &&
+      other is Axis3D &&
           runtimeType == other.runtimeType &&
           _vector == other._vector;
 

@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:vector_math/vector_math.dart';
 
-import 'axis.dart';
+import 'axis3d.dart';
 import 'euler_angles.dart';
 
 /// Represents an orientation event detected by sensors, providing information
@@ -105,9 +105,9 @@ class OrientationEvent {
   /// Returns a new [OrientationEvent] instance with the remapped coordinate
   /// system and updated quaternion representing the orientation in the new
   /// system.
-  OrientationEvent remapCoordinateSystem(Axis newX, Axis newY) {
+  OrientationEvent remapCoordinateSystem(Axis3D newX, Axis3D newY) {
     final newZ = newX * newY;
-    if (newZ == Axis.invalid) {
+    if (newZ == Axis3D.invalid) {
       throw UnsupportedError(
         'The specified axes for newX and newY are not orthogonal or are '
         'identical. Please specify two different, non-parallel axes that are '
