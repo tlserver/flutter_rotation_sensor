@@ -7,8 +7,8 @@ import 'package:rotation_sensor/src/rotation_sensor_platform_interface.dart';
 import 'package:vector_math/vector_math.dart';
 
 class MockRotationSensorPlatform
-    with MockPlatformInterfaceMixin
-    implements RotationSensorPlatform {
+    extends RotationSensorPlatform
+    with MockPlatformInterfaceMixin {
   @override
   Stream<OrientationEvent> get orientationStream =>
       Stream<OrientationEvent>.fromIterable([
@@ -18,12 +18,6 @@ class MockRotationSensorPlatform
           timestamp: 0,
         ),
       ]);
-
-  @override
-  Duration samplingPeriod = SensorInterval.normalInterval;
-
-  @override
-  CoordinateSystem coordinateSystem = CoordinateSystem.display();
 }
 
 void main() {
@@ -31,11 +25,15 @@ void main() {
 
   final initialPlatform = RotationSensorPlatform.instance;
 
-  test('$MethodChannelRotationSensor is the default instance', () {
+  test('MethodChannelRotationSensor is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelRotationSensor>());
   });
 
-  test('getOrientationStream', () async {
+  test('platform is default MethodChannelRotationSensor', () {
+    expect(RotationSensor.platform, equals(initialPlatform));
+  });
+
+  test('orientationStream', () async {
     var fakePlatform = MockRotationSensorPlatform();
     RotationSensorPlatform.instance = fakePlatform;
 
@@ -43,5 +41,19 @@ void main() {
       await RotationSensor.orientationStream.first,
       isA<OrientationEvent>(),
     );
+  });
+
+  test('samplingPeriod', () {
+    for (var t = 0; t < 4; t++) {
+      RotationSensor.samplingPeriod = Duration(microseconds: t);
+      expect(RotationSensor.samplingPeriod, equals(Duration.zero));
+    }
+    RotationSensor.samplingPeriod = SensorInterval.uiInterval;
+    expect(RotationSensor.samplingPeriod, equals(SensorInterval.uiInterval));
+  });
+
+  test('coordinateSystem', () {
+    RotationSensor.coordinateSystem = CoordinateSystem.display();
+    expect(RotationSensor.coordinateSystem, CoordinateSystem.display());
   });
 }

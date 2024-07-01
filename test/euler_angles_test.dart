@@ -66,10 +66,10 @@ void main() {
 
   test(
     'Pitch angle out of the range of -π/2 to π/2 throws '
-        'InvalidPitchException',
-        () {
+    'InvalidPitchException',
+    () {
       expect(
-            () => EulerAngles(0, pi, 0),
+        () => EulerAngles(0, pi, 0),
         throwsA(isA<UnsupportedError>()),
       );
     },

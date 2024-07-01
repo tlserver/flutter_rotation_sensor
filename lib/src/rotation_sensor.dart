@@ -13,6 +13,9 @@ import 'sensor_interval.dart';
 /// quaternion, and Euler angles (azimuth, pitch, roll).
 @sealed
 class RotationSensor {
+  @visibleForTesting
+  static RotationSensorPlatform platform = RotationSensorPlatform.instance;
+
   /// Returns a broadcast [Stream] of [OrientationEvent]s which emits events
   /// containing the orientation of the device from the device's rotation
   /// sensor.

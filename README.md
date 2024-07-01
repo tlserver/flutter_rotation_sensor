@@ -44,7 +44,7 @@ To start receiving orientation data from the sensors, simply use the stream in a
 @override
 Widget build(BuildContext context) {
   return StreamBuilder(
-    stream: RotationSensor.getOrientationStream(SensorInterval.uiInterval),
+    stream: RotationSensor.orientationStream,
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         final data = snapshot.data!;
@@ -71,13 +71,12 @@ For more control, you can subscribe to the stream directly:
    @override
    void initState() {
      super.initState();
-     orientationSubscription = RotationSensor
-       .getOrientationStream(SensorInterval.normalInterval)
-       .listen((event) {
-         final azimuth = event.eulerAngles.azimuth;
-         // Print azimuth: 0 for North, π/2 for East, π for South, -π/2 for West
-         print(azimuth);
-       });
+     RotationSensor.samplingPeriod = SensorInterval.uiInterval;
+     orientationSubscription = RotationSensor.orientationStream.listen((event) {
+       final azimuth = event.eulerAngles.azimuth;
+       // Print azimuth: 0 for North, π/2 for East, π for South, -π/2 for West
+       print(azimuth);
+     });
    }
    ```
 

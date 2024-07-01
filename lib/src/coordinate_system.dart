@@ -1,24 +1,26 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 
-import 'axis3d.dart';
-import 'orientation_event.dart';
+import '../rotation_sensor.dart';
 
 /// A standard 3-axis right-handed Cartesian coordinate system to express
 /// orientation data value.
 abstract class CoordinateSystem {
   const CoordinateSystem();
 
-  factory CoordinateSystem.device() => DeviceCoordinateSystem.instance;
+  factory CoordinateSystem.device() = DeviceCoordinateSystem;
 
-  factory CoordinateSystem.display() => DisplayCoordinateSystem.instance;
+  factory CoordinateSystem.display() = DisplayCoordinateSystem;
 
   factory CoordinateSystem.transformed(
     Axis3D newX,
-    Axis3D newY,
-    CoordinateSystem base,
-  ) = TransformedCoordinateSystem;
+    Axis3D newY, [
+    CoordinateSystem? base,
+  ]) = TransformedCoordinateSystem;
 
-  void apply(OrientationEvent event);
+  OrientationEvent apply(OrientationEvent event);
 }
 
 /// The device coordinate system is defined relative to the device's screen when
@@ -29,38 +31,53 @@ abstract class CoordinateSystem {
 class DeviceCoordinateSystem extends CoordinateSystem {
   static const DeviceCoordinateSystem instance = DeviceCoordinateSystem._();
 
+  factory DeviceCoordinateSystem() => instance;
+
   const DeviceCoordinateSystem._();
 
   @override
-  void apply(OrientationEvent event) {
-    // no-op
-  }
+  OrientationEvent apply(OrientationEvent event) => event;
 }
 
 class DisplayCoordinateSystem extends CoordinateSystem {
   static final DisplayCoordinateSystem instance = DisplayCoordinateSystem._();
 
-  final NativeDeviceOrientationCommunicator _communicator =
-      NativeDeviceOrientationCommunicator();
-  NativeDeviceOrientation _orientation = NativeDeviceOrientation.portraitUp;
+  late NativeDeviceOrientationCommunicator _communicator;
+
+  @visibleForTesting
+  NativeDeviceOrientationCommunicator get communicator => _communicator;
+
+  @visibleForTesting
+  set communicator(NativeDeviceOrientationCommunicator value) {
+    _communicator = value;
+    _orientationStreamSubscription?.cancel();
+    _orientationStreamSubscription = value.onOrientationChanged().listen(
+          (o) => orientation = o,
+        );
+  }
+
+  StreamSubscription<NativeDeviceOrientation>? _orientationStreamSubscription;
+
+  @visibleForTesting
+  NativeDeviceOrientation orientation = NativeDeviceOrientation.portraitUp;
+
+  factory DisplayCoordinateSystem() => instance;
 
   DisplayCoordinateSystem._() {
-    _communicator.onOrientationChanged().listen((orientation) {
-      _orientation = orientation;
-    });
+    communicator = NativeDeviceOrientationCommunicator();
   }
 
   @override
-  void apply(OrientationEvent event) {
-    switch (_orientation) {
+  OrientationEvent apply(OrientationEvent event) {
+    switch (orientation) {
       case NativeDeviceOrientation.portraitUp:
-        break;
+        return event;
       case NativeDeviceOrientation.portraitDown:
-        event.remapCoordinateSystem(-Axis3D.X, -Axis3D.Y);
+        return event.remapCoordinateSystem(-Axis3D.X, -Axis3D.Y);
       case NativeDeviceOrientation.landscapeLeft:
-        event.remapCoordinateSystem(Axis3D.Y, -Axis3D.X);
+        return event.remapCoordinateSystem(Axis3D.Y, -Axis3D.X);
       case NativeDeviceOrientation.landscapeRight:
-        event.remapCoordinateSystem(-Axis3D.Y, Axis3D.X);
+        return event.remapCoordinateSystem(-Axis3D.Y, Axis3D.X);
       case NativeDeviceOrientation.unknown:
         throw StateError('Cannot get display orientation.');
     }
@@ -73,11 +90,11 @@ class TransformedCoordinateSystem extends CoordinateSystem {
   final Axis3D newY;
 
   TransformedCoordinateSystem(this.newX, this.newY, [CoordinateSystem? base])
-      : base = base ?? DisplayCoordinateSystem.instance;
+      : base = base ?? CoordinateSystem.display();
 
   @override
-  void apply(OrientationEvent event) {
-    base.apply(event);
-    event.remapCoordinateSystem(newX, newY);
+  OrientationEvent apply(OrientationEvent event) {
+    event = base.apply(event);
+    return event.remapCoordinateSystem(newX, newY);
   }
 }

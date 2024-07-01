@@ -1,4 +1,3 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rotation_sensor/rotation_sensor.dart';
 import 'package:rotation_sensor/src/rotation_sensor_method_channel.dart';
@@ -7,17 +6,18 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   final platform = MethodChannelRotationSensor();
-  const methodChannel = MethodChannel('rotation_sensor/method');
-  const orientationChannel = EventChannel('rotation_sensor/orientation');
+  const methodChannel = MethodChannelRotationSensor.methodChannel;
+  const orientationChannel = MethodChannelRotationSensor.eventChannel;
   late int expectedSamplingPeriod;
 
   setUp(() {
+    expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
       methodChannel,
       (methodCall) async {
         switch (methodCall.method) {
-          case 'getOrientationStream':
+          case 'orientationStream':
             final arguments = methodCall.arguments as Map;
             final samplingPeriod = arguments['samplingPeriod'] as int;
             expect(samplingPeriod, expectedSamplingPeriod);
@@ -35,9 +35,9 @@ void main() {
           sink.success([
             // Quaternion
             0.0, 0.0, 0.0, 1.0,
-            // accuracy
+            // Accuracy
             -1.0,
-            // timestamp
+            // Timestamp
             123456789,
           ]);
         },
@@ -48,40 +48,34 @@ void main() {
   tearDown(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(methodChannel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockStreamHandler(orientationChannel, null);
   });
 
   test(
-    'getOrientationStream emits OrientationEvent with default sampling period',
+    'orientationStream emits OrientationEvent with default sampling period',
     () async {
-      expectedSamplingPeriod = SensorInterval.normalInterval.inMicroseconds;
       expect(
         await platform.orientationStream.first,
         isA<OrientationEvent>(),
       );
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(methodChannel, null);
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockStreamHandler(orientationChannel, null);
     },
   );
 
   test(
-    'getOrientationStream emits OrientationEvent with a replaced sampling '
-    'period when a reserved value is provided',
+    'orientationStream emits OrientationEvent with a replaced sampling period '
+    'when a reserved value is provided',
     () async {
-      // samplingPeriod is should be replaced with 0 since 1-3 is a
-      // reserved value for Android.
+      // samplingPeriod is should be replaced with 0 since 1-3 is a reserved
+      // value for Android.
       expectedSamplingPeriod = 0;
       platform.samplingPeriod = const Duration(microseconds: 1);
+      expect(platform.samplingPeriod, equals(Duration.zero));
       await Future.microtask(() => null);
       expect(
         await platform.orientationStream.first,
         isA<OrientationEvent>(),
       );
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(methodChannel, null);
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockStreamHandler(orientationChannel, null);
     },
   );
 }

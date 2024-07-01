@@ -27,8 +27,8 @@ class Axis3D {
   /// direction.
   Axis3D operator -() => Axis3D._(-_vector);
 
-  /// Computes the cross product of this axis with another [Axis3D], resulting in
-  /// a new Axis that is orthogonal to both.
+  /// Computes the cross product of this axis with another [Axis3D], resulting
+  /// in a new Axis that is orthogonal to both.
   Axis3D operator *(Axis3D other) => Axis3D._(_vector.cross(other._vector));
 
   /// The vector representation of the axis.

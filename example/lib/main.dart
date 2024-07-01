@@ -93,23 +93,28 @@ class _MyAppState extends State<MyApp> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(
-                                'Euler:\n${formatEulerAngles(data.eulerAngles)}',
+                                'Euler:\n'
+                                '${formatEulerAngles(data.eulerAngles)}',
                                 textAlign: TextAlign.center,
                               ),
                               Text(
-                                'Quaternion:\n${formatQuaternion(data.quaternion)}',
+                                'Quaternion:\n'
+                                '${formatQuaternion(data.quaternion)}',
                                 textAlign: TextAlign.center,
                               ),
                               Text(
-                                'Matrix:\n${formatMatrix(data.rotationMatrix)}',
+                                'Matrix:\n'
+                                '${formatMatrix(data.rotationMatrix)}',
                                 textAlign: TextAlign.center,
                               ),
                               Text(
-                                'Accuracy:\n${formatDouble(data.accuracy)}',
+                                'Accuracy:\n'
+                                '${formatDouble(data.accuracy)}',
                                 textAlign: TextAlign.center,
                               ),
                               Text(
-                                'Timestamp:\n${data.timestamp}',
+                                'Timestamp:\n'
+                                '${data.timestamp}',
                                 textAlign: TextAlign.center,
                               ),
                             ],
@@ -149,8 +154,7 @@ class _MyAppState extends State<MyApp> {
 
   String formatMatrix(Matrix3 m) {
     final f = formatDouble;
-    return ''
-        '/${f(m[0])}, ${f(m[3])}, ${f(m[6])}\\\n'
+    return '/${f(m[0])}, ${f(m[3])}, ${f(m[6])}\\\n'
         '| ${f(m[1])}, ${f(m[4])}, ${f(m[7])} |\n'
         '\\${f(m[2])}, ${f(m[5])}, ${f(m[8])}/';
   }
