@@ -7,7 +7,6 @@
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.fvm/flutter_sdk
 .packages
 .pub-cache/
 .pub/
@@ -17,7 +16,7 @@ lib/generated_plugin_registrant.dart
 # For library packages, don’t commit the pubspec.lock file.
 # Regenerating the pubspec.lock file lets you test your package against the latest compatible versions of its dependencies.
 # See https://dart.dev/guides/libraries/private-files#pubspeclock
-pubspec.lock
+/pubspec.lock
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -179,3 +178,6 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains,flutter
+
+# FVM Version Cache
+.fvm/
