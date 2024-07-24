@@ -2,7 +2,7 @@ name: flutter_rotation_sensor
 description: >
   A package provides a stream of device's orientation in three different representations: a rotation
   matrix, a quaternion, and Euler angles (azimuth, pitch, roll).
-version: 0.0.1
+version: 0.1.0
 repository: https://github.com/tlserver/flutter_rotation_sensor
 
 environment:
