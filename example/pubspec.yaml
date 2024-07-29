@@ -10,7 +10,7 @@ dependencies:
     sdk: flutter
   flutter_rotation_sensor:
     path: ../
-  simple_3d: any
+  simple_3d: 13.3.0
   simple_3d_renderer: ^19.1.0
   util_simple_3d: any
 

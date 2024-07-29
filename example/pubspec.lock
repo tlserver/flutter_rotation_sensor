@@ -205,10 +205,10 @@ packages:
     dependency: "direct main"
     description:
       name: simple_3d
-      sha256: ff9c3411551efe9baf9d3c70e6d80626e3b2e2f00e361b76346ba8caae5ec8ff
+      sha256: "8ab92d87c7be0b1f93c65d49d9f2adcd3c0d7ff16b0af9e5a5ecd4f51f27ce55"
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.1"
+    version: "13.3.0"
   simple_3d_renderer:
     dependency: "direct main"
     description:
