@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  file_state_manager:
+    dependency: transitive
+    description:
+      name: file_state_manager
+      sha256: "19ae8a33cf3bf6a9890f7819757531d5840fa6d8bf3a4be2fb89e94e9e5e3304"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -101,18 +109,18 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: "7f0df31977cb2c0b88585095d168e689669a2cc9b97c309665e3386f3e9d341a"
+      sha256: "3f87a60e8c63aecc975dda1ceedbc8f24de75f09e4856ea27daf8958f2f0ce05"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.4"
+    version: "10.0.5"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: "06e98f569d004c1315b991ded39924b21af84cf14cc94791b8aea337d25b57f8"
+      sha256: "932549fb305594d82d7183ecd9fa93463e9914e1b67cacc34bc40906594a1806"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.3"
+    version: "3.0.5"
   leak_tracker_testing:
     dependency: transitive
     description:
@@ -149,18 +157,18 @@ packages:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: "0e0a020085b65b6083975e499759762399b4475f766c21668c4ecca34ea74e5a"
+      sha256: f7142bb1154231d7ea5f96bc7bde4bda2a0945d2806bb11670e30b850d56bdec
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0"
+    version: "0.11.1"
   meta:
     dependency: transitive
     description:
       name: meta
-      sha256: "7687075e408b093f36e6bbf6c91878cc0d4cd10f409506f7bc996f68220b9136"
+      sha256: bdb68674043280c3428e9ec998512fb681678676b3c54e773629ffe74419f8c7
       url: "https://pub.dev"
     source: hosted
-    version: "1.12.0"
+    version: "1.15.0"
   native_device_orientation:
     dependency: transitive
     description:
@@ -181,10 +189,10 @@ packages:
     dependency: transitive
     description:
       name: platform
-      sha256: "12220bb4b65720483f8fa9450b4332347737cf8213dd2840d8b2c823e47243ec"
+      sha256: "9b71283fc13df574056616011fb138fd3b793ea47cc509c189a6c3fa5f8a1a65"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.4"
+    version: "3.1.5"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -205,18 +213,18 @@ packages:
     dependency: "direct main"
     description:
       name: simple_3d
-      sha256: "8ab92d87c7be0b1f93c65d49d9f2adcd3c0d7ff16b0af9e5a5ecd4f51f27ce55"
+      sha256: e1f3763f7b3fa299c7c34067d69d51a55519c8b9d691cd7600976b3daa6102ef
       url: "https://pub.dev"
     source: hosted
-    version: "13.3.0"
+    version: "14.0.1"
   simple_3d_renderer:
     dependency: "direct main"
     description:
       name: simple_3d_renderer
-      sha256: "8ec9bad88f35d643cea038ae3b7593dc7eb490a82488fbe39f10e8ee07fea1b7"
+      sha256: e49fb1ad51aaf9324048e913a424a11fa865c4fba87363c5e43ce1df1512f151
       url: "https://pub.dev"
     source: hosted
-    version: "19.1.0"
+    version: "20.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -274,18 +282,18 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "9955ae474176f7ac8ee4e989dadfb411a58c30415bcfb648fa04b2b8a03afa7f"
+      sha256: "5b8a98dafc4d5c4c9c72d8b31ab2b23fc13422348d2997120294d3bac86b4ddb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.2"
   util_simple_3d:
     dependency: "direct main"
     description:
       name: util_simple_3d
-      sha256: "2164a36207dfa1bfbba6e8c064779e7b3842deabd759d40de76454c771620ebc"
+      sha256: "2850bfe7bfe5d7fb17688c576ea1ebdb1818d297ccb4b94fa85a442190f0d8c5"
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.1"
+    version: "10.0.2"
   vector_math:
     dependency: transitive
     description:
@@ -298,10 +306,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "3923c89304b715fb1eb6423f017651664a03bf5f4b29983627c4da791f74a4ec"
+      sha256: f652077d0bdf60abe4c1f6377448e8655008eef28f128bc023f7b5e8dfeb48fc
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.1"
+    version: "14.2.4"
   webdriver:
     dependency: transitive
     description:
