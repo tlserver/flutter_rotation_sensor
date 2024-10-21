@@ -1,0 +1,34 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_rotation_sensor (0.0.1):
+    - Flutter
+  - integration_test (0.0.1):
+    - Flutter
+  - native_device_orientation (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_rotation_sensor (from `.symlinks/plugins/flutter_rotation_sensor/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_rotation_sensor:
+    :path: ".symlinks/plugins/flutter_rotation_sensor/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+  native_device_orientation:
+    :path: ".symlinks/plugins/native_device_orientation/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_rotation_sensor: f37d8d24050572029bdd2d55a93e0f334e2eeac6
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+  native_device_orientation: 348b10c346a60ebbc62fb235a4fdb5d1b61a8f55
+
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+
+COCOAPODS: 1.15.2
