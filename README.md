@@ -1,6 +1,6 @@
 # flutter_rotation_sensor
 
-[![pub package](https://img.shields.io/pub/v/rotation_sensor)](https://pub.dartlang.org/packages/rotation_sensor)
+[![pub package](https://img.shields.io/pub/v/flutter_rotation_sensor)](https://pub.dev/packages/flutter_rotation_sensor)
 [![github tag](https://img.shields.io/github/v/tag/tlserver/flutter_rotation_sensor?include_prereleases&sort=semver)](https://github.com/tlserver/flutter_rotation_sensor)
 [![license](https://img.shields.io/github/license/tlserver/flutter_rotation_sensor)](https://github.com/tlserver/flutter_rotation_sensor/blob/master/LICENSE)
 
