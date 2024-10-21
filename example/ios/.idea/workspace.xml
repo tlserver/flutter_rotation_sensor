@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a964054e-6a9c-42e4-829f-b1c5e9659073" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../lib/attitude_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flutter/Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Flutter/Debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flutter/Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Flutter/Release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ios/Classes/RotationSensorPlugin.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../../ios/Classes/RotationSensorPlugin.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ios/rotation_sensor.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/../../ios/rotation_sensor.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lib/rotation_sensor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../lib/rotation_sensor.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lib/rotation_sensor_method_channel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../lib/rotation_sensor_method_channel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lib/rotation_sensor_platform_interface.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../../lib/rotation_sensor_platform_interface.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_1DA4A932-BA0F-4758-9514-F167B6ACBB4C" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="AppCode" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="1.4" />
+  </component>
+  <component name="ProjectId" id="2adOctpgTv8708y2Wsp4tsr4d8N" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/6y/Programming/flutter_rotation_sensor/example/ios/Runner.xcworkspace"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a964054e-6a9c-42e4-829f-b1c5e9659073" name="Changes" comment="" />
+      <created>1704645071516</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704645071516</updated>
+      <workItem from="1704645072894" duration="639000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
