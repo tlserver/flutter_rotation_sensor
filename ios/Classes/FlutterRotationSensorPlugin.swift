@@ -12,7 +12,7 @@ public class FlutterRotationSensorPlugin: NSObject, FlutterPlugin, FlutterStream
     let eventChannel = FlutterEventChannel(name: "rotation_sensor/orientation", binaryMessenger: registrar.messenger())
     let motionManager = CMMotionManager()
     motionManager.deviceMotionUpdateInterval = 0.2
-    let instance = RotationSensorPlugin(eventChannel: eventChannel, motionManager: motionManager)
+    let instance = FlutterRotationSensorPlugin(eventChannel: eventChannel, motionManager: motionManager)
     registrar.addMethodCallDelegate(instance, channel: methodChannel)
     eventChannel.setStreamHandler(instance)
   }
@@ -43,8 +43,8 @@ public class FlutterRotationSensorPlugin: NSObject, FlutterPlugin, FlutterStream
             return
           }
 
-          let orientation = motion.orientation.quaternion
-          let rotationVector = [orientation.x, orientation.y, orientation.z, orientation.w, -1.0, Int64((motion.timestamp * 1000000000).rounded())]
+          let quaternion = motion.attitude.quaternion
+          let rotationVector = [quaternion.x, quaternion.y, quaternion.z, quaternion.w, -1.0, Int64((motion.timestamp * 1000000000).rounded())]
           DispatchQueue.main.async {
             events(rotationVector)
           }
