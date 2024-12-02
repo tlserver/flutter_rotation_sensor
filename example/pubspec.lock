@@ -213,18 +213,18 @@ packages:
     dependency: "direct main"
     description:
       name: simple_3d
-      sha256: e1f3763f7b3fa299c7c34067d69d51a55519c8b9d691cd7600976b3daa6102ef
+      sha256: "6e13eeb7c4dc4b3faf19e5e07bf79269e59d9a8cf496a6f202d0afd0aa05d471"
       url: "https://pub.dev"
     source: hosted
-    version: "14.0.1"
+    version: "15.0.0"
   simple_3d_renderer:
     dependency: "direct main"
     description:
       name: simple_3d_renderer
-      sha256: "5b089b8f652734590b3b8dc32a4dc6dc35ee2c98c47a36f2f9c22f2b76c64d0f"
+      sha256: "149e989b27bc78f880ba450d672a9952785046caa4f998671904ac39122a47fa"
       url: "https://pub.dev"
     source: hosted
-    version: "20.0.2"
+    version: "21.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -290,10 +290,10 @@ packages:
     dependency: "direct main"
     description:
       name: util_simple_3d
-      sha256: b4e722c9ecf2c1fad346beb47ca4416201a5ed700cd7da2d58d1c9eb89bbb01a
+      sha256: "7f25a0554f3a6da7a52cde8d5c9f722b41e46b3f918b111eda8ce9b59f96f9a0"
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.0"
+    version: "11.0.0"
   vector_math:
     dependency: transitive
     description:
