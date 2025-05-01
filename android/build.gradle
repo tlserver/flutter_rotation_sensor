@@ -1,5 +1,5 @@
-group 'net.tlserver6y.flutter_rotation_sensor'
-version '1.0-SNAPSHOT'
+group = "net.tlserver6y.flutter_rotation_sensor"
+version = "1.0-SNAPSHOT"
 
 buildscript {
     ext.agp_version = '8.9.2'
@@ -26,19 +26,17 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    if (project.android.hasProperty("namespace")) {
-        namespace 'net.tlserver6y.flutter_rotation_sensor'
-    }
+    namespace = 'net.tlserver6y.flutter_rotation_sensor'
 
-    compileSdk = 34
+    compileSdk = 35
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     sourceSets {
@@ -47,7 +45,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 19
+        minSdk = 21
     }
 
     dependencies {
