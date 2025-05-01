@@ -3,7 +3,7 @@ description: "Demonstrates how to use the flutter_rotation_sensor plugin."
 publish_to: 'none'
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ^3.7.2
 
 dependencies:
   flutter:
