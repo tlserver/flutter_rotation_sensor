@@ -67,7 +67,7 @@ For more control, you can subscribe to the stream directly:
 
 1. Initialize the sensor and specify the desired update interval during `initState`:
    ```dart
-   late final StreamSubscription<OrientationData> orientationSubscription;
+   late final StreamSubscription<OrientationEvent> orientationSubscription;
 
    @override
    void initState() {
