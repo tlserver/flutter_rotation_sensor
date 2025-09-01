@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext.agp_version = '8.11.0'
-    ext.kotlin_version = '2.2.0'
+    ext.kotlin_version = '2.2.10'
     repositories {
         google()
         mavenCentral()
