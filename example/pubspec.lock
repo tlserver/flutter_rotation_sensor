@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: file_state_manager
-      sha256: "19ae8a33cf3bf6a9890f7819757531d5840fa6d8bf3a4be2fb89e94e9e5e3304"
+      sha256: a64f7dfe52e45bb1bb1a0e357ab6d38efddc361f33003c0c0a9b78bf9cf0731d
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "2.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -109,26 +109,26 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: "6bb818ecbdffe216e81182c2f0714a2e62b593f4a4f13098713ff1685dfb6ab0"
+      sha256: "33e2e26bdd85a0112ec15400c8cbffea70d0f9c3407491f672a2fad47915e2de"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.9"
+    version: "11.0.2"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: f8b613e7e6a13ec79cfdc0e97638fddb3ab848452eff057653abd3edba760573
+      sha256: "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.9"
+    version: "3.0.10"
   leak_tracker_testing:
     dependency: transitive
     description:
       name: leak_tracker_testing
-      sha256: "6ba465d5d76e67ddf503e1161d1f4a6bc42306f9d66ca1e8f079a47290fb06d3"
+      sha256: "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   lints:
     dependency: transitive
     description:
@@ -213,18 +213,18 @@ packages:
     dependency: "direct main"
     description:
       name: simple_3d
-      sha256: "16388598cd3b864a1f5c9d9f2869e60dc8181bd08a1da8c4c3deb0991174d90e"
+      sha256: f40a14daa88f327ec2807403142aa517aee932fee9d37e98ab71eb42abbf4750
       url: "https://pub.dev"
     source: hosted
-    version: "16.0.1"
+    version: "16.0.2"
   simple_3d_renderer:
     dependency: "direct main"
     description:
       name: simple_3d_renderer
-      sha256: b3f946407b304a85860ed1acd80e11ac2fe142d90caf545896a8f03bc8ae6744
+      sha256: bf94f7e90c9a601072921aa2f27baae09d9a531e41bf849225bb2029845a2e2e
       url: "https://pub.dev"
     source: hosted
-    version: "22.0.1"
+    version: "22.0.2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -282,26 +282,26 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: fb31f383e2ee25fbbfe06b40fe21e1e458d14080e3c67e7ba0acfde4df4e0bbd
+      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.4"
+    version: "0.7.6"
   util_simple_3d:
     dependency: "direct main"
     description:
       name: util_simple_3d
-      sha256: "95e47e4ead200510993feaddd3ff169d067fb1a638e77a0411d1f5d73d39b2c9"
+      sha256: "2381db1cab8b79e858407a981c3a34016d0514c94bca8f656524d158b970516b"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.1"
+    version: "12.0.2"
   vector_math:
     dependency: transitive
     description:
       name: vector_math
-      sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"
+      sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.2.0"
   vm_service:
     dependency: transitive
     description:
