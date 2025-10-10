@@ -11,7 +11,7 @@ dependencies:
   flutter_rotation_sensor:
     path: ../
   simple_3d: any
-  simple_3d_renderer: ^22.0.1
+  simple_3d_renderer: ^22.0.2
   util_simple_3d: any
 
 dev_dependencies:
