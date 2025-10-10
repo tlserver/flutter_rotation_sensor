@@ -8,6 +8,7 @@ import 'orientation_event.dart';
 
 /// An abstract class representing a standard 3-axis right-handed Cartesian
 /// coordinate system to express orientation data values.
+// ignore: one_member_abstracts
 abstract class CoordinateSystem {
   const CoordinateSystem();
 
