@@ -16,79 +16,108 @@ class Matrix3 {
   final Float32List _m3Storage;
 
   /// Constructs a Matrix3 with the specified elements.
+  //@formatter:off
   Matrix3(
-    double a,
-    double b,
-    double c,
-    double d,
-    double e,
-    double f,
-    double g,
-    double h,
-    double i,
-  ) : _m3Storage = Float32List.fromList([a, b, c, d, e, f, g, h, i]);
+    double a, double b, double c,
+    double d, double e, double f,
+    double g, double h, double i,
+  ) : _m3Storage = Float32List.fromList([
+    a, b, c,
+    d, e, f,
+    g, h, i,
+  ]);
+  //@formatter:on
 
   /// Constructs a Matrix3 from the given row vectors.
   Matrix3.rows(Vector3 r0, Vector3 r1, Vector3 r2)
-      : _m3Storage = Float32List.fromList(
-          [r0.x, r0.y, r0.z, r1.x, r1.y, r1.z, r2.x, r2.y, r2.z],
-        );
+      : _m3Storage = Float32List.fromList([
+    r0.x, r0.y, r0.z,
+    r1.x, r1.y, r1.z,
+    r2.x, r2.y, r2.z,
+  ]);
 
   /// Constructs a Matrix3 from the given column vectors.
   Matrix3.columns(Vector3 c0, Vector3 c1, Vector3 c2)
-      : _m3Storage = Float32List.fromList(
-          [c0.x, c1.x, c2.x, c0.y, c1.y, c2.y, c0.z, c1.z, c2.z],
-        );
+      : _m3Storage = Float32List.fromList([
+    c0.x, c1.x, c2.x,
+    c0.y, c1.y, c2.y,
+    c0.z, c1.z, c2.z,
+  ]);
 
   /// Constructs a Matrix3 with all elements initialized to zero.
   Matrix3.zero() : _m3Storage = Float32List(9);
 
   /// Constructs an identity Matrix3.
   Matrix3.identity()
-      : _m3Storage = Float32List.fromList([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+      : _m3Storage = Float32List.fromList([
+    1, 0, 0,
+    0, 1, 0,
+    0, 0, 1,
+  ]);
 
   /// Constructs a rotation matrix around the X-axis.
   factory Matrix3.rotateX(double r) {
     final cr = cos(r);
     final sr = sin(r);
-    return Matrix3(1, 0, 0, 0, cr, -sr, 0, sr, cr);
+    return Matrix3(
+      //@formatter:off
+      1,  0,   0,
+      0, cr, -sr,
+      0, sr,  cr,
+      //@formatter:on
+    );
   }
 
   /// Constructs a rotation matrix around the Y-axis.
   factory Matrix3.rotateY(double r) {
     final cr = cos(r);
     final sr = sin(r);
-    return Matrix3(cr, 0, sr, 0, 1, 0, -sr, 0, cr);
+    return Matrix3(
+      //@formatter:off
+       cr, 0, sr,
+        0, 1,  0,
+      -sr, 0, cr,
+      //@formatter:on
+    );
   }
 
   /// Constructs a rotation matrix around the Z-axis.
   factory Matrix3.rotateZ(double r) {
     final cr = cos(r);
     final sr = sin(r);
-    return Matrix3(cr, -sr, 0, sr, cr, 0, 0, 0, 1);
+    return Matrix3(
+      //@formatter:off
+      cr, -sr, 0,
+      sr,  cr, 0,
+       0,   0, 1,
+      //@formatter:on
+    );
   }
 
   /// Determines whether this matrix is equal to another object. Returns true
   /// if the other object is an Matrix3 with the same elements.
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Matrix3 &&
-          a == other.a &&
-          b == other.b &&
-          c == other.c &&
-          d == other.d &&
-          e == other.e &&
-          f == other.f &&
-          g == other.g &&
-          h == other.h &&
-          i == other.i;
+      identical(this, other) || other is Matrix3 &&
+          a == other.a && b == other.b && c == other.c &&
+          d == other.d && e == other.e && f == other.f &&
+          g == other.g && h == other.h && i == other.i;
 
   @override
-  int get hashCode => Object.hash(a, b, c, d, e, f, g, h, i);
+  int get hashCode =>
+      Object.hash(
+        //@formatter:off
+        a, b, c,
+        d, e, f,
+        g, h, i,
+        //@formatter:on
+      );
 
   @override
-  String toString() => '⌈$a,$b,$c⌉\n|$d,$e,$f|\n⌊$g,$h,$i⌋\n';
+  String toString() => ''
+      '⌈$a,$b,$c⌉\n'
+      '|$d,$e,$f|\n'
+      '⌊$g,$h,$i⌋\n';
 
   /// Returns the element at the first row and first column.
   double get a => _m3Storage[0];
@@ -130,50 +159,66 @@ class Matrix3 {
   Vector3 column(int c) => Vector3(this[0 + c], this[3 + c], this[6 + c]);
 
   /// Returns the negation of this matrix.
-  Matrix3 operator -() => Matrix3(-a, -b, -c, -d, -e, -f, -g, -h, -i);
+  Matrix3 operator -() =>
+      Matrix3(
+        //@formatter:off
+        -a, -b, -c,
+        -d, -e, -f,
+        -g, -h, -i,
+        //@formatter:on
+      );
 
   /// Adds the given matrix to this matrix.
-  Matrix3 operator +(Matrix3 o) => Matrix3(
-        a + o.a,
-        b + o.b,
-        c + o.c,
-        d + o.d,
-        e + o.e,
-        f + o.f,
-        g + o.g,
-        h + o.h,
-        i + o.i,
+  Matrix3 operator +(Matrix3 o) =>
+      Matrix3(
+        //@formatter:off
+        a + o.a, b + o.b, c + o.c,
+        d + o.d, e + o.e, f + o.f,
+        g + o.g, h + o.h, i + o.i,
+        //@formatter:on
       );
 
   /// Subtracts the given matrix from this matrix.
-  Matrix3 operator -(Matrix3 o) => Matrix3(
-        a - o.a,
-        b - o.b,
-        c - o.c,
-        d - o.d,
-        e - o.e,
-        f - o.f,
-        g - o.g,
-        h - o.h,
-        i - o.i,
+  Matrix3 operator -(Matrix3 o) =>
+      Matrix3(
+        //@formatter:off
+        a - o.a, b - o.b, c - o.c,
+        d - o.d, e - o.e, f - o.f,
+        g - o.g, h - o.h, i - o.i,
+        //@formatter:on
       );
 
   /// Multiplies this matrix by the given scalar.
   Matrix3 operator *(double s) =>
-      Matrix3(a * s, b * s, c * s, d * s, e * s, f * s, g * s, h * s, i * s);
+      Matrix3(
+        //@formatter:off
+        a * s, b * s, c * s,
+        d * s, e * s, f * s,
+        g * s, h * s, i * s,
+        //@formatter:on
+      );
 
   /// Divides this matrix by the given scalar.
   Matrix3 operator /(double s) =>
-      Matrix3(a / s, b / s, c / s, d / s, e / s, f / s, g / s, h / s, i / s);
+      Matrix3(
+        //@formatter:off
+        a / s, b / s, c / s,
+        d / s, e / s, f / s,
+        g / s, h / s, i / s,
+        //@formatter:on
+      );
 
   /// Multiplies this matrix by the given matrix.
-  Matrix3 multiply(Matrix3 o) => Matrix3(
+  Matrix3 multiply(Matrix3 o) =>
+      Matrix3(
         a * o.a + b * o.d + c * o.g,
         a * o.b + b * o.e + c * o.h,
         a * o.c + b * o.f + c * o.i,
+
         d * o.a + e * o.d + f * o.g,
         d * o.b + e * o.e + f * o.h,
         d * o.c + e * o.f + f * o.i,
+
         g * o.a + h * o.d + i * o.g,
         g * o.b + h * o.e + i * o.h,
         g * o.c + h * o.f + i * o.i,
@@ -187,19 +232,23 @@ class Matrix3 {
       a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g;
 
   /// Returns the transpose of this matrix.
-  Matrix3 transpose() => Matrix3(a, d, g, b, e, h, c, f, i);
+  Matrix3 transpose() =>
+      Matrix3(
+        //@formatter:off
+        a, d, g,
+        b, e, h,
+        c, f, i,
+        //@formatter:on
+      );
 
   /// Returns the adjoint of this matrix.
-  Matrix3 adjoint() => Matrix3(
-        e * i - f * h,
-        c * h - b * i,
-        b * f - c * e,
-        f * g - d * i,
-        a * i - c * g,
-        c * d - a * f,
-        d * h - e * g,
-        b * g - a * h,
-        a * e - b * d,
+  Matrix3 adjoint() =>
+      Matrix3(
+        //@formatter:off
+        e * i - f * h, c * h - b * i, b * f - c * e,
+        f * g - d * i, a * i - c * g, c * d - a * f,
+        d * h - e * g, b * g - a * h, a * e - b * d,
+        //@formatter:on
       );
 
   /// Returns the inverse of this matrix.
@@ -210,22 +259,24 @@ class Matrix3 {
       return this;
     } else {
       return Matrix3(
-        (e * i - f * h) / t,
-        (c * h - b * i) / t,
-        (b * f - c * e) / t,
-        (f * g - d * i) / t,
-        (a * i - c * g) / t,
-        (c * d - a * f) / t,
-        (d * h - e * g) / t,
-        (b * g - a * h) / t,
-        (a * e - b * d) / t,
+        //@formatter:off
+        (e * i - f * h) / t, (c * h - b * i) / t, (b * f - c * e) / t,
+        (f * g - d * i) / t, (a * i - c * g) / t, (c * d - a * f) / t,
+        (d * h - e * g) / t, (b * g - a * h) / t, (a * e - b * d) / t,
+        //@formatter:on
       );
     }
   }
 
   /// Applies the given function to each element of the matrix.
   Matrix3 apply(double Function(double) t) =>
-      Matrix3(t(a), t(b), t(c), t(d), t(e), t(f), t(g), t(h), t(i));
+      Matrix3(
+        //@formatter:off
+        t(a), t(b), t(c),
+        t(d), t(e), t(f),
+        t(g), t(h), t(i),
+        //@formatter:on
+      );
 
   /// Converts this matrix to Euler angles.
   EulerAngles toEulerAngles() {
