@@ -69,8 +69,8 @@ class DisplayCoordinateSystem extends CoordinateSystem {
     _communicator = value;
     _orientationStreamSubscription?.cancel();
     _orientationStreamSubscription = value.onOrientationChanged().listen(
-          (o) => orientation = o,
-        );
+      (o) => orientation = o,
+    );
   }
 
   StreamSubscription<NativeDeviceOrientation>? _orientationStreamSubscription;
@@ -120,7 +120,7 @@ class TransformedCoordinateSystem extends CoordinateSystem {
   final Axis3 newY;
 
   TransformedCoordinateSystem(this.newX, this.newY, [CoordinateSystem? base])
-      : base = base ?? CoordinateSystem.display();
+    : base = base ?? CoordinateSystem.display();
 
   @override
   OrientationEvent apply(OrientationEvent event) {

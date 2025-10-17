@@ -63,7 +63,8 @@ class OrientationEvent {
   );
 
   @override
-  String toString() => 'OrientationEvent(\n'
+  String toString() =>
+      'OrientationEvent(\n'
       'quaternion: $quaternion,\n'
       'accuracy: $accuracy,\n'
       'timestamp: $timestamp,\n'
