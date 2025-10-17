@@ -22,7 +22,7 @@ class Quaternion {
 
   /// Constructs a Quaternion with given x, y, z, w components
   Quaternion(double x, double y, double z, double w)
-      : _qStorage = Float32List.fromList([x, y, z, w]);
+    : _qStorage = Float32List.fromList([x, y, z, w]);
 
   /// constructs an identity Quaternion (0, 0, 0, 1)
   factory Quaternion.identity() => Quaternion(0, 0, 0, 1);
@@ -76,11 +76,11 @@ class Quaternion {
   /// Computes the Hamilton product of this quaternion with another
   /// [Quaternion].
   Quaternion multiply(Quaternion o) => Quaternion(
-        w * o.x + x * o.w + y * o.z - z * o.y,
-        w * o.y + y * o.w + z * o.x - x * o.z,
-        w * o.z + z * o.w + x * o.y - y * o.x,
-        w * o.w - x * o.x - y * o.y - z * o.z,
-      );
+    w * o.x + x * o.w + y * o.z - z * o.y,
+    w * o.y + y * o.w + z * o.x - x * o.z,
+    w * o.z + z * o.w + x * o.y - y * o.x,
+    w * o.w - x * o.x - y * o.y - z * o.z,
+  );
 
   /// The squared length of this quaternion.
   double get length2 => x * x + y * y + z * z + w * w;
