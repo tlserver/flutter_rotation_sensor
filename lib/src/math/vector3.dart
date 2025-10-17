@@ -11,7 +11,7 @@ class Vector3 {
 
   /// Constructs a [Vector3] with the given [x], [y], and [z] components.
   Vector3(double x, double y, double z)
-      : _v3Storage = Float32List.fromList([x, y, z]);
+    : _v3Storage = Float32List.fromList([x, y, z]);
 
   /// Constructs a [Vector3] initialized to zero (0, 0, 0).
   Vector3.zero() : _v3Storage = Float32List(3);

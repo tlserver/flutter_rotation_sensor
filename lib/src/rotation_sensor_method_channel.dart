@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'math/quaternion.dart';
@@ -29,8 +28,8 @@ class MethodChannelRotationSensor extends RotationSensorPlatform {
     methodChannel.invokeMethod('getOrientationStream', {
       'samplingPeriod': samplingMicroseconds,
     });
-    return _orientationStream =
-        eventChannel.receiveBroadcastStream().map((event) {
+    final broadcastStream = eventChannel.receiveBroadcastStream();
+    return _orientationStream = broadcastStream.map((event) {
       final data = event as List<dynamic>;
       final orientationEvent = OrientationEvent(
         quaternion: Quaternion(data[0], data[1], data[2], data[3]),
