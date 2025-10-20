@@ -26,7 +26,6 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     val context = flutterPluginBinding.applicationContext
     sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
     setupMethodChannel(flutterPluginBinding.binaryMessenger)
     setupEventChannel(flutterPluginBinding.binaryMessenger)
   }
@@ -58,6 +57,9 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
   override fun onMethodCall(call: MethodCall, result: Result) {
     when (call.method) {
       "getOrientationStream" -> {
+        if (sensor == null) {
+          sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        }
         if (call.hasArgument("samplingPeriod")) {
           val samplingPeriod = call.argument<Int?>("samplingPeriod")
           if (
