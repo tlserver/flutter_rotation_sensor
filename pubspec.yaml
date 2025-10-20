@@ -22,7 +22,7 @@ dependencies:
   logging: ^1.2.0
   # flutter_test depends on meta, so use any
   meta: any
-  native_device_orientation: ^2.0.3
+  native_device_orientation: ^2.0.4
   plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
