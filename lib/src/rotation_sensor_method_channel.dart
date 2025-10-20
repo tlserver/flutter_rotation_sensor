@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'environment.dart';
 import 'math/quaternion.dart';
 import 'orientation_event.dart';
-import 'rotation_sensor_platform_interface.dart';
+import 'rotation_sensor.dart';
+import 'rotation_sensor_platform.dart';
 
 /// An implementation of [RotationSensorPlatform] that uses method channels.
-class MethodChannelRotationSensor extends RotationSensorPlatform {
+class RotationSensorMethodChannel extends RotationSensorPlatform {
+
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   static const methodChannel = MethodChannel('rotation_sensor/method');
@@ -15,6 +18,14 @@ class MethodChannelRotationSensor extends RotationSensorPlatform {
   /// platform.
   @visibleForTesting
   static const eventChannel = EventChannel('rotation_sensor/orientation');
+
+  /// Determines whether the current platform is supported.
+  static bool get isPlatformSupported =>
+      !isWeb &&
+          [
+            TargetPlatform.android,
+            TargetPlatform.iOS,
+          ].contains(defaultTargetPlatform);
 
   Stream<OrientationEvent>? _orientationStream;
 
@@ -36,7 +47,7 @@ class MethodChannelRotationSensor extends RotationSensorPlatform {
         accuracy: data[4],
         timestamp: data[5],
       );
-      return coordinateSystem.apply(orientationEvent);
+      return RotationSensor.coordinateSystem.apply(orientationEvent);
     });
   }
 
