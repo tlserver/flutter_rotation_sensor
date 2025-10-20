@@ -2,7 +2,8 @@ import 'package:meta/meta.dart';
 
 import 'coordinate_system.dart';
 import 'orientation_event.dart';
-import 'rotation_sensor_platform_interface.dart';
+import 'rotation_sensor_method_channel.dart';
+import 'rotation_sensor_platform.dart';
 import 'sensor_interval.dart';
 
 /// Provides access to the device's rotation sensor, offering a real-time stream
@@ -13,8 +14,9 @@ import 'sensor_interval.dart';
 /// quaternion, and Euler angles (azimuth, pitch, roll).
 @sealed
 class RotationSensor {
-  @visibleForTesting
-  static RotationSensorPlatform platform = RotationSensorPlatform.instance;
+  /// Determines whether the current platform is supported.
+  static bool get isPlatformSupported =>
+      RotationSensorMethodChannel.isPlatformSupported;
 
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing
   /// the orientation of the device from the device's rotation sensor.
@@ -41,9 +43,5 @@ class RotationSensor {
   /// Defaults to [DisplayCoordinateSystem]. When changing this value, all
   /// existing listeners will receive [OrientationEvent] in the new coordinate
   /// system.
-  static CoordinateSystem get coordinateSystem =>
-      RotationSensorPlatform.instance.coordinateSystem;
-
-  static set coordinateSystem(CoordinateSystem value) =>
-      RotationSensorPlatform.instance.coordinateSystem = value;
+  static CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
 }

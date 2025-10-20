@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 
+import 'environment.dart';
 import 'math/axis3.dart';
 import 'orientation_event.dart';
 
@@ -39,9 +40,9 @@ abstract class CoordinateSystem {
 /// - Z axis: Points toward the outside of the screen. Coordinates behind the
 ///           screen have negative Z values.
 class DeviceCoordinateSystem extends CoordinateSystem {
-  static const DeviceCoordinateSystem instance = DeviceCoordinateSystem._();
+  static DeviceCoordinateSystem? _instance;
 
-  factory DeviceCoordinateSystem() => instance;
+  factory DeviceCoordinateSystem() => _instance ??= DeviceCoordinateSystem._();
 
   const DeviceCoordinateSystem._();
 
@@ -57,18 +58,18 @@ class DeviceCoordinateSystem extends CoordinateSystem {
 /// - Z axis: Points toward the outside of the screen. Coordinates behind the
 ///           screen have negative Z values.
 class DisplayCoordinateSystem extends CoordinateSystem {
-  static final DisplayCoordinateSystem instance = DisplayCoordinateSystem._();
+  static DisplayCoordinateSystem? _instance;
 
-  late NativeDeviceOrientationCommunicator _communicator;
-
-  @visibleForTesting
-  NativeDeviceOrientationCommunicator get communicator => _communicator;
+  NativeDeviceOrientationCommunicator? _communicator;
 
   @visibleForTesting
-  set communicator(NativeDeviceOrientationCommunicator value) {
+  NativeDeviceOrientationCommunicator? get communicator => _communicator;
+
+  @visibleForTesting
+  set communicator(NativeDeviceOrientationCommunicator? value) {
     _communicator = value;
     _orientationStreamSubscription?.cancel();
-    _orientationStreamSubscription = value.onOrientationChanged().listen(
+    _orientationStreamSubscription = value?.onOrientationChanged().listen(
       (o) => orientation = o,
     );
   }
@@ -78,10 +79,17 @@ class DisplayCoordinateSystem extends CoordinateSystem {
   @visibleForTesting
   NativeDeviceOrientation orientation = NativeDeviceOrientation.portraitUp;
 
-  factory DisplayCoordinateSystem() => instance;
+  factory DisplayCoordinateSystem() =>
+      _instance ??= DisplayCoordinateSystem._();
 
   DisplayCoordinateSystem._() {
-    communicator = NativeDeviceOrientationCommunicator();
+    if (!isWeb &&
+        [
+          TargetPlatform.android,
+          TargetPlatform.iOS,
+        ].contains(defaultTargetPlatform)) {
+      communicator = NativeDeviceOrientationCommunicator();
+    }
   }
 
   @override
