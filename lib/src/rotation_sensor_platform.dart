@@ -2,29 +2,43 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'coordinate_system.dart';
 import 'orientation_event.dart';
 import 'rotation_sensor_method_channel.dart';
+import 'rotation_sensor_unsupported.dart';
 import 'sensor_interval.dart';
 
 /// The interface that implementations of rotation_sensor must implement.
 abstract class RotationSensorPlatform extends PlatformInterface {
   /// Constructs a RotationSensorPlatform.
-  RotationSensorPlatform() : super(token: _token);
+  RotationSensorPlatform() : super(token: _token) {
+    logger = Logger(runtimeType.toString());
+  }
 
   static final Object _token = Object();
 
-  /// The default instance of [RotationSensorPlatform] to use.
-  static RotationSensorPlatform _instance = MethodChannelRotationSensor();
+  /// The [RotationSensorPlatform] for current platform.
+  static RotationSensorPlatform? _instance;
 
-  static RotationSensorPlatform get instance => _instance;
+  static RotationSensorPlatform get instance {
+    if (_instance != null) return _instance!;
+    return createPlatformInstance();
+  }
 
   static set instance(RotationSensorPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
 
-  final logger = Logger('MethodChannelRotationSensor');
+  @visibleForTesting
+  static RotationSensorPlatform createPlatformInstance() {
+    if (RotationSensorMethodChannel.isPlatformSupported) {
+      return instance = RotationSensorMethodChannel();
+    }
+    return instance = RotationSensorUnsupported();
+  }
+
+  @protected
+  late final Logger logger;
 
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing
   /// the orientation of the device from the device's rotation sensor.
@@ -60,13 +74,6 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     }
     updateSamplingPeriod(samplingMicroseconds);
   }
-
-  /// The [coordinateSystem] used for upcoming [OrientationEvent].
-  ///
-  /// Defaults to [DisplayCoordinateSystem]. When changing this value, all
-  /// existing listeners will receive [OrientationEvent] in the new coordinate
-  /// system.
-  CoordinateSystem coordinateSystem = CoordinateSystem.display();
 
   @protected
   void updateSamplingPeriod(int value) {

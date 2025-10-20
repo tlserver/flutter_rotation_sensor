@@ -5,44 +5,41 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  final platform = MethodChannelRotationSensor();
-  const methodChannel = MethodChannelRotationSensor.methodChannel;
-  const orientationChannel = MethodChannelRotationSensor.eventChannel;
+  final platform = RotationSensorMethodChannel();
+  const methodChannel = RotationSensorMethodChannel.methodChannel;
+  const orientationChannel = RotationSensorMethodChannel.eventChannel;
   late int expectedSamplingPeriod;
 
   setUp(() {
     expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(
-      methodChannel,
-      (methodCall) async {
-        switch (methodCall.method) {
-          case 'getOrientationStream':
-            final arguments = methodCall.arguments as Map;
-            final samplingPeriod = arguments['samplingPeriod'] as int;
-            expect(samplingPeriod, expectedSamplingPeriod);
-            return null;
-          default:
-            throw UnsupportedError(methodCall.method);
-        }
-      },
-    );
+        .setMockMethodCallHandler(methodChannel, (methodCall) async {
+          switch (methodCall.method) {
+            case 'getOrientationStream':
+              final arguments = methodCall.arguments as Map;
+              final samplingPeriod = arguments['samplingPeriod'] as int;
+              expect(samplingPeriod, expectedSamplingPeriod);
+              return null;
+            default:
+              throw UnsupportedError(methodCall.method);
+          }
+        });
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockStreamHandler(
-      orientationChannel,
-      MockStreamHandler.inline(
-        onListen: (args, sink) {
-          sink.success([
-            // Quaternion
-            0.0, 0.0, 0.0, 1.0,
-            // Accuracy
-            -1.0,
-            // Timestamp
-            123456789,
-          ]);
-        },
-      ),
-    );
+          orientationChannel,
+          MockStreamHandler.inline(
+            onListen: (args, sink) {
+              sink.success([
+                // Quaternion
+                0.0, 0.0, 0.0, 1.0,
+                // Accuracy
+                -1.0,
+                // Timestamp
+                123456789,
+              ]);
+            },
+          ),
+        );
   });
 
   tearDown(() {
@@ -55,10 +52,7 @@ void main() {
   test(
     'orientationStream emits OrientationEvent with default sampling period',
     () async {
-      expect(
-        await platform.orientationStream.first,
-        isA<OrientationEvent>(),
-      );
+      expect(await platform.orientationStream.first, isA<OrientationEvent>());
     },
   );
 
@@ -72,10 +66,7 @@ void main() {
       platform.samplingPeriod = const Duration(microseconds: 1);
       expect(platform.samplingPeriod, equals(Duration.zero));
       await Future.microtask(() => null);
-      expect(
-        await platform.orientationStream.first,
-        isA<OrientationEvent>(),
-      );
+      expect(await platform.orientationStream.first, isA<OrientationEvent>());
     },
   );
 }

@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
-import 'package:flutter_rotation_sensor/src/rotation_sensor_method_channel.dart';
-import 'package:flutter_rotation_sensor/src/rotation_sensor_platform_interface.dart';
+import 'package:flutter_rotation_sensor/src/environment.dart';
+import 'package:flutter_rotation_sensor/src/rotation_sensor_platform.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -21,14 +22,20 @@ class MockRotationSensorPlatform extends RotationSensorPlatform
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final initialPlatform = RotationSensorPlatform.instance;
-
-  test('MethodChannelRotationSensor is the default instance', () {
-    expect(initialPlatform, isInstanceOf<MethodChannelRotationSensor>());
+  test('isPlatformSupported returns true only for Android and iOS platforms', () {
+    isWeb = false;
+    for (final platform in TargetPlatform.values) {
+      debugDefaultTargetPlatformOverride = platform;
+      expect(RotationSensor.isPlatformSupported, equals([
+        TargetPlatform.android,
+        TargetPlatform.iOS,
+      ].contains(platform)));
+    }
   });
 
-  test('platform is default MethodChannelRotationSensor', () {
-    expect(RotationSensor.platform, same(initialPlatform));
+  test('isPlatformSupported returns false for web platform', () {
+    isWeb = true;
+    expect(RotationSensor.isPlatformSupported, isFalse);
   });
 
   test('orientationStream returns a stream of orientation events', () async {
