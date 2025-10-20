@@ -24,8 +24,8 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
   private var samplingPeriod = 200000
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    sensorManager =
-      flutterPluginBinding.applicationContext.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    val context = flutterPluginBinding.applicationContext
+    sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
     setupMethodChannel(flutterPluginBinding.binaryMessenger)
     setupEventChannel(flutterPluginBinding.binaryMessenger)
@@ -61,8 +61,8 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
         if (call.hasArgument("samplingPeriod")) {
           val samplingPeriod = call.argument<Int?>("samplingPeriod")
           if (
-            (samplingPeriod != null &&
-                    samplingPeriod != this.samplingPeriod) &&
+            samplingPeriod != null &&
+            samplingPeriod != this.samplingPeriod &&
             sensorEventListener != null
           ) {
             this.samplingPeriod = samplingPeriod
