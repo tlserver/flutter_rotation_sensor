@@ -1,3 +1,13 @@
+## [0.2.0] (2025-10-21)
+
+**Features**
+
+* Added an indicator for platform support
+
+**Bug Fixes**
+
+* Fixed readme. (#62)
+
 ## [0.1.1] (2024-10-22)
 
 **Bug Fixes**
