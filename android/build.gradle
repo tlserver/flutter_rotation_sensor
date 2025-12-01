@@ -2,7 +2,7 @@ group = "net.tlserver6y.flutter_rotation_sensor"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    ext.agp_version = '8.13.0'
+    ext.agp_version = '8.13.1'
     ext.kotlin_version = '2.2.20'
     repositories {
         google()
