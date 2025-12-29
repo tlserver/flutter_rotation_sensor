@@ -165,10 +165,10 @@ packages:
     dependency: transitive
     description:
       name: meta
-      sha256: e3641ec5d63ebf0d9b41bd43201a66e3fc79a65db5f61fc181f04cd27aab950c
+      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
       url: "https://pub.dev"
     source: hosted
-    version: "1.16.0"
+    version: "1.17.0"
   native_device_orientation:
     dependency: transitive
     description:
@@ -213,18 +213,18 @@ packages:
     dependency: "direct main"
     description:
       name: simple_3d
-      sha256: f40a14daa88f327ec2807403142aa517aee932fee9d37e98ab71eb42abbf4750
+      sha256: a887949ce0e207ae347c5aa2b217f8b18a74575519416e07315cc3e1d8961aee
       url: "https://pub.dev"
     source: hosted
-    version: "16.0.2"
+    version: "16.1.1"
   simple_3d_renderer:
     dependency: "direct main"
     description:
       name: simple_3d_renderer
-      sha256: bf94f7e90c9a601072921aa2f27baae09d9a531e41bf849225bb2029845a2e2e
+      sha256: "338b530995316ea0030c2fb07d10703bd59b2316a34aab9036f9ac461b033389"
       url: "https://pub.dev"
     source: hosted
-    version: "22.0.2"
+    version: "22.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -282,18 +282,18 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
+      sha256: ab2726c1a94d3176a45960b6234466ec367179b87dd74f1611adb1f3b5fb9d55
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.6"
+    version: "0.7.7"
   util_simple_3d:
     dependency: "direct main"
     description:
       name: util_simple_3d
-      sha256: "2381db1cab8b79e858407a981c3a34016d0514c94bca8f656524d158b970516b"
+      sha256: "4f65e79aeda939ea082387d17d19e1417f055b9784e137e733e003c42d83f31e"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.2"
+    version: "12.0.4"
   vector_math:
     dependency: transitive
     description:
