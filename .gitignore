@@ -7,6 +7,7 @@
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.fvm/flutter_sdk
 .packages
 .pub-cache/
 .pub/
@@ -178,6 +179,3 @@ fabric.properties
 .idea/**/azureSettings.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains,flutter
-
-# FVM Version Cache
-.fvm/
