@@ -9,9 +9,11 @@ void main() {
   const methodChannel = RotationSensorMethodChannel.methodChannel;
   const orientationChannel = RotationSensorMethodChannel.eventChannel;
   late int expectedSamplingPeriod;
+  late ReferenceFrame expectedReferenceFrame;
 
   setUp(() {
     expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
+    expectedReferenceFrame = platform.referenceFrame;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(methodChannel, (methodCall) async {
           switch (methodCall.method) {
@@ -19,6 +21,8 @@ void main() {
               final arguments = methodCall.arguments as Map;
               final samplingPeriod = arguments['samplingPeriod'] as int;
               expect(samplingPeriod, expectedSamplingPeriod);
+              final referenceFrame = arguments['referenceFrame'] as String;
+              expect(referenceFrame, expectedReferenceFrame.name);
               return null;
             default:
               throw UnsupportedError(methodCall.method);
@@ -65,6 +69,17 @@ void main() {
       expectedSamplingPeriod = 0;
       platform.samplingPeriod = const Duration(microseconds: 1);
       expect(platform.samplingPeriod, equals(Duration.zero));
+      await Future.microtask(() => null);
+      expect(await platform.orientationStream.first, isA<OrientationEvent>());
+    },
+  );
+
+  test(
+    'orientationStream forwards the configured reference frame to the platform',
+    () async {
+      expectedReferenceFrame = ReferenceFrame.magneticNorth;
+      platform.referenceFrame = ReferenceFrame.magneticNorth;
+      expect(platform.referenceFrame, equals(ReferenceFrame.magneticNorth));
       await Future.microtask(() => null);
       expect(await platform.orientationStream.first, isA<OrientationEvent>());
     },
