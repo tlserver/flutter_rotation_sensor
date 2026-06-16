@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'environment.dart';
 import 'math/quaternion.dart';
 import 'orientation_event.dart';
+import 'reference_frame.dart';
 import 'rotation_sensor.dart';
 import 'rotation_sensor_platform.dart';
 
@@ -38,6 +39,7 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
     }
     methodChannel.invokeMethod('getOrientationStream', {
       'samplingPeriod': samplingMicroseconds,
+      'referenceFrame': referenceFrameValue.name,
     });
     final broadcastStream = eventChannel.receiveBroadcastStream();
     return _orientationStream = broadcastStream.map((event) {
@@ -56,6 +58,16 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
   void updateSamplingPeriod(int value) {
     methodChannel.invokeMethod('getOrientationStream', {
       'samplingPeriod': value,
+      'referenceFrame': referenceFrameValue.name,
+    });
+  }
+
+  @override
+  @protected
+  void updateReferenceFrame(ReferenceFrame value) {
+    methodChannel.invokeMethod('getOrientationStream', {
+      'samplingPeriod': samplingMicroseconds,
+      'referenceFrame': value.name,
     });
   }
 }

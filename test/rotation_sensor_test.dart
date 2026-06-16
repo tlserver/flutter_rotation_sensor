@@ -22,16 +22,22 @@ class MockRotationSensorPlatform extends RotationSensorPlatform
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  test('isPlatformSupported returns true only for Android and iOS platforms', () {
-    isWeb = false;
-    for (final platform in TargetPlatform.values) {
-      debugDefaultTargetPlatformOverride = platform;
-      expect(RotationSensor.isPlatformSupported, equals([
-        TargetPlatform.android,
-        TargetPlatform.iOS,
-      ].contains(platform)));
-    }
-  });
+  // ignore: lines_longer_than_80_chars
+  test(
+    'isPlatformSupported returns true only for Android and iOS platforms',
+    () {
+      isWeb = false;
+      for (final platform in TargetPlatform.values) {
+        debugDefaultTargetPlatformOverride = platform;
+        expect(
+          RotationSensor.isPlatformSupported,
+          equals(
+            [TargetPlatform.android, TargetPlatform.iOS].contains(platform),
+          ),
+        );
+      }
+    },
+  );
 
   test('isPlatformSupported returns false for web platform', () {
     isWeb = true;

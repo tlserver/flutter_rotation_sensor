@@ -6,5 +6,6 @@ export 'src/math/matrix3.dart';
 export 'src/math/quaternion.dart';
 export 'src/math/vector3.dart';
 export 'src/orientation_event.dart';
+export 'src/reference_frame.dart';
 export 'src/rotation_sensor.dart';
 export 'src/sensor_interval.dart';
