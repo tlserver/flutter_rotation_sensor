@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'orientation_event.dart';
+import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
 import 'rotation_sensor_unsupported.dart';
 import 'sensor_interval.dart';
@@ -77,6 +78,25 @@ abstract class RotationSensorPlatform extends PlatformInterface {
 
   @protected
   void updateSamplingPeriod(int value) {
+    // no-op
+  }
+
+  @protected
+  ReferenceFrame referenceFrameValue = ReferenceFrame.device;
+
+  /// The world [ReferenceFrame] the azimuth is measured from.
+  ///
+  /// Defaults to [ReferenceFrame.device]. When changing this value, all
+  /// existing listeners will be affected.
+  ReferenceFrame get referenceFrame => referenceFrameValue;
+
+  set referenceFrame(ReferenceFrame value) {
+    referenceFrameValue = value;
+    updateReferenceFrame(value);
+  }
+
+  @protected
+  void updateReferenceFrame(ReferenceFrame value) {
     // no-op
   }
 }

@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import 'coordinate_system.dart';
 import 'orientation_event.dart';
+import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
 import 'rotation_sensor_platform.dart';
 import 'sensor_interval.dart';
@@ -44,4 +45,16 @@ class RotationSensor {
   /// existing listeners will receive [OrientationEvent] in the new coordinate
   /// system.
   static CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
+
+  /// The world [ReferenceFrame] the azimuth is measured from.
+  ///
+  /// Defaults to [ReferenceFrame.device]. Set it to
+  /// [ReferenceFrame.magneticNorth] or [ReferenceFrame.trueNorth] to get a real
+  /// compass heading (azimuth 0 = north). When changing this value, all
+  /// existing listeners will be affected.
+  static ReferenceFrame get referenceFrame =>
+      RotationSensorPlatform.instance.referenceFrame;
+
+  static set referenceFrame(ReferenceFrame value) =>
+      RotationSensorPlatform.instance.referenceFrame = value;
 }
