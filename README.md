@@ -74,7 +74,9 @@ For more control, you can subscribe to the stream directly:
      super.initState();
      orientationSubscription = RotationSensor.orientationStream.listen((event) {
        final azimuth = event.eulerAngles.azimuth;
-       // Print azimuth: 0 for North, π/2 for East, π for South, -π/2 for West
+       // Print azimuth: 0 for North, π/2 for East, π for South, -π/2 for West.
+       // On iOS, an azimuth of 0 only points to north when a north-referenced
+       // reference frame is set (see the Reference Frame section below).
        print(azimuth);
      });
    }
@@ -100,6 +102,9 @@ void initState() {
   super.initState();
   // Set the sampling period for the rotation sensor
   RotationSensor.samplingPeriod = SensorInterval.uiInterval;
+
+  // Set the reference frame the azimuth is measured from
+  RotationSensor.referenceFrame = ReferenceFrame.magneticNorth;
 
   // Set the coordinate system for the rotation sensor
   RotationSensor.coordinateSystem = CoordinateSystem.transformed(Axis3.X, Axis3.Z);
@@ -127,6 +132,34 @@ void config() {
 
 Events may arrive at a rate faster or slower than the sampling period, which is only a hint to the
 system. The actual rate depends on the system's event queue and sensor hardware capabilities.
+
+### Reference Frame
+
+The [RotationSensor.referenceFrame](https://pub.dev/documentation/flutter_rotation_sensor/latest/flutter_rotation_sensor/RotationSensor/referenceFrame.html)
+property controls the world reference the azimuth is measured from. Whatever the value, the
+orientation is always returned in the plugin's east-north-up world convention, so an azimuth of 0
+means the device points north. Here are the values you can use:
+
+- `ReferenceFrame.device`: *(default value)* The platform default, with no guarantee of a north
+  reference. On iOS the horizontal reference is arbitrary (the direction the device happened to
+  point when the sensor started, no compass). On Android the rotation vector sensor is already
+  referenced to magnetic north.
+- `ReferenceFrame.magneticNorth`: The azimuth is referenced to magnetic north on both platforms,
+  without depending on location services.
+- `ReferenceFrame.trueNorth`: The azimuth is referenced to true (geographic) north. Requires
+  location services to be available.
+
+```dart
+void config() {
+  RotationSensor.referenceFrame = ReferenceFrame.magneticNorth;
+}
+```
+
+> [!NOTE]
+> Reference frame selection is currently implemented on iOS only. On Android the rotation vector is
+> always referenced to magnetic north, so `device` and `magneticNorth` already behave as expected,
+> while `trueNorth` currently behaves like `magneticNorth`. Android support for `trueNorth` is
+> tracked in a separate issue.
 
 ### Coordinate System
 
