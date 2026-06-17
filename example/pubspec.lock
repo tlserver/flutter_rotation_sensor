@@ -173,10 +173,10 @@ packages:
     dependency: transitive
     description:
       name: native_device_orientation
-      sha256: bc0bcccc79752048d2235c10545c5fd554a46035fe0a4a4534d1bb9d8bc85e6c
+      sha256: "4751bd8648a1e4a22c2cf3e8035eb0d667f8f6d82f9544b2f7b1bc12de42f0a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4"
+    version: "2.1.1"
   path:
     dependency: transitive
     description:
@@ -320,4 +320,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=3.10.0-0 <4.0.0"
-  flutter: ">=3.27.0"
+  flutter: ">=3.41.0"
