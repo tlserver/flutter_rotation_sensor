@@ -1,21 +1,15 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_rotation_sensor (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_rotation_sensor (from `.symlinks/plugins/flutter_rotation_sensor/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_rotation_sensor:
-    :path: ".symlinks/plugins/flutter_rotation_sensor/ios"
 
 SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_rotation_sensor: f37d8d24050572029bdd2d55a93e0f334e2eeac6
 
 PODFILE CHECKSUM: 4f1c12611da7338d21589c0b2ecd6bd20b109694
 
