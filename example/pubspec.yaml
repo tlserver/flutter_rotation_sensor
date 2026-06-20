@@ -2,6 +2,8 @@ name: flutter_rotation_sensor_example
 description: "Demonstrates how to use the flutter_rotation_sensor plugin."
 publish_to: 'none'
 
+version: 1.0.0+1
+
 environment:
   sdk: ^3.12.1
 
