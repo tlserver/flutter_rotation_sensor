@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: "758e6d74e971c3e5aceb4110bfd6698efc7f501675bcfe0c775459a8140750eb"
+      sha256: e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.0"
+    version: "2.13.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: file_state_manager
-      sha256: a64f7dfe52e45bb1bb1a0e357ab6d38efddc361f33003c0c0a9b78bf9cf0731d
+      sha256: dcbd7162e8cadbf84f35fe86f801e382f423bb19b569a3f00dceeb1e27638094
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "3.0.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -133,10 +133,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: a5e2b223cb7c9c8efdc663ef484fdd95bb243bff242ef5b13e26883547fce9a0
+      sha256: "12f842a479589fea194fe5c5a3095abc7be0c1f2ddfa9a0e76aed1dbd26a87df"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.1.0"
   logging:
     dependency: transitive
     description:
@@ -173,10 +173,10 @@ packages:
     dependency: transitive
     description:
       name: native_device_orientation
-      sha256: bc0bcccc79752048d2235c10545c5fd554a46035fe0a4a4534d1bb9d8bc85e6c
+      sha256: "4751bd8648a1e4a22c2cf3e8035eb0d667f8f6d82f9544b2f7b1bc12de42f0a4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4"
+    version: "2.1.1"
   path:
     dependency: transitive
     description:
@@ -205,26 +205,26 @@ packages:
     dependency: transitive
     description:
       name: process
-      sha256: "107d8be718f120bbba9dcd1e95e3bd325b1b4a4f07db64154635ba03f2567a0d"
+      sha256: c6248e4526673988586e8c00bb22a49210c258dc91df5227d5da9748ecf79744
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.3"
+    version: "5.0.5"
   simple_3d:
     dependency: "direct main"
     description:
       name: simple_3d
-      sha256: f40a14daa88f327ec2807403142aa517aee932fee9d37e98ab71eb42abbf4750
+      sha256: "08b322ecbe67a8b6e822322e691a1ee59baacb5c9efeba5a7679e0377bb6f4fb"
       url: "https://pub.dev"
     source: hosted
-    version: "16.0.2"
+    version: "17.3.1"
   simple_3d_renderer:
     dependency: "direct main"
     description:
       name: simple_3d_renderer
-      sha256: bf94f7e90c9a601072921aa2f27baae09d9a531e41bf849225bb2029845a2e2e
+      sha256: "0184ffb4a036df1b26cb5bdcd3f461faf8e018610932c2591db6bebc8080dab6"
       url: "https://pub.dev"
     source: hosted
-    version: "22.0.2"
+    version: "23.0.4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -234,10 +234,10 @@ packages:
     dependency: transitive
     description:
       name: source_span
-      sha256: "254ee5351d6cb365c859e20ee823c3bb479bf4a293c22d17a9f1bf144ce86f7c"
+      sha256: "56a02f1f4cd1a2d96303c0144c93bd6d909eea6bee6bf5a0e0b685edbd4c47ab"
       url: "https://pub.dev"
     source: hosted
-    version: "1.10.1"
+    version: "1.10.2"
   stack_trace:
     dependency: transitive
     description:
@@ -290,10 +290,10 @@ packages:
     dependency: "direct main"
     description:
       name: util_simple_3d
-      sha256: "2381db1cab8b79e858407a981c3a34016d0514c94bca8f656524d158b970516b"
+      sha256: "70817096286cdfe5c1557fbb64cee1a15afd93c556b2e512ac5ba05057755080"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.2"
+    version: "12.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -306,10 +306,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: ddfa8d30d89985b96407efce8acbdd124701f96741f2d981ca860662f1c0dc02
+      sha256: "0016aef94fc66495ac78af5859181e3f3bf2026bd8eecc72b9565601e19ab360"
       url: "https://pub.dev"
     source: hosted
-    version: "15.0.0"
+    version: "15.2.0"
   webdriver:
     dependency: transitive
     description:
@@ -320,4 +320,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=3.12.1 <4.0.0"
-  flutter: ">=3.27.0"
+  flutter: ">=3.41.0"

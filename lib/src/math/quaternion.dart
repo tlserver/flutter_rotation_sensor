@@ -116,10 +116,10 @@ class Quaternion {
   AxisAngle toAxisAngle() {
     final d = 1 - (w * w);
     if (d < 0.00001) {
-      return AxisAngle(Vector3.zero(), 0);
+      return AxisAngle(Vector3(1, 0, 0), 0);
     } else {
       final s = sqrt(d);
-      return AxisAngle(Vector3(x / s, y / s, z / s), 2 * acos(w));
+      return AxisAngle(Vector3(x / s, y / s, z / s).normalize(), 2 * acos(w));
     }
   }
 

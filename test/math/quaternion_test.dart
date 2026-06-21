@@ -114,7 +114,7 @@ void main() {
     );
     expect(
       Quaternion(0, 0, 0, 1).toAxisAngle(),
-      closeToAxisAngle(AxisAngle(Vector3(0, 0, 0), 0)),
+      closeToAxisAngle(AxisAngle(Vector3(1, 0, 0), 0)),
     );
   });
 
