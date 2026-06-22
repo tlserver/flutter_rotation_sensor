@@ -1,7 +1,7 @@
 name: Feature Request
 description: Suggest an idea or enhancement for the FlutterRotationSensor plugin.
-title: "[Feature Request]: "
-labels: ["enhancement"]
+title: '[Feature Request]: '
+labels: [enhancement]
 body:
   - type: markdown
     attributes:
