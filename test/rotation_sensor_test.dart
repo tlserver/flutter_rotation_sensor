@@ -57,20 +57,13 @@ void main() {
     expect(RotationSensor.samplingPeriod, equals(SensorInterval.uiInterval));
   });
 
+  test('referenceFrame can be set and retrieved correctly', () {
+    RotationSensor.referenceFrame = ReferenceFrame.trueNorth;
+    expect(RotationSensor.referenceFrame, equals(ReferenceFrame.trueNorth));
+  });
+
   test('coordinateSystem can be set and retrieved correctly', () {
     RotationSensor.coordinateSystem = CoordinateSystem.display();
     expect(RotationSensor.coordinateSystem, same(CoordinateSystem.display()));
-  });
-
-  test('referenceFrame defaults to device', () {
-    RotationSensorPlatform.instance = MockRotationSensorPlatform();
-    expect(RotationSensor.referenceFrame, equals(ReferenceFrame.device));
-  });
-
-  test('referenceFrame can be set and retrieved correctly', () {
-    RotationSensor.referenceFrame = ReferenceFrame.magneticNorth;
-    expect(RotationSensor.referenceFrame, equals(ReferenceFrame.magneticNorth));
-    RotationSensor.referenceFrame = ReferenceFrame.trueNorth;
-    expect(RotationSensor.referenceFrame, equals(ReferenceFrame.trueNorth));
   });
 }

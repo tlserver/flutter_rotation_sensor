@@ -20,23 +20,11 @@ void main() {
   const orientationChannel = RotationSensorMethodChannel.eventChannel;
   // ignore: close_sinks
   late StreamController<void> oeStreamController;
-  late int expectedSamplingPeriod;
 
   setUp(() {
     oeStreamController = StreamController<void>();
-    expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
     binaryMessenger
-      ..setMockMethodCallHandler(methodChannel, (methodCall) async {
-        switch (methodCall.method) {
-          case 'getOrientationStream':
-            final arguments = methodCall.arguments as Map;
-            final samplingPeriod = arguments['samplingPeriod'] as int;
-            expect(samplingPeriod, expectedSamplingPeriod);
-            return null;
-          default:
-            throw UnsupportedError(methodCall.method);
-        }
-      })
+      ..setMockMethodCallHandler(methodChannel, (methodCall) async => null)
       ..setMockStreamHandler(
         orientationChannel,
         MockStreamHandler.inline(

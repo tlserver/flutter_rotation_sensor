@@ -2,15 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'environment.dart';
+import 'math/axis3.dart';
 import 'math/quaternion.dart';
 import 'orientation_event.dart';
-import 'reference_frame.dart';
 import 'rotation_sensor.dart';
 import 'rotation_sensor_platform.dart';
 
 /// An implementation of [RotationSensorPlatform] that uses method channels.
 class RotationSensorMethodChannel extends RotationSensorPlatform {
-
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   static const methodChannel = MethodChannel('rotation_sensor/method');
@@ -23,10 +22,10 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
   /// Determines whether the current platform is supported.
   static bool get isPlatformSupported =>
       !isWeb &&
-          [
-            TargetPlatform.android,
-            TargetPlatform.iOS,
-          ].contains(defaultTargetPlatform);
+      [
+        TargetPlatform.android,
+        TargetPlatform.iOS,
+      ].contains(defaultTargetPlatform);
 
   Stream<OrientationEvent>? _orientationStream;
 
@@ -37,10 +36,8 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
     if (_orientationStream != null) {
       return _orientationStream!;
     }
-    methodChannel.invokeMethod('getOrientationStream', {
-      'samplingPeriod': samplingMicroseconds,
-      'referenceFrame': referenceFrameValue.name,
-    });
+    setSamplingPeriod();
+    setReferenceFrame();
     final broadcastStream = eventChannel.receiveBroadcastStream();
     return _orientationStream = broadcastStream.map((event) {
       final data = event as List<dynamic>;
@@ -49,25 +46,28 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
         accuracy: data[4],
         timestamp: data[5],
       );
-      return RotationSensor.coordinateSystem.apply(orientationEvent);
+      return RotationSensor.coordinateSystem.apply(switch (referenceFrame) {
+        .arbitrary || .arbitraryCorrected => orientationEvent,
+        // Core Motion uses a world frame with X = north and Z = up. For iOS
+        // north-referenced frames, convert it here to Y = north and Z = up to
+        // match Android and this package's convention.
+        .magneticNorth || .trueNorth =>
+          defaultTargetPlatform == TargetPlatform.iOS
+              ? orientationEvent.remapCoordinateSystem(Axis3.Y, -Axis3.X)
+              : orientationEvent,
+      });
     });
   }
 
   @override
   @protected
-  void updateSamplingPeriod(int value) {
-    methodChannel.invokeMethod('getOrientationStream', {
-      'samplingPeriod': value,
-      'referenceFrame': referenceFrameValue.name,
-    });
+  void setSamplingPeriod() {
+    methodChannel.invokeMethod('setSamplingPeriod', samplingMicroseconds);
   }
 
   @override
   @protected
-  void updateReferenceFrame(ReferenceFrame value) {
-    methodChannel.invokeMethod('getOrientationStream', {
-      'samplingPeriod': samplingMicroseconds,
-      'referenceFrame': value.name,
-    });
+  void setReferenceFrame() {
+    methodChannel.invokeMethod('setReferenceFrame', referenceFrameValue.name);
   }
 }

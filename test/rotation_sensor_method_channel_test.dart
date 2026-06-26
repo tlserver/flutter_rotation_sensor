@@ -1,6 +1,11 @@
+import 'dart:math';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_rotation_sensor/src/rotation_sensor_method_channel.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'utils.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -9,20 +14,22 @@ void main() {
   const methodChannel = RotationSensorMethodChannel.methodChannel;
   const orientationChannel = RotationSensorMethodChannel.eventChannel;
   late int expectedSamplingPeriod;
-  late ReferenceFrame expectedReferenceFrame;
+  late String expectedReferenceFrame;
 
   setUp(() {
+    debugDefaultTargetPlatformOverride = null;
     expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
-    expectedReferenceFrame = platform.referenceFrame;
+    expectedReferenceFrame = platform.referenceFrame.name;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(methodChannel, (methodCall) async {
           switch (methodCall.method) {
-            case 'getOrientationStream':
-              final arguments = methodCall.arguments as Map;
-              final samplingPeriod = arguments['samplingPeriod'] as int;
+            case 'setSamplingPeriod':
+              final samplingPeriod = methodCall.arguments as int;
               expect(samplingPeriod, expectedSamplingPeriod);
-              final referenceFrame = arguments['referenceFrame'] as String;
-              expect(referenceFrame, expectedReferenceFrame.name);
+              return null;
+            case 'setReferenceFrame':
+              final referenceFrame = methodCall.arguments as String;
+              expect(referenceFrame, expectedReferenceFrame);
               return null;
             default:
               throw UnsupportedError(methodCall.method);
@@ -47,6 +54,7 @@ void main() {
   });
 
   tearDown(() {
+    debugDefaultTargetPlatformOverride = null;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(methodChannel, null);
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -74,14 +82,22 @@ void main() {
     },
   );
 
+  test('arbitraryCorrected frame are unconverted on iOS', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    expectedReferenceFrame = 'arbitraryCorrected';
+    platform.referenceFrame = .arbitraryCorrected;
+    final event = await platform.orientationStream.first;
+    expect(event.coordinateSystem, closeToMatrix3(Matrix3.identity()));
+  });
+
   test(
-    'orientationStream forwards the configured reference frame to the platform',
+    'north-referenced frames are converted from X-north to Y-north on iOS',
     () async {
-      expectedReferenceFrame = ReferenceFrame.magneticNorth;
-      platform.referenceFrame = ReferenceFrame.magneticNorth;
-      expect(platform.referenceFrame, equals(ReferenceFrame.magneticNorth));
-      await Future.microtask(() => null);
-      expect(await platform.orientationStream.first, isA<OrientationEvent>());
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      expectedReferenceFrame = 'trueNorth';
+      platform.referenceFrame = .trueNorth;
+      final event = await platform.orientationStream.first;
+      expect(event.coordinateSystem, closeToMatrix3(Matrix3.rotateZ(pi / 2)));
     },
   );
 }

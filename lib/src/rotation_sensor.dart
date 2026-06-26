@@ -39,22 +39,20 @@ class RotationSensor {
   static set samplingPeriod(Duration value) =>
       RotationSensorPlatform.instance.samplingPeriod = value;
 
-  /// The [coordinateSystem] used for upcoming [OrientationEvent].
+  /// The world [ReferenceFrame] from which the azimuth is measured.
   ///
-  /// Defaults to [DisplayCoordinateSystem]. When changing this value, all
-  /// existing listeners will receive [OrientationEvent] in the new coordinate
-  /// system.
-  static CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
-
-  /// The world [ReferenceFrame] the azimuth is measured from.
-  ///
-  /// Defaults to [ReferenceFrame.device]. Set it to
-  /// [ReferenceFrame.magneticNorth] or [ReferenceFrame.trueNorth] to get a real
-  /// compass heading (azimuth 0 = north). When changing this value, all
+  /// Defaults to [ReferenceFrame.magneticNorth]. When changing this value, all
   /// existing listeners will be affected.
   static ReferenceFrame get referenceFrame =>
       RotationSensorPlatform.instance.referenceFrame;
 
   static set referenceFrame(ReferenceFrame value) =>
       RotationSensorPlatform.instance.referenceFrame = value;
+
+  /// The [coordinateSystem] used for upcoming [OrientationEvent].
+  ///
+  /// Defaults to [DisplayCoordinateSystem]. When changing this value, all
+  /// existing listeners will receive [OrientationEvent] in the new coordinate
+  /// system.
+  static CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
 }
