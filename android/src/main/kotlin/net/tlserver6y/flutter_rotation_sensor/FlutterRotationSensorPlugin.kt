@@ -113,7 +113,8 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
             event.values[1].toDouble(),
             event.values[2].toDouble(),
             event.values[3].toDouble(),
-            event.values[4].toDouble(),
+            // Estimated heading accuracy may not exist.
+            event.values.getOrElse(4, { -1.0f }).toDouble(),
             event.timestamp,
           )
         )
