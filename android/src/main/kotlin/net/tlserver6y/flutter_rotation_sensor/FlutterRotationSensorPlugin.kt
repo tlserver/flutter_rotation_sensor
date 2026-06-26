@@ -15,13 +15,17 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
-class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHandler {
+class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, SensorEventListener,
+  StreamHandler {
   private lateinit var methodChannel: MethodChannel
   private lateinit var eventChannel: EventChannel
   private lateinit var sensorManager: SensorManager
+  private var eventSink: EventSink? = null
   private var sensor: Sensor? = null
-  private var sensorEventListener: SensorEventListener? = null
   private var samplingPeriod = 200000
+  private var sensorType = Sensor.TYPE_ROTATION_VECTOR
+
+  // === FlutterPlugin ===
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     val context = flutterPluginBinding.applicationContext
@@ -54,71 +58,120 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
     onCancel(null)
   }
 
+  // === MethodCallHandler ===
+
   override fun onMethodCall(call: MethodCall, result: Result) {
     when (call.method) {
-      "getOrientationStream" -> {
-        if (sensor == null) {
-          sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+      "setSamplingPeriod" -> {
+        val samplingPeriod = call.arguments as? Int ?: run {
+          return result.error(
+            "INVALID_ARGUMENTS",
+            "Int samplingPeriod is required",
+            null
+          )
         }
-        if (call.hasArgument("samplingPeriod")) {
-          val samplingPeriod = call.argument<Int?>("samplingPeriod")
-          if (
-            samplingPeriod != null &&
-            samplingPeriod != this.samplingPeriod &&
-            sensorEventListener != null
-          ) {
-            this.samplingPeriod = samplingPeriod
-            sensorManager.unregisterListener(sensorEventListener)
-            sensorManager.registerListener(sensorEventListener, sensor, samplingPeriod)
-          }
+        setSamplingPeriod(samplingPeriod)
+        return result.success(null)
+      }
+      "setReferenceFrame" -> {
+        val referenceFrame = call.arguments as? String ?: run {
+          return result.error(
+            "INVALID_ARGUMENTS",
+            "String referenceFrame is required",
+            null
+          )
         }
+        setReferenceFrame(referenceFrame)
         result.success(null);
       }
-      else -> {
-        result.notImplemented()
-      }
+      else -> result.notImplemented()
     }
   }
 
-  override fun onListen(arguments: Any?, events: EventSink) {
-    if (sensor != null) {
-      sensorEventListener = createSensorEventListener(events)
-      sensorManager.registerListener(sensorEventListener, sensor, samplingPeriod)
-    } else {
-      events.error(
-        "NO_SENSOR",
-        "Sensor not found",
-        "It seems that your device has no rotation vector sensor"
-      )
+  private fun setSamplingPeriod(samplingPeriod: Int) {
+    if (samplingPeriod == this.samplingPeriod) return
+    this.samplingPeriod = samplingPeriod
+    resubscribe()
+  }
+
+  private fun setReferenceFrame(referenceFrame: String) {
+    val sensorType = when (referenceFrame) {
+      "arbitrary", "arbitraryCorrected" -> Sensor.TYPE_GAME_ROTATION_VECTOR
+      "magneticNorth", "trueNorth" -> Sensor.TYPE_ROTATION_VECTOR
+      else -> Sensor.TYPE_ROTATION_VECTOR
     }
+    if (sensorType == this.sensorType) return
+    this.sensorType = sensorType
+    resubscribe()
+  }
+
+  // === SensorEventListener ===
+
+  override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
+
+  override fun onSensorChanged(event: SensorEvent) {
+    eventSink?.success(
+      arrayListOf(
+        event.values[0].toDouble(),
+        event.values[1].toDouble(),
+        event.values[2].toDouble(),
+        event.values[3].toDouble(),
+        // Estimated heading accuracy may not exist.
+        event.values.getOrElse(4, { -1.0f }).toDouble(),
+        event.timestamp,
+      )
+    )
+  }
+
+  // === StreamHandler ===
+
+  override fun onListen(arguments: Any?, events: EventSink) {
+    eventSink = events
+    subscribe()
   }
 
   override fun onCancel(arguments: Any?) {
-    if (sensor != null) {
-      sensorEventListener?.let {
-        sensorManager.unregisterListener(it)
-        sensorEventListener = null
-      }
+    eventSink = null
+    unsubscribe()
+  }
+
+  private fun noListeners(): Boolean = eventSink == null
+
+  private fun defaultSensor(): Sensor? {
+    val sensor = this.sensor
+    val sensorType = this.sensorType
+    if (sensor?.type == sensorType) return sensor
+    return sensorManager.getDefaultSensor(sensorType)?.also {
+      this.sensor = it
+    } ?: run {
+      eventSink?.error(
+        "UNAVAILABLE",
+        "Sensor not found",
+        "It seems that your device has no ${
+          when (sensorType) {
+            Sensor.TYPE_ROTATION_VECTOR -> "rotation vector sensor"
+            Sensor.TYPE_GAME_ROTATION_VECTOR -> "game rotation vector sensor"
+            else -> "needed sensor"
+          }
+        }."
+      )
+      null
     }
   }
 
-  private fun createSensorEventListener(events: EventSink): SensorEventListener {
-    return object : SensorEventListener {
-      override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
-
-      override fun onSensorChanged(event: SensorEvent) {
-        events.success(
-          arrayListOf(
-            event.values[0].toDouble(),
-            event.values[1].toDouble(),
-            event.values[2].toDouble(),
-            event.values[3].toDouble(),
-            // Estimated heading accuracy may not exist.
-            event.values.getOrElse(4, { -1.0f }).toDouble(),
-            event.timestamp,
-          )
-        )
-      }
+  private fun subscribe() {
+    defaultSensor()?.let {
+      sensorManager.registerListener(this, it, samplingPeriod)
     }
+  }
+
+  private fun unsubscribe() {
+    sensorManager.unregisterListener(this)
+  }
+
+  private fun resubscribe() {
+    if (noListeners()) return
+    unsubscribe()
+    subscribe()
   }
 }

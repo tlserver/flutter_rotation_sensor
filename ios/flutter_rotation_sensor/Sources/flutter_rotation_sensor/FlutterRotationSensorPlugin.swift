@@ -6,14 +6,8 @@ public class FlutterRotationSensorPlugin: NSObject, FlutterPlugin, FlutterStream
 
   private var eventChannel: FlutterEventChannel
   private let motionManager: CMMotionManager
-  private var referenceFrame: CMAttitudeReferenceFrame = .xArbitraryZVertical
   private var eventSink: FlutterEventSink?
-
-  // CoreMotion expresses a north reference frame as (north, west, up), while
-  // this plugin's world convention is (east, north, up) like Android. The two
-  // differ by a fixed 90° rotation about the vertical axis, applied to the
-  // attitude quaternion so the azimuth stays 0 = north on every platform.
-  private let northToEastNorthUp = 0.7071067811865476 // sin(45°) = cos(45°)
+  private var referenceFrame: CMAttitudeReferenceFrame = .xMagneticNorthZVertical
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     let methodChannel = FlutterMethodChannel(name: "rotation_sensor/method", binaryMessenger: registrar.messenger())
@@ -30,80 +24,107 @@ public class FlutterRotationSensorPlugin: NSObject, FlutterPlugin, FlutterStream
     self.motionManager = motionManager
   }
 
+  public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
+    eventChannel.setStreamHandler(nil)
+  }
+
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
-    case "getOrientationStream":
-      let args = call.arguments as? [String: Any]
-      if let samplingPeriod = args?["samplingPeriod"] as? Double {
-        motionManager.deviceMotionUpdateInterval = samplingPeriod * 0.000001
+    case "setSamplingPeriod":
+      guard let samplingPeriod = call.arguments as? Int32 else {
+        result(FlutterError(
+          code: "INVALID_ARGUMENTS",
+          message: "Int32 samplingPeriod is required",
+          details: nil
+        ))
+        return
       }
-      updateReferenceFrame(args?["referenceFrame"] as? String)
+      setSamplingPeriod(samplingPeriod)
+      result(nil)
+    case "setReferenceFrame":
+      guard let referenceFrame = call.arguments as? String else {
+        result(FlutterError(
+          code: "INVALID_ARGUMENTS",
+          message: "String referenceFrame is required",
+          details: nil
+        ))
+        return
+      }
+      setReferenceFrame(referenceFrame)
       result(nil)
     default:
       result(FlutterMethodNotImplemented)
     }
   }
 
-  private func updateReferenceFrame(_ name: String?) {
-    let newFrame = attitudeReferenceFrame(from: name)
-    guard newFrame != referenceFrame else { return }
-    referenceFrame = newFrame
-    if motionManager.isDeviceMotionActive, let sink = eventSink {
-      motionManager.stopDeviceMotionUpdates()
-      startUpdates(sink)
-    }
+  private func setSamplingPeriod(_ samplingPeriod: Int32) {
+    guard samplingPeriod != Int32((motionManager.deviceMotionUpdateInterval * 1000000).rounded()) else { return }
+    motionManager.deviceMotionUpdateInterval = Double(samplingPeriod) * 0.000001
   }
 
-  private func attitudeReferenceFrame(from name: String?) -> CMAttitudeReferenceFrame {
-    switch name {
-    case "magneticNorth": return .xMagneticNorthZVertical
-    case "trueNorth": return .xTrueNorthZVertical
-    default: return .xArbitraryZVertical
+  private func setReferenceFrame(_ referenceFrame: String) {
+    let referenceFrame: CMAttitudeReferenceFrame = switch referenceFrame {
+    case "arbitrary": .xArbitraryZVertical
+    case "arbitraryCorrected": .xArbitraryCorrectedZVertical
+    case "magneticNorth": .xMagneticNorthZVertical
+    case "trueNorth": .xTrueNorthZVertical
+    default: .xMagneticNorthZVertical
     }
-  }
-
-  private func isNorthReferenced(_ frame: CMAttitudeReferenceFrame) -> Bool {
-    return frame == .xMagneticNorthZVertical || frame == .xTrueNorthZVertical
-  }
-
-  private func startUpdates(_ events: @escaping FlutterEventSink) {
-    let correctToEastNorthUp = isNorthReferenced(referenceFrame)
-    motionManager.startDeviceMotionUpdates(using: referenceFrame, to: OperationQueue()) { (motion, error) in
-      guard let motion = motion, error == nil else {
-        events(FlutterError(code: "UNAVAILABLE", message: "Device motion updates unavailable", details: nil))
-        return
-      }
-
-      let q = motion.attitude.quaternion
-      let k = self.northToEastNorthUp
-      let qx = correctToEastNorthUp ? k * (q.x - q.y) : q.x
-      let qy = correctToEastNorthUp ? k * (q.x + q.y) : q.y
-      let qz = correctToEastNorthUp ? k * (q.z + q.w) : q.z
-      let qw = correctToEastNorthUp ? k * (q.w - q.z) : q.w
-
-      let rotationVector = [qx, qy, qz, qw, -1.0, Int64((motion.timestamp * 1000000000).rounded())] as [Any]
-      DispatchQueue.main.async {
-        events(rotationVector)
-      }
-    }
+    guard referenceFrame != self.referenceFrame else { return }
+    self.referenceFrame = referenceFrame
+    resubscribe()
   }
 
   public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-    guard motionManager.isDeviceMotionAvailable else {
-      return FlutterError(code: "NO_SENSOR", message: "Rotation vector sensor unavailable", details: nil)
-    }
     eventSink = events
-    startUpdates(events)
+    subscribe()
     return nil
   }
 
   public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-    motionManager.stopDeviceMotionUpdates()
     eventSink = nil
+    unsubscribe()
     return nil
   }
 
-  public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
-    eventChannel.setStreamHandler(nil)
+  private func noListeners() -> Bool { eventSink == nil }
+
+  private func handleDeviceMotion(motion: CMDeviceMotion?, error: Error?) {
+    guard let motion else {
+      if let error {
+        eventSink?(FlutterError(code: "UNKNOWN", message: error.localizedDescription, details: nil))
+      }
+      return
+    }
+    let quaternion = motion.attitude.quaternion
+    let rotationVector: [Any] = [
+      quaternion.x,
+      quaternion.y,
+      quaternion.z,
+      quaternion.w,
+      -1.0,
+      Int64((motion.timestamp * 1000000000).rounded())
+    ]
+    DispatchQueue.main.async {
+      self.eventSink?(rotationVector)
+    }
+  }
+
+  private func subscribe() {
+    guard motionManager.isDeviceMotionAvailable else {
+      eventSink?(FlutterError(code: "UNAVAILABLE", message: "Device motion unavailable", details: nil))
+      return
+    }
+    motionManager.startDeviceMotionUpdates(using: referenceFrame, to: OperationQueue(), withHandler: handleDeviceMotion)
+  }
+
+  private func unsubscribe() {
+    motionManager.stopDeviceMotionUpdates()
+  }
+
+  private func resubscribe() {
+    if noListeners() { return }
+    unsubscribe()
+    subscribe()
   }
 }
