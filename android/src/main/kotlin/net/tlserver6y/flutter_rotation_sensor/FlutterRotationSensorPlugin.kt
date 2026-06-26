@@ -107,22 +107,16 @@ class FlutterRotationSensorPlugin : FlutterPlugin, MethodCallHandler, StreamHand
       override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {}
 
       override fun onSensorChanged(event: SensorEvent) {
-
-        val rotationMatrix = FloatArray(9)
-        SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
-
-        val orientation = FloatArray(3)
-        SensorManager.getOrientation(rotationMatrix, orientation)
-
-        val sensorValues = arrayListOf(
-          event.values[0].toDouble(),
-          event.values[1].toDouble(),
-          event.values[2].toDouble(),
-          event.values[3].toDouble(),
-          event.values[4].toDouble(),
-          event.timestamp,
+        events.success(
+          arrayListOf(
+            event.values[0].toDouble(),
+            event.values[1].toDouble(),
+            event.values[2].toDouble(),
+            event.values[3].toDouble(),
+            event.values[4].toDouble(),
+            event.timestamp,
+          )
         )
-        events.success(sensorValues)
       }
     }
   }
