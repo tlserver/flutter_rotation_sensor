@@ -14,17 +14,17 @@ void main() {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]);
-  runApp(const MyApp());
+  runApp(const ExampleApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class ExampleApp extends StatefulWidget {
+  const ExampleApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<ExampleApp> createState() => _ExampleAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _ExampleAppState extends State<ExampleApp> {
   late final Sp3dWorld world;
   int? lastTimestamp;
 
