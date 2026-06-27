@@ -26,6 +26,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late final Sp3dWorld world;
+  int? lastTimestamp;
 
   @override
   void initState() {
@@ -52,86 +53,97 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Rotation Sensor Example'),
-          ),
-          body: OrientationBuilder(
-            builder: (context, orientation) => StreamBuilder(
-              stream: RotationSensor.orientationStream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final data = snapshot.data!;
-                  final axisAngle = data.quaternion.invert().toAxisAngle();
-                  final axis = axisAngle.axis;
-                  return Center(
-                    child: Flex(
-                      direction: orientation == Orientation.portrait
-                          ? Axis.vertical
-                          : Axis.horizontal,
-                      children: [
-                        SizedBox(
-                          width: 240,
-                          height: 240,
-                          child: Sp3dRenderer(
-                            const Size(240, 240),
-                            const Sp3dV2D(120, 120),
-                            world,
-                            Sp3dCamera(
-                              Sp3dV3D(0, 0, 3000),
-                              3000,
-                              rotateAxis: Sp3dV3D(axis.x, axis.y, axis.z),
-                              radian: axisAngle.angle,
+    home: Scaffold(
+      appBar: AppBar(title: const Text('Rotation Sensor Example')),
+      body: !RotationSensor.isPlatformSupported
+          ? const Center(
+              child: Text(
+                'Rotation sensor is only supported on Android and iOS.',
+              ),
+            )
+          : OrientationBuilder(
+              builder: (context, orientation) => StreamBuilder(
+                stream: RotationSensor.orientationStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data!;
+                    final axisAngle = data.quaternion.invert().toAxisAngle();
+                    final axis = axisAngle.axis;
+                    final previousTimestamp = lastTimestamp ?? data.timestamp;
+                    lastTimestamp = data.timestamp;
+                    return Center(
+                      child: Flex(
+                        direction: orientation == Orientation.portrait
+                            ? Axis.vertical
+                            : Axis.horizontal,
+                        children: [
+                          SizedBox(
+                            width: 240,
+                            height: 240,
+                            child: Sp3dRenderer(
+                              const Size(240, 240),
+                              const Sp3dV2D(120, 120),
+                              world,
+                              Sp3dCamera(
+                                Sp3dV3D(0, 0, 3000),
+                                3000,
+                                rotateAxis: Sp3dV3D(axis.x, axis.y, axis.z),
+                                radian: axisAngle.angle,
+                              ),
+                              Sp3dLight(Sp3dV3D(0, 0, 1)),
+                              useUserGesture: false,
                             ),
-                            Sp3dLight(Sp3dV3D(0, 0, 1)),
-                            useUserGesture: false,
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                'Euler:\n'
-                                '${formatEulerAngles(data.eulerAngles)}',
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Quaternion:\n'
-                                '${formatQuaternion(data.quaternion)}',
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Matrix:\n'
-                                '${formatMatrix(data.rotationMatrix)}',
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Accuracy:\n'
-                                '${formatDouble(data.accuracy)}',
-                                textAlign: TextAlign.center,
-                              ),
-                              Text(
-                                'Timestamp:\n'
-                                '${data.timestamp}',
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  'Euler:\n'
+                                  '${formatEulerAngles(data.eulerAngles)}',
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Quaternion:\n'
+                                  '${formatQuaternion(data.quaternion)}',
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Matrix:\n'
+                                  '${formatMatrix(data.rotationMatrix)}',
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Accuracy:\n'
+                                  '${formatDouble(data.accuracy)}',
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Timestamp:\n'
+                                  '${data.timestamp}',
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  'Timestamp delta:\n'
+                                  '${data.timestamp - previousTimestamp}',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
             ),
-          ),
-        ),
-      );
+    ),
+  );
 
   Future<void> loadImages(Sp3dWorld world) async {
     world.objs[0].images = await Future.wait([
