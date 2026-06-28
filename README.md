@@ -114,10 +114,12 @@ void initState() {
 The [RotationSensor.samplingPeriod](https://pub.dev/documentation/flutter_rotation_sensor/latest/flutter_rotation_sensor/RotationSensor/samplingPeriod.html)
 determines how frequently the sensor data is updated. Here are the predefined values you can use:
 
-- `SensorInterval.normal` (200ms): Default rate, suitable for general use.
-- `SensorInterval.ui` (66ms): Suitable for UI updates, balancing update rate and power consumption.
-- `SensorInterval.game` (20ms): Suitable for games, updating at a rate to ensure smooth motion.
-- `SensorInterval.fastest` (0ms): Updates as fast as possible.
+- `SensorInterval.normalInterval` (200ms): Default rate, suitable for general use.
+- `SensorInterval.uiInterval` (66ms): Suitable for UI updates, balancing update rate and power
+  consumption.
+- `SensorInterval.gameInterval` (20ms): Suitable for games, updating at a rate to ensure smooth
+  motion.
+- `SensorInterval.fastestInterval` (0ms): Updates as fast as possible.
 
 You can also set a custom [Duration](https://api.dart.dev/stable/dart-core/Duration-class.html), for
 example:
