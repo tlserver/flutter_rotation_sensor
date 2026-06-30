@@ -16,19 +16,3 @@ updates:
     rebase-strategy: disabled
     commit-message:
       prefix: chore
-
-  - package-ecosystem: gradle
-    directory: /android
-    schedule:
-      interval: monthly
-    rebase-strategy: disabled
-    commit-message:
-      prefix: chore
-
-  - package-ecosystem: gradle
-    directory: /example/android
-    schedule:
-      interval: monthly
-    rebase-strategy: disabled
-    commit-message:
-      prefix: chore
