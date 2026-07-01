@@ -74,7 +74,7 @@ For more control, you can subscribe to the stream directly:
      super.initState();
      orientationSubscription = RotationSensor.orientationStream.listen((event) {
        final azimuth = event.eulerAngles.azimuth;
-       // Print azimuth: 0 for North, π/2 for East, π for South, -π/2 for West
+       // Print azimuth: 0 for North, π/2 for East, π for South, 3π/2 for West
        print(azimuth);
      });
    }
