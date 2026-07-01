@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
+import 'package:flutter_rotation_sensor/src/log/level.dart';
 import 'package:flutter_rotation_sensor/src/rotation_sensor_method_channel.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -55,6 +56,32 @@ void main() {
         .setMockMethodCallHandler(methodChannel, null);
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockStreamHandler(orientationChannel, null);
+  });
+
+  test('events are logged in diagnosticMode', () async {
+    final logBuffer = StringBuffer();
+    void testLogHandler(
+      String message, {
+      LogLevel level = .info,
+      Object? error,
+      StackTrace? stackTrace,
+    }) {
+      logBuffer.writeln(message);
+    }
+
+    platform
+      ..logHandler = testLogHandler
+      ..diagnosticMode = true;
+
+    final u = 1 / sqrt(7);
+    orientationPayload = _payload(Quaternion(u, u, u, 2 * u));
+    await platform.orientationStream.first;
+    await expectLater(
+      logBuffer.toString(),
+      'diagnostic: '
+      '(+0.756+0.378i+0.378j+0.378k)(+5.695±1.000)@123456789+X+Y+Z -> '
+      '(+0.756+0.378i+0.378j+0.378k)(+5.695±1.000)@123456789+X+Y+Z\n',
+    );
   });
 
   test('orientationStream emits OrientationEvent with default sampling '

@@ -15,6 +15,14 @@ import 'sensor_interval.dart';
 /// quaternion, and Euler angles (azimuth, pitch, roll).
 @sealed
 class RotationSensor {
+  /// Determines whether the rotation sensor is in diagnostic mode. If enabled,
+  /// the plugin logs more events for testing and debugging purposes.
+  static bool get diagnosticMode =>
+      RotationSensorPlatform.instance.diagnosticMode;
+
+  static set diagnosticMode(bool value) =>
+      RotationSensorPlatform.instance.diagnosticMode = value;
+
   /// Determines whether the current platform is supported.
   static bool get isPlatformSupported =>
       RotationSensorMethodChannel.isPlatformSupported;
