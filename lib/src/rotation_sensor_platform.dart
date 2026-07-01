@@ -1,8 +1,8 @@
-import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'coordinate_system.dart';
+import 'log/logger.dart';
 import 'orientation_event.dart';
 import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
@@ -13,7 +13,7 @@ import 'sensor_interval.dart';
 abstract class RotationSensorPlatform extends PlatformInterface {
   /// Constructs a RotationSensorPlatform.
   RotationSensorPlatform() : super(token: _token) {
-    logger = Logger(runtimeType.toString());
+    logHandler = defaultLogHandler;
   }
 
   static final Object _token = Object();
@@ -39,8 +39,10 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     return instance = RotationSensorUnsupported();
   }
 
-  @protected
-  late final Logger logger;
+  @visibleForTesting
+  late LogHandler logHandler;
+
+  LogHandler get log => logHandler;
 
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing
   /// the orientation of the device from the device's rotation sensor.
@@ -63,14 +65,15 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   set samplingPeriod(Duration value) {
     samplingMicroseconds = value.inMicroseconds;
     if (samplingMicroseconds >= 1 && samplingMicroseconds <= 3) {
-      logger.warning(
+      log(
         'The sampling period is currently set to $samplingMicrosecondsμs, '
         'which is a reserved value in Android. Please consider changing it to '
         // ignore: missing_whitespace_between_adjacent_strings
-        'either 0 or 4μs. See https://developer.android.com/reference/android/'
+        'either 0 or 4μs. See "https://developer.android.com/reference/android/'
         'hardware/SensorManager#registerListener(android.hardware.'
-        'SensorEventListener,%20android.hardware.Sensor,%20int) for more '
+        'SensorEventListener,%20android.hardware.Sensor,%20int)" for more '
         'information.',
+        level: .warning,
       );
       samplingMicroseconds = 0;
     }
