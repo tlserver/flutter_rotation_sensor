@@ -21,6 +21,11 @@ class MockRotationSensorPlatform extends RotationSensorPlatform
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  test('diagnosticMode can be set and retrieved correctly', () {
+    RotationSensor.diagnosticMode = true;
+    expect(RotationSensor.diagnosticMode, isTrue);
+  });
+
   test('isPlatformSupported returns true only for Android and iOS '
       'platforms', () {
     isWeb = false;

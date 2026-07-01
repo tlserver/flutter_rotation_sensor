@@ -19,6 +19,7 @@ topics:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.20.3
   # flutter_test depends on meta, so use any
   meta: any
   native_device_orientation: ^2.0.4

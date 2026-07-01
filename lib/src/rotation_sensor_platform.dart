@@ -1,8 +1,10 @@
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'coordinate_system.dart';
 import 'log/logger.dart';
+import 'math/vector3.dart';
 import 'orientation_event.dart';
 import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
@@ -43,6 +45,10 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   late LogHandler logHandler;
 
   LogHandler get log => logHandler;
+
+  /// Determines whether the rotation sensor is in diagnostic mode. If enabled,
+  /// the plugin logs more events for testing and debugging purposes.
+  bool diagnosticMode = false;
 
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing
   /// the orientation of the device from the device's rotation sensor.
@@ -115,7 +121,44 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     OrientationEvent event, {
     bool isXConvention = false,
   }) {
+    final source = event;
     final yConventionEvent = isXConvention ? event.xToYConvention() : event;
-    return coordinateSystem.apply(yConventionEvent);
+    final result = coordinateSystem.apply(yConventionEvent);
+    if (diagnosticMode) {
+      log(
+        'diagnostic: '
+        '${_formatOrientationEvent(source)} -> '
+        '${_formatOrientationEvent(result)}',
+        level: .finest,
+      );
+    }
+    return result;
+  }
+
+  String _formatOrientationEvent(OrientationEvent orientationEvent) {
+    final s = NumberFormat('+0.000;-0.000');
+    final u = NumberFormat('0.000');
+    const p = 1.0;
+    const n = -1.0;
+    final axisName = {
+      Vector3(p, 0, 0): '+X',
+      Vector3(0, p, 0): '+Y',
+      Vector3(0, 0, p): '+Z',
+      Vector3(n, 0, 0): '-X',
+      Vector3(0, n, 0): '-Y',
+      Vector3(0, 0, n): '-Z',
+    };
+    final w = s.format(orientationEvent.quaternion.w);
+    final x = s.format(orientationEvent.quaternion.x);
+    final y = s.format(orientationEvent.quaternion.y);
+    final z = s.format(orientationEvent.quaternion.z);
+    final h = s.format(orientationEvent.eulerAngles.azimuth);
+    final a = u.format(orientationEvent.accuracy.abs());
+    final t = orientationEvent.timestamp;
+    final c = [
+      for (var n = 0; n < 3; n++)
+        axisName[orientationEvent.coordinateSystem.column(n)],
+    ].join();
+    return '($w${x}i${y}j${z}k)($h±$a)@$t$c';
   }
 }
