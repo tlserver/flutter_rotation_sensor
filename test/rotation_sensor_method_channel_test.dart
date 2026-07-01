@@ -15,11 +15,14 @@ void main() {
   const orientationChannel = RotationSensorMethodChannel.eventChannel;
   late int expectedSamplingPeriod;
   late String expectedReferenceFrame;
+  late List<dynamic> orientationPayload;
 
   setUp(() {
     debugDefaultTargetPlatformOverride = null;
     expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
     expectedReferenceFrame = platform.referenceFrame.name;
+    RotationSensor.coordinateSystem = CoordinateSystem.device();
+    orientationPayload = _payloadOfQuaternion(Quaternion.identity());
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(methodChannel, (methodCall) async {
           switch (methodCall.method) {
@@ -40,14 +43,7 @@ void main() {
           orientationChannel,
           MockStreamHandler.inline(
             onListen: (args, sink) {
-              sink.success([
-                // Quaternion
-                0.0, 0.0, 0.0, 1.0,
-                // Accuracy
-                -1.0,
-                // Timestamp
-                123456789,
-              ]);
+              sink.success(orientationPayload);
             },
           ),
         );
@@ -100,4 +96,55 @@ void main() {
       expect(event.coordinateSystem, closeToMatrix3(Matrix3.rotateZ(pi / 2)));
     },
   );
+
+  test(
+    'north-referenced frames apply X-north to Y-north azimuth remap on iOS',
+    () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+      expectedReferenceFrame = 'magneticNorth';
+      platform.referenceFrame = .magneticNorth;
+
+      for (var n = 0; n < 4; n++) {
+        final payloadAzimuth = n * pi / 2;
+        final expectedAzimuth = ((n + 3) % 4) * pi / 2;
+        orientationPayload = _payloadOfAzimuth(payloadAzimuth);
+        final event = await platform.orientationStream.first;
+        expect(event.eulerAngles.azimuth, closeTo(expectedAzimuth, delta));
+      }
+    },
+  );
+
+  test(
+    'north-referenced frame preserves cardinal headings on Android',
+    () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.android;
+      expectedReferenceFrame = 'magneticNorth';
+      platform.referenceFrame = .magneticNorth;
+
+      for (var n = 0; n < 4; n++) {
+        final payloadAzimuth = n * pi / 2;
+        final expectedAzimuth = payloadAzimuth;
+        orientationPayload = _payloadOfAzimuth(payloadAzimuth);
+        final event = await platform.orientationStream.first;
+        expect(event.eulerAngles.azimuth, closeTo(expectedAzimuth, delta));
+      }
+    },
+  );
 }
+
+List<dynamic> _payloadOfQuaternion(
+  Quaternion quaternion, {
+  double accuracy = -1,
+  int timestamp = 123456789,
+}) => [
+  quaternion.x,
+  quaternion.y,
+  quaternion.z,
+  quaternion.w,
+  accuracy,
+  timestamp,
+];
+
+List<dynamic> _payloadOfAzimuth(double azimuth) => _payloadOfQuaternion(
+  EulerAngles(azimuth, 0, 0).toRotationMatrix().toQuaternion().normalize(),
+);
