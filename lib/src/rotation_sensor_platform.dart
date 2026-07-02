@@ -2,6 +2,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import 'coordinate_system.dart';
 import 'orientation_event.dart';
 import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
@@ -88,6 +89,13 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     _referenceFrame = value;
     setReferenceFrame();
   }
+
+  /// The [coordinateSystem] used for upcoming [OrientationEvent].
+  ///
+  /// Defaults to [DisplayCoordinateSystem]. When changing this value, all
+  /// existing listeners will receive [OrientationEvent] in the new coordinate
+  /// system.
+  CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
 
   @protected
   void setSamplingPeriod() {

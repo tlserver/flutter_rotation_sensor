@@ -54,5 +54,9 @@ class RotationSensor {
   /// Defaults to [DisplayCoordinateSystem]. When changing this value, all
   /// existing listeners will receive [OrientationEvent] in the new coordinate
   /// system.
-  static CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
+  static CoordinateSystem get coordinateSystem =>
+      RotationSensorPlatform.instance.coordinateSystem;
+
+  static set coordinateSystem(CoordinateSystem value) =>
+      RotationSensorPlatform.instance.coordinateSystem = value;
 }
