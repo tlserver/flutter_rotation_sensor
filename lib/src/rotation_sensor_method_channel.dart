@@ -68,6 +68,6 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
   @override
   @protected
   void setReferenceFrame() {
-    methodChannel.invokeMethod('setReferenceFrame', referenceFrameValue.name);
+    methodChannel.invokeMethod('setReferenceFrame', referenceFrame.name);
   }
 }
