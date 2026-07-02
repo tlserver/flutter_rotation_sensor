@@ -48,9 +48,6 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   @protected
   int samplingMicroseconds = SensorInterval.normalInterval.inMicroseconds;
 
-  @protected
-  ReferenceFrame referenceFrameValue = ReferenceFrame.magneticNorth;
-
   /// The [samplingPeriod] for the device's rotation sensor. The events may
   /// arrive at a rate faster or slower than the [samplingPeriod], which is only
   /// a hint to the system. The actual rate depends on the system's event queue
@@ -79,14 +76,16 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     setSamplingPeriod();
   }
 
+  ReferenceFrame _referenceFrame = ReferenceFrame.magneticNorth;
+
   /// The world [ReferenceFrame] from which the azimuth is measured.
   ///
   /// Defaults to [ReferenceFrame.magneticNorth]. When changing this value, all
   /// existing listeners will be affected.
-  ReferenceFrame get referenceFrame => referenceFrameValue;
+  ReferenceFrame get referenceFrame => _referenceFrame;
 
   set referenceFrame(ReferenceFrame value) {
-    referenceFrameValue = value;
+    _referenceFrame = value;
     setReferenceFrame();
   }
 
