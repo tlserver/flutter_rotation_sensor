@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import 'math/axis3.dart';
 import 'math/euler_angles.dart';
 import 'math/matrix3.dart';
@@ -108,6 +110,18 @@ class OrientationEvent {
       accuracy,
       timestamp,
       coordinateSystem.multiply(transformMatrix),
+    );
+  }
+
+  @internal
+  OrientationEvent xToYConvention() {
+    final transformMatrix = Matrix3.columns(Axis3.Y, -Axis3.X, Axis3.Z);
+
+    return OrientationEvent._(
+      transformMatrix.toQuaternion().multiply(quaternion),
+      accuracy,
+      timestamp,
+      coordinateSystem,
     );
   }
 }

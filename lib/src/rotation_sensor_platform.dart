@@ -106,4 +106,13 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   void setReferenceFrame() {
     // no-op
   }
+
+  @protected
+  OrientationEvent transform(
+    OrientationEvent event, {
+    bool isXConvention = false,
+  }) {
+    final yConventionEvent = isXConvention ? event.xToYConvention() : event;
+    return coordinateSystem.apply(yConventionEvent);
+  }
 }
