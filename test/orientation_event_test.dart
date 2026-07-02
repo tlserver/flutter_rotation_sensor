@@ -210,6 +210,17 @@ void main() {
     );
   });
 
+  test('xToYConvention convert an event from x-convention to y-convention', () {
+    final event2X = event2;
+    final event2Y = event2X.xToYConvention();
+    expect(
+      (event2Y.eulerAngles.azimuth + pi / 2) % (pi * 2),
+      closeToNum(event2X.eulerAngles.azimuth),
+    );
+    expect(event2Y.eulerAngles.pitch, closeToNum(event2X.eulerAngles.pitch));
+    expect(event2Y.eulerAngles.roll, closeToNum(event2X.eulerAngles.roll));
+  });
+
   test('toString return the correct representation', () {
     expect(
       event1.toString(),

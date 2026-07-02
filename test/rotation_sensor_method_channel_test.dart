@@ -15,11 +15,14 @@ void main() {
   const orientationChannel = RotationSensorMethodChannel.eventChannel;
   late int expectedSamplingPeriod;
   late String expectedReferenceFrame;
+  late List<dynamic> orientationPayload;
 
   setUp(() {
     debugDefaultTargetPlatformOverride = null;
     expectedSamplingPeriod = platform.samplingPeriod.inMicroseconds;
     expectedReferenceFrame = platform.referenceFrame.name;
+    platform.coordinateSystem = CoordinateSystem.device();
+    orientationPayload = _payload(Quaternion.identity());
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(methodChannel, (methodCall) async {
           switch (methodCall.method) {
@@ -40,14 +43,7 @@ void main() {
           orientationChannel,
           MockStreamHandler.inline(
             onListen: (args, sink) {
-              sink.success([
-                // Quaternion
-                0.0, 0.0, 0.0, 1.0,
-                // Accuracy
-                -1.0,
-                // Timestamp
-                123456789,
-              ]);
+              sink.success(orientationPayload);
             },
           ),
         );
@@ -77,20 +73,58 @@ void main() {
     expect(await platform.orientationStream.first, isA<OrientationEvent>());
   });
 
-  test('arbitraryCorrected frame are unconverted on iOS', () async {
-    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-    expectedReferenceFrame = 'arbitraryCorrected';
-    platform.referenceFrame = .arbitraryCorrected;
-    final event = await platform.orientationStream.first;
-    expect(event.coordinateSystem, closeToMatrix3(Matrix3.identity()));
+  test('north-referenced frame preserves cardinal headings on '
+      'Android', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    expectedReferenceFrame = 'magneticNorth';
+    platform.referenceFrame = .magneticNorth;
+
+    const p = sqrt2;
+    const n = -sqrt2;
+    final testcases = {
+      _payload(Quaternion(0, 0, 0, 1)): pi * 0 / 2,
+      _payload(Quaternion(0, 0, n, p)): pi * 1 / 2,
+      _payload(Quaternion(0, 0, 1, 0)): pi * 2 / 2,
+      _payload(Quaternion(0, 0, p, p)): pi * 3 / 2,
+    };
+    for (final entry in testcases.entries) {
+      orientationPayload = entry.key;
+      final event = await platform.orientationStream.first;
+      expect(event.eulerAngles.azimuth, closeToNum(entry.value));
+    }
   });
 
-  test('north-referenced frames are converted from X-north to Y-north on '
-      'iOS', () async {
+  test('north-referenced frame applies x-convention to y-convention conversion '
+      'on iOS', () async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-    expectedReferenceFrame = 'trueNorth';
-    platform.referenceFrame = .trueNorth;
-    final event = await platform.orientationStream.first;
-    expect(event.coordinateSystem, closeToMatrix3(Matrix3.rotateZ(pi / 2)));
+    expectedReferenceFrame = 'magneticNorth';
+    platform.referenceFrame = .magneticNorth;
+
+    const p = sqrt2;
+    const n = -sqrt2;
+    final testcases = {
+      _payload(Quaternion(0, 0, n, p)): pi * 0 / 2,
+      _payload(Quaternion(0, 0, 1, 0)): pi * 1 / 2,
+      _payload(Quaternion(0, 0, p, p)): pi * 2 / 2,
+      _payload(Quaternion(0, 0, 0, 1)): pi * 3 / 2,
+    };
+    for (final entry in testcases.entries) {
+      orientationPayload = entry.key;
+      final event = await platform.orientationStream.first;
+      expect(event.eulerAngles.azimuth, closeToNum(entry.value));
+    }
   });
 }
+
+List<dynamic> _payload(
+  Quaternion quaternion, {
+  double accuracy = -1,
+  int timestamp = 123456789,
+}) => [
+  quaternion.x,
+  quaternion.y,
+  quaternion.z,
+  quaternion.w,
+  accuracy,
+  timestamp,
+];
