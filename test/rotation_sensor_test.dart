@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_rotation_sensor/src/environment.dart';
 import 'package:flutter_rotation_sensor/src/rotation_sensor_platform.dart';
@@ -20,7 +19,7 @@ class MockRotationSensorPlatform extends RotationSensorPlatform
 }
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  TestWidgetsFlutterBinding.ensureInitialized();
 
   test(
     'isPlatformSupported returns true only for Android and iOS platforms',

@@ -17,6 +17,8 @@ const implementations = {
 };
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   test('instance returns the implementation for current platform', () {
     expect(
       RotationSensorPlatform.instance.runtimeType,
