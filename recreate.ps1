@@ -2,7 +2,10 @@ flutter create --no-pub --overwrite . `
                --project-name "flutter_rotation_sensor" `
                --description "A package provides a stream of device's orientation in three different representations: a rotation matrix, a quaternion, and Euler angles (azimuth, pitch, roll)." `
                --org "net.tlserver6y" `
-               --template "plugin"
+               --template "plugin" `
+               --platforms "android" `
+               --platforms "ios" `
+               --platforms "web"
 
 git checkout HEAD -- ".\.gitignore"
 git checkout HEAD -- ".\CHANGELOG.md"

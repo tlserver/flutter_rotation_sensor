@@ -19,11 +19,14 @@ topics:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   intl: ^0.20.3
   # flutter_test depends on meta, so use any
   meta: any
   native_device_orientation: ^2.0.4
   plugin_platform_interface: ^2.1.8
+  web: ^1.0.0
 
 dev_dependencies:
   build_runner: ^2.4.11
@@ -39,3 +42,6 @@ flutter:
         pluginClass: FlutterRotationSensorPlugin
       ios:
         pluginClass: FlutterRotationSensorPlugin
+      web:
+        pluginClass: RotationSensorWeb
+        fileName: src/rotation_sensor_web.dart
