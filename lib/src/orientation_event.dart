@@ -37,8 +37,10 @@ class OrientationEvent {
   /// this is always -1.
   final double accuracy;
 
-  /// The timestamp at which the event was recorded, in microseconds since
-  /// some arbitrary point in time, usually the time of system boot.
+  /// The event timestamp, in nanoseconds, measured from a platform-specific
+  /// monotonic clock (for example, time since boot on some platforms). This
+  /// value is intended for relative timing within the same platform/runtime,
+  /// not as an absolute wall-clock time.
   final int timestamp;
 
   /// The coordinate system in which the orientation is expressed, represented
