@@ -45,3 +45,5 @@ flutter:
       web:
         pluginClass: RotationSensorWeb
         fileName: src/rotation_sensor_web.dart
+
+  uses-material-design: true
