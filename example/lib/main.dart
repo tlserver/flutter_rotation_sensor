@@ -7,6 +7,7 @@ import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 
 import 'compass.dart';
+import 'permission_handler.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,29 +48,31 @@ class _ExampleAppState extends State<ExampleApp> {
     ),
   );
 
-  Widget buildPage() => OrientationBuilder(
-    builder: (context, orientation) => StreamBuilder(
-      stream: RotationSensor.orientationStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final data = snapshot.data!;
-          final previousTimestamp = lastTimestamp ?? data.timestamp;
-          lastTimestamp = data.timestamp;
-          return Flex(
-            direction: orientation == Orientation.portrait
-                ? Axis.vertical
-                : Axis.horizontal,
-            children: [
-              Compass(orientation: data),
-              buildDashboard(data, previousTimestamp),
-            ],
-          );
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
+  Widget buildPage() => PermissionHandler(
+    child: OrientationBuilder(
+      builder: (context, orientation) => StreamBuilder(
+        stream: RotationSensor.orientationStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data!;
+            final previousTimestamp = lastTimestamp ?? data.timestamp;
+            lastTimestamp = data.timestamp;
+            return Flex(
+              direction: orientation == Orientation.portrait
+                  ? Axis.vertical
+                  : Axis.horizontal,
+              children: [
+                Compass(orientation: data),
+                buildDashboard(data, previousTimestamp),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
     ),
   );
 
@@ -149,6 +152,11 @@ class _ExampleAppState extends State<ExampleApp> {
               Text(
                 'Current Platform:\n'
                 '${defaultTargetPlatform.name}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Implementation:\n'
+                '${RotationSensor.implementation}',
                 textAlign: TextAlign.center,
               ),
             ],

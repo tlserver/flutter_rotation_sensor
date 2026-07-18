@@ -4,10 +4,11 @@
 [![github tag](https://img.shields.io/github/v/tag/tlserver/flutter_rotation_sensor?include_prereleases&sort=semver)](https://github.com/tlserver/flutter_rotation_sensor)
 [![license](https://img.shields.io/github/license/tlserver/flutter_rotation_sensor)](https://github.com/tlserver/flutter_rotation_sensor/blob/master/LICENSE)
 
-The `flutter_rotation_sensor` plugin provides easy access to the device's physical orientation in
-three distinct representations: rotation matrix, quaternion, and Euler angles (azimuth, pitch,
-roll). This is ideal for applications requiring precise tracking of the device's movement or
-orientation in space, such as augmented reality, gaming, navigation, and more.
+The `flutter_rotation_sensor` plugin provides easy access to the device's physical orientation on
+Android, iOS, and supported web browsers in three distinct representations: rotation matrix,
+quaternion, and Euler angles (azimuth, pitch, roll). This is ideal for applications requiring
+precise tracking of the device's movement or orientation in space, such as augmented reality,
+gaming, navigation, and more.
 
 ## Features
 
@@ -16,6 +17,7 @@ orientation in space, such as augmented reality, gaming, navigation, and more.
   pitch, roll).
 - **Customizable Update Intervals**: Set custom intervals for sensor data retrieval.
 - **Coordinate System Remapping**: Supports orientation coordinate system remapping.
+- **Web Support**: Works in browsers with the Sensors API or `DeviceOrientationEvent` support.
 
 ## Installation
 
@@ -39,29 +41,37 @@ To add `flutter_rotation_sensor` to your project, follow these steps:
 
 ## Usage
 
-To start receiving orientation data from the sensors, simply use the stream in a `StreamBuilder`:
+To start receiving orientation data from the sensors on supported platforms, simply use the stream
+in a `StreamBuilder`:
 
 ```dart
 @override
 Widget build(BuildContext context) {
-  return StreamBuilder(
-    stream: RotationSensor.orientationStream,
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        final data = snapshot.data!;
-        print(data.quaternion);
-        print(data.rotationMatrix);
-        print(data.eulerAngles);
-        // ...
-      } else if (snapshot.hasError) {
-        return Text('Error: ${snapshot.error}');
-      } else {
-        return const CircularProgressIndicator();
-      }
-    },
-  );
+  if (RotationSensor.isPlatformSupported) {
+    return StreamBuilder(
+      stream: RotationSensor.orientationStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+          print(data.quaternion);
+          print(data.rotationMatrix);
+          print(data.eulerAngles);
+          // ...
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  } else {
+    return const Text('Rotation sensor is not supported on this platform.');
+  }
 }
 ```
+
+Use `RotationSensor.isPlatformSupported` to guard unsupported browsers or devices before starting a
+subscription.
 
 For more control, you can subscribe to the stream directly:
 
@@ -108,6 +118,57 @@ void initState() {
   RotationSensor.coordinateSystem = CoordinateSystem.transformed(Axis3.X, Axis3.Z);
 }
 ```
+
+## Platform Support
+
+- **Android**: Uses the native rotation sensor implementation.
+- **iOS**: Uses the native rotation sensor implementation.
+- **Web**: Uses the browser Sensors API when available, otherwise falls back to
+  `DeviceOrientationEvent`.
+
+### Permissions
+
+For web platform, permission is handled at runtime. The plugin provides the following methods to
+manage permissions:
+
+- `RotationSensor.shouldRequestPermission` tells you whether the current browser exposes an explicit
+  permission flow. It always returns false for Android and iOS, which do not require explicit
+  permission for sensor access.
+- `RotationSensor.requestPermission()` returns `SensorPermission.granted` or
+  `SensorPermission.denied`. It must be called from a transient user activation, such as a button
+  tap. This matches the behavior described in MDN's
+  [DeviceOrientationEvent.requestPermission()](https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent/requestPermission_static)
+  docs.
+
+```dart
+bool showPermissionButton = RotationSensor.shouldRequestPermission;
+
+@override
+Widget build() {
+  if (!RotationSensor.isPlatformSupported) {
+    return Text('Rotation sensor is not supported on this platform.');
+  } else if (showPermissionButton) {
+    return ElevatedButton(
+      onPressed: () async {
+        final result = await RotationSensor.requestPermission();
+        if (result == .granted) {
+          setState(() => showPermissionButton = false);
+        }
+      },
+      child: const Text('Start'),
+    );
+  } else {
+    // ...
+  }
+}
+```
+
+If permission is denied or the browser blocks sensor access, check the following:
+
+- The page is served over HTTPS or `localhost`.
+- The browser allows motion/orientation sensors.
+- The site is not blocked by a Permissions Policy / feature policy.
+- The device actually has the required sensors enabled.
 
 ### Sampling Period
 
@@ -172,6 +233,29 @@ void config() {
   RotationSensor.coordinateSystem = CoordinateSystem.transformed(Axis3.X, -Axis3.Z);
 }
 ```
+
+## FAQ
+
+### Why doesn't the plugin request permission automatically when the event stream is subscribed?
+
+Some browsers require an explicit user gesture before they allow access to motion or orientation
+sensors. In those cases, call `RotationSensor.requestPermission()` from a button tap or similar
+interaction.
+
+### What should I do if `RotationSensor.shouldRequestPermission` is false?
+
+You can usually start listening directly. The browser either does not require a prompt or does not
+support the permission API.
+
+### Why do I get no events after granting permission?
+
+Check browser support, HTTPS, Permissions Policy settings, and whether the device exposes the needed
+sensors.
+
+### Why should I guard with `RotationSensor.isPlatformSupported`?
+
+It lets you avoid starting a stream on unsupported browsers or devices and show a fallback UI
+instead.
 
 ## License
 
