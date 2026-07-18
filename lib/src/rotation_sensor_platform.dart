@@ -10,6 +10,7 @@ import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
 import 'rotation_sensor_unsupported.dart';
 import 'sensor_interval.dart';
+import 'sensor_permission.dart';
 
 /// The interface that implementations of rotation_sensor must implement.
 abstract class RotationSensorPlatform extends PlatformInterface {
@@ -50,6 +51,12 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   /// the plugin logs more events for testing and debugging purposes.
   bool diagnosticMode = false;
 
+  /// Indicates whether the current platform exposes a runtime permission flow.
+  bool get shouldRequestPermission => false;
+
+  /// Requests permission to access the orientation sensor, if needed.
+  Future<SensorPermission> requestPermission() async => .granted;
+
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing
   /// the orientation of the device from the device's rotation sensor.
   Stream<OrientationEvent> get orientationStream;
@@ -69,6 +76,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   Duration get samplingPeriod => Duration(microseconds: samplingMicroseconds);
 
   set samplingPeriod(Duration value) {
+    final oldValue = samplingMicroseconds;
     samplingMicroseconds = value.inMicroseconds;
     if (samplingMicroseconds >= 1 && samplingMicroseconds <= 3) {
       log(
@@ -83,7 +91,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
       );
       samplingMicroseconds = 0;
     }
-    setSamplingPeriod();
+    if (samplingMicroseconds != oldValue) setSamplingPeriod();
   }
 
   ReferenceFrame _referenceFrame = ReferenceFrame.magneticNorth;
@@ -95,6 +103,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   ReferenceFrame get referenceFrame => _referenceFrame;
 
   set referenceFrame(ReferenceFrame value) {
+    if (value == _referenceFrame) return;
     _referenceFrame = value;
     setReferenceFrame();
   }

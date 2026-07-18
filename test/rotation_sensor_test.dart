@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_rotation_sensor/src/environment.dart';
 import 'package:flutter_rotation_sensor/src/rotation_sensor_platform.dart';
+import 'package:flutter_rotation_sensor/src/sensor_permission.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -38,9 +39,20 @@ void main() {
     }
   });
 
-  test('isPlatformSupported returns false for web platform', () {
+  test('shouldRequestPermission returns false for android', () {
+    expect(RotationSensor.shouldRequestPermission, isFalse);
+  });
+
+  test('requestPermission returns granted for android', () {
+    expectLater(
+      RotationSensor.requestPermission(),
+      completion(equals(SensorPermission.granted)),
+    );
+  });
+
+  test('isPlatformSupported returns true for web platform', () {
     isWeb = true;
-    expect(RotationSensor.isPlatformSupported, isFalse);
+    expect(RotationSensor.isPlatformSupported, isTrue);
   });
 
   test('orientationStream returns a stream of orientation events', () async {
