@@ -5,7 +5,10 @@ import 'orientation_event.dart';
 import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
 import 'rotation_sensor_platform.dart';
+import 'rotation_sensor_web_stub.dart'
+    if (dart.library.js_interop_unsafe) 'rotation_sensor_web.dart';
 import 'sensor_interval.dart';
+import 'sensor_permission.dart';
 
 /// Provides access to the device's rotation sensor, offering a real-time stream
 /// of the device's orientation.
@@ -25,7 +28,16 @@ class RotationSensor {
 
   /// Determines whether the current platform is supported.
   static bool get isPlatformSupported =>
-      RotationSensorMethodChannel.isPlatformSupported;
+      RotationSensorMethodChannel.isPlatformSupported ||
+      RotationSensorWeb.isPlatformSupported;
+
+  /// Indicates whether the current platform exposes a runtime permission flow.
+  static bool get shouldRequestPermission =>
+      RotationSensorPlatform.instance.shouldRequestPermission;
+
+  /// Requests permission to access the orientation sensor, if needed.
+  static Future<SensorPermission> requestPermission() =>
+      RotationSensorPlatform.instance.requestPermission();
 
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing
   /// the orientation of the device from the device's rotation sensor.
