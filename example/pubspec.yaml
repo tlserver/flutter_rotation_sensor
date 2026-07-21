@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_rotation_sensor:
     path: ../
+  native_device_orientation: any
   simple_3d: any
   simple_3d_renderer: ^23.0.4
   util_simple_3d: any
