@@ -175,7 +175,7 @@ packages:
     source: hosted
     version: "1.18.0"
   native_device_orientation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: native_device_orientation
       sha256: "4751bd8648a1e4a22c2cf3e8035eb0d667f8f6d82f9544b2f7b1bc12de42f0a4"

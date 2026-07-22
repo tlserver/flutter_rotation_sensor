@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:simple_3d/simple_3d.dart';
 import 'package:simple_3d_renderer/simple_3d_renderer.dart';
 import 'package:util_simple_3d/util_simple_3d.dart';
@@ -26,6 +27,7 @@ class ExampleApp extends StatefulWidget {
 
 class _ExampleAppState extends State<ExampleApp> {
   late final Sp3dWorld world;
+  bool showPermissionButton = RotationSensor.shouldRequestPermission;
   int? lastTimestamp;
 
   @override
@@ -65,95 +67,201 @@ class _ExampleAppState extends State<ExampleApp> {
     ),
   );
 
-  Widget buildPage() {
-    return OrientationBuilder(
-      builder: (context, orientation) => StreamBuilder(
-        stream: RotationSensor.orientationStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final data = snapshot.data!;
-            final axisAngle = data.quaternion.invert().toAxisAngle();
-            final axis = axisAngle.axis;
-            final previousTimestamp = lastTimestamp ?? data.timestamp;
-            lastTimestamp = data.timestamp;
-            return Center(
-              child: Flex(
-                direction: orientation == Orientation.portrait
-                    ? Axis.vertical
-                    : Axis.horizontal,
-                children: [
-                  build3DRenderer(axis, axisAngle),
-                  buildDashboard(data, previousTimestamp),
-                ],
+  Widget buildPage() => showPermissionButton
+      ? Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              final result = await RotationSensor.requestPermission();
+              if (result == .granted) {
+                setState(() {
+                  showPermissionButton = false;
+                });
+              }
+            },
+            child: const Text('Start'),
+          ),
+        )
+      : OrientationBuilder(
+          builder: (context, orientation) => StreamBuilder(
+            stream: RotationSensor.orientationStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!;
+                final axisAngle = data.quaternion.invert().toAxisAngle();
+                final axis = axisAngle.axis;
+                final previousTimestamp = lastTimestamp ?? data.timestamp;
+                lastTimestamp = data.timestamp;
+                return Center(
+                  child: Flex(
+                    direction: orientation == Orientation.portrait
+                        ? Axis.vertical
+                        : Axis.horizontal,
+                    children: [
+                      build3DRenderer(axis, axisAngle),
+                      buildDashboard(data, previousTimestamp),
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        );
+
+  Widget build3DRenderer(Vector3 axis, AxisAngle axisAngle) => SizedBox(
+    width: 240,
+    height: 240,
+    child: Sp3dRenderer(
+      const Size(240, 240),
+      const Sp3dV2D(120, 120),
+      world,
+      Sp3dCamera(
+        Sp3dV3D(0, 0, 3000),
+        3000,
+        rotateAxis: Sp3dV3D(axis.x, axis.y, axis.z),
+        radian: axisAngle.angle,
+      ),
+      Sp3dLight(Sp3dV3D(0, 0, 1)),
+      useUserGesture: false,
+    ),
+  );
+
+  Widget buildDashboard(OrientationEvent data, int previousTimestamp) =>
+      Expanded(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                'Euler:\n'
+                '${formatEulerAngles(data.eulerAngles)}',
+                textAlign: TextAlign.center,
               ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-    );
-  }
-
-  Widget build3DRenderer(Vector3 axis, AxisAngle axisAngle) {
-    return SizedBox(
-      width: 240,
-      height: 240,
-      child: Sp3dRenderer(
-        const Size(240, 240),
-        const Sp3dV2D(120, 120),
-        world,
-        Sp3dCamera(
-          Sp3dV3D(0, 0, 3000),
-          3000,
-          rotateAxis: Sp3dV3D(axis.x, axis.y, axis.z),
-          radian: axisAngle.angle,
+              Text(
+                'Quaternion:\n'
+                '${formatQuaternion(data.quaternion)}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Matrix:\n'
+                '${formatMatrix(data.rotationMatrix)}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Accuracy:\n'
+                '${formatDouble(data.accuracy)}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Timestamp:\n'
+                '${data.timestamp}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Timestamp delta:\n'
+                '${data.timestamp - previousTimestamp}',
+                textAlign: TextAlign.center,
+              ),
+              NativeDeviceOrientationReader(
+                builder: (context) {
+                  final orientation = NativeDeviceOrientationReader.orientation(
+                    context,
+                  );
+                  return Text(
+                    'Display Orientation:\n'
+                    '${orientation.name}',
+                    textAlign: TextAlign.center,
+                  );
+                },
+              ),
+              Text(
+                'Current Platform:\n'
+                '${defaultTargetPlatform.name}',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Implementation:\n'
+                '${RotationSensor.implementation}',
+                textAlign: TextAlign.center,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: buildSamplingPeriodSelector(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: buildReferenceFrameSelector(),
+              ),
+            ],
+          ),
         ),
-        Sp3dLight(Sp3dV3D(0, 0, 1)),
-        useUserGesture: false,
-      ),
+      );
+
+  Widget buildSamplingPeriodSelector() {
+    return Column(
+      children: [
+        Text('SamplingPeriod'),
+        SegmentedButton(
+          segments: [
+            ButtonSegment(
+              value: SensorInterval.fastestInterval,
+              label: Text('fastest'),
+            ),
+            ButtonSegment(
+              value: SensorInterval.gameInterval,
+              label: Text('game'),
+            ),
+            ButtonSegment(value: SensorInterval.uiInterval, label: Text('ui')),
+            ButtonSegment(
+              value: SensorInterval.normalInterval,
+              label: Text('normal'),
+            ),
+          ],
+          selected: {RotationSensor.samplingPeriod},
+          onSelectionChanged: (Set<Duration> selected) {
+            setState(() {
+              RotationSensor.samplingPeriod = selected.first;
+            });
+          },
+        ),
+      ],
     );
   }
 
-  Widget buildDashboard(OrientationEvent data, int previousTimestamp) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Text(
-            'Euler:\n'
-            '${formatEulerAngles(data.eulerAngles)}',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'Quaternion:\n'
-            '${formatQuaternion(data.quaternion)}',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'Matrix:\n'
-            '${formatMatrix(data.rotationMatrix)}',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'Accuracy:\n'
-            '${formatDouble(data.accuracy)}',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'Timestamp:\n'
-            '${data.timestamp}',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'Timestamp delta:\n'
-            '${data.timestamp - previousTimestamp}',
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+  Widget buildReferenceFrameSelector() {
+    return Column(
+      children: [
+        Text('ReferenceFrame'),
+        SegmentedButton(
+          segments: [
+            ButtonSegment(
+              value: ReferenceFrame.magneticNorth,
+              label: Text('Magnetic North'),
+            ),
+            ButtonSegment(
+              value: ReferenceFrame.trueNorth,
+              label: Text('True North'),
+            ),
+            ButtonSegment(
+              value: ReferenceFrame.arbitrary,
+              label: Text('Arbitrary'),
+            ),
+            ButtonSegment(
+              value: ReferenceFrame.arbitraryCorrected,
+              label: Text('Arbitrary Corrected'),
+            ),
+          ],
+          selected: {RotationSensor.referenceFrame},
+          onSelectionChanged: (Set<ReferenceFrame> selected) {
+            setState(() {
+              RotationSensor.referenceFrame = selected.first;
+            });
+          },
+        ),
+      ],
     );
   }
 
