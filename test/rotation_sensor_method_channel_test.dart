@@ -61,26 +61,21 @@ void main() {
         .setMockStreamHandler(orientationChannel, null);
   });
 
-  test(
-    'orientationStream emits OrientationEvent with default sampling period',
-    () async {
-      expect(await platform.orientationStream.first, isA<OrientationEvent>());
-    },
-  );
+  test('orientationStream emits OrientationEvent with default sampling '
+      'period', () async {
+    expect(await platform.orientationStream.first, isA<OrientationEvent>());
+  });
 
-  test(
-    'orientationStream emits OrientationEvent with a replaced sampling period '
-    'when a reserved value is provided',
-    () async {
-      // samplingPeriod should be replaced with 0 since 1-3 is a reserved value
-      // for Android.
-      expectedSamplingPeriod = 0;
-      platform.samplingPeriod = const Duration(microseconds: 1);
-      expect(platform.samplingPeriod, equals(Duration.zero));
-      await Future.microtask(() => null);
-      expect(await platform.orientationStream.first, isA<OrientationEvent>());
-    },
-  );
+  test('orientationStream emits OrientationEvent with a replaced sampling '
+      'period when a reserved value is provided', () async {
+    // samplingPeriod should be replaced with 0 since 1-3 is a reserved value
+    // for Android.
+    expectedSamplingPeriod = 0;
+    platform.samplingPeriod = const Duration(microseconds: 1);
+    expect(platform.samplingPeriod, equals(Duration.zero));
+    await Future.microtask(() => null);
+    expect(await platform.orientationStream.first, isA<OrientationEvent>());
+  });
 
   test('arbitraryCorrected frame are unconverted on iOS', () async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
@@ -90,14 +85,12 @@ void main() {
     expect(event.coordinateSystem, closeToMatrix3(Matrix3.identity()));
   });
 
-  test(
-    'north-referenced frames are converted from X-north to Y-north on iOS',
-    () async {
-      debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-      expectedReferenceFrame = 'trueNorth';
-      platform.referenceFrame = .trueNorth;
-      final event = await platform.orientationStream.first;
-      expect(event.coordinateSystem, closeToMatrix3(Matrix3.rotateZ(pi / 2)));
-    },
-  );
+  test('north-referenced frames are converted from X-north to Y-north on '
+      'iOS', () async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    expectedReferenceFrame = 'trueNorth';
+    platform.referenceFrame = .trueNorth;
+    final event = await platform.orientationStream.first;
+    expect(event.coordinateSystem, closeToMatrix3(Matrix3.rotateZ(pi / 2)));
+  });
 }

@@ -41,21 +41,16 @@ Matcher closeToEulerAngles(EulerAngles expected, [num delta = delta]) =>
 Matcher closeToOrientationEvent(
   OrientationEvent expected, [
   num delta = delta,
-]) =>
-    isA<OrientationEvent>()
-        .having(
-          (e) => e.quaternion,
-          'quaternion',
-          closeToQuaternion(expected.quaternion, delta),
-        )
-        .having(
-          (e) => e.accuracy,
-          'accuracy',
-          closeToNum(expected.accuracy),
-        )
-        .having(
-          (e) => e.coordinateSystem,
-          'coordinateSystem',
-          closeToMatrix3(expected.coordinateSystem),
-        )
-        .having((e) => e.timestamp, 'timestamp', equals(expected.timestamp));
+]) => isA<OrientationEvent>()
+    .having(
+      (e) => e.quaternion,
+      'quaternion',
+      closeToQuaternion(expected.quaternion, delta),
+    )
+    .having((e) => e.accuracy, 'accuracy', closeToNum(expected.accuracy))
+    .having(
+      (e) => e.coordinateSystem,
+      'coordinateSystem',
+      closeToMatrix3(expected.coordinateSystem),
+    )
+    .having((e) => e.timestamp, 'timestamp', equals(expected.timestamp));

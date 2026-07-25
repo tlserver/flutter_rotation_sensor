@@ -19,65 +19,63 @@ void main() {
     expect(result.coordinateSystem, closeToMatrix3(Matrix3.identity()));
   });
 
-  test(
-    'DisplayCoordinateSystem remap OrientationEvent to display coordinate system',
-    () async {
-      final displayCoordinateSystem = DisplayCoordinateSystem();
+  test('DisplayCoordinateSystem remap OrientationEvent to display coordinate '
+      'system', () async {
+    final displayCoordinateSystem = DisplayCoordinateSystem();
 
-      final orientations = [
-        NativeDeviceOrientation.portraitUp,
-        NativeDeviceOrientation.landscapeRight,
-        NativeDeviceOrientation.portraitDown,
-        NativeDeviceOrientation.landscapeLeft,
-      ];
+    final orientations = [
+      NativeDeviceOrientation.portraitUp,
+      NativeDeviceOrientation.landscapeRight,
+      NativeDeviceOrientation.portraitDown,
+      NativeDeviceOrientation.landscapeLeft,
+    ];
 
-      for (
-        var t = 0, e = Matrix3.identity();
-        t < orientations.length;
-        t++, e = e.multiply(Matrix3(0, -1, 0, 1, 0, 0, 0, 0, 1))
-      ) {
-        displayCoordinateSystem.orientation = orientations[t];
-        final orientationEvent = displayCoordinateSystem.apply(sourceEvent);
-        expect(
-          orientationEvent.coordinateSystem,
-          closeToMatrix3(e),
-          reason: 'orientationEvents[$t]',
-        );
-      }
-    },
-  );
-
-  test(
-    'DisplayCoordinateSystem.apply emit error for unknown orientation',
-    () async {
-      final displayCoordinateSystem = DisplayCoordinateSystem()
-        ..orientation = .unknown;
+    final pyNx = Matrix3(
+      // @formatter:off
+       0, -1,  0,
+       1,  0,  0,
+       0,  0,  1,
+      // @formatter:on
+    );
+    for (
+      var t = 0, e = Matrix3.identity();
+      t < orientations.length;
+      t++, e = e.multiply(pyNx)
+    ) {
+      displayCoordinateSystem.orientation = orientations[t];
+      final orientationEvent = displayCoordinateSystem.apply(sourceEvent);
       expect(
-        () => displayCoordinateSystem.apply(sourceEvent),
-        throwsStateError,
+        orientationEvent.coordinateSystem,
+        closeToMatrix3(e),
+        reason: 'orientationEvents[$t]',
       );
-    },
-  );
+    }
+  });
 
-  test(
-    'TransformedCoordinateSystem remap OrientationEvent to custom coordinate system',
-    () async {
-      final deviceCoordinateSystem = DeviceCoordinateSystem();
-      final transformedCoordinateSystem1 = TransformedCoordinateSystem(
-        -Axis3.X,
-        -Axis3.Y,
-        deviceCoordinateSystem,
-      );
-      final transformedCoordinateSystem2 = TransformedCoordinateSystem(
-        Axis3.X,
-        Axis3.Z,
-        transformedCoordinateSystem1,
-      );
-      final result = transformedCoordinateSystem2.apply(sourceEvent);
-      expect(
-        result.coordinateSystem,
-        closeToMatrix3(Matrix3.columns(-Axis3.X, Axis3.Z, Axis3.Y)),
-      );
-    },
-  );
+  test('DisplayCoordinateSystem.apply emit error for unknown '
+      'orientation', () async {
+    final displayCoordinateSystem = DisplayCoordinateSystem()
+      ..orientation = .unknown;
+    expect(() => displayCoordinateSystem.apply(sourceEvent), throwsStateError);
+  });
+
+  test('TransformedCoordinateSystem remap OrientationEvent to custom '
+      'coordinate system', () async {
+    final deviceCoordinateSystem = DeviceCoordinateSystem();
+    final transformedCoordinateSystem1 = TransformedCoordinateSystem(
+      -Axis3.X,
+      -Axis3.Y,
+      deviceCoordinateSystem,
+    );
+    final transformedCoordinateSystem2 = TransformedCoordinateSystem(
+      Axis3.X,
+      Axis3.Z,
+      transformedCoordinateSystem1,
+    );
+    final result = transformedCoordinateSystem2.apply(sourceEvent);
+    expect(
+      result.coordinateSystem,
+      closeToMatrix3(Matrix3.columns(-Axis3.X, Axis3.Z, Axis3.Y)),
+    );
+  });
 }
