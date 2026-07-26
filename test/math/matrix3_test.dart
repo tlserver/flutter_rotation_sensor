@@ -259,7 +259,7 @@ void main() {
     );
   });
 
-  test('multiplication scales each element by a scalar', () {
+  test('multiplies a scalar', () {
     expect(
       Matrix3(
         // @formatter:off
@@ -278,6 +278,70 @@ void main() {
     );
   });
 
+  test('multiplies a vector', () {
+    expect(
+      Matrix3(
+        // @formatter:off
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 9,
+        // @formatter:on
+      ).multiplyVector(Vector3(5, 4, 3)),
+      closeToVector3(Vector3(22, 58, 94)),
+    );
+  });
+
+  test('multiplies a matrices', () {
+    expect(
+      Matrix3(
+        // @formatter:off
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 9,
+        // @formatter:on
+      ) * Matrix3(
+        // @formatter:off
+        9, 8, 7,
+        6, 5, 4,
+        3, 2, 1,
+        // @formatter:on
+      ),
+      closeToMatrix3(Matrix3(
+        // @formatter:off
+        30,  24,  18,
+        84,  69,  54,
+        138, 114,  90,
+        // @formatter:on
+      )),
+    );
+  });
+
+  test('multiplies a quaternion', () {
+    // @formatter:off
+    final u1 =  0.8221058;
+    final u2 = -0.3036843;
+    final u3 =  0.4815785;
+    // @formatter:on
+    expect(
+      Matrix3(
+        // @formatter:off
+        u1, u2, u3,
+        u3, u1, u2,
+        u2, u3, u1,
+        // @formatter:on
+      ) * Quaternion(0.1825742, 0.3651484, 0.5477226, 0.7302967),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          -0.3343507, -0.3282463,  0.8834387,
+           0.9327373, -0.2494733,  0.2603154,
+           0.1349468,  0.9110529,  0.3895792,
+          // @formatter:on
+        ),
+      ),
+    );
+  });
+
   test('division scales each element by a scalar', () {
     expect(
       Matrix3(
@@ -292,31 +356,6 @@ void main() {
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
-        // @formatter:on
-      )),
-    );
-  });
-
-  test('multiplication matrix calculates product of two matrices', () {
-    expect(
-      Matrix3(
-        // @formatter:off
-        1, 2, 3,
-        4, 5, 6,
-        7, 8, 9,
-        // @formatter:on
-      ).multiply(Matrix3(
-        // @formatter:off
-        9, 8, 7,
-        6, 5, 4,
-        3, 2, 1,
-        // @formatter:on
-      )),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-         30,  24,  18,
-         84,  69,  54,
-        138, 114,  90,
         // @formatter:on
       )),
     );

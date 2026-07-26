@@ -49,12 +49,39 @@ void main() {
     );
   });
 
-  test('multiplication scales each component by a scalar', () {
+  test('multiplies a scalar', () {
     expect(Vector3(1, 2, 3) * 2, closeToVector3(Vector3(2, 4, 6)));
+  });
+
+  test('multiplies a vector', () {
+    expect(
+      Vector3(1, 2, 3) * Vector3(4, 5, 6),
+      closeToVector3(Vector3(-3, 6, -3)),
+    );
+  });
+
+  test('multiplies a matrix', () {
+    expect(
+      Vector3(1, 2, 3) *
+          Matrix3(
+            // @formatter:off
+            1, 2, 3,
+            4, 5, 6,
+            7, 8, 9,
+            // @formatter:on
+          ),
+      closeToVector3(Vector3(30, 36, 42)),
+    );
   });
 
   test('division scales each component by a scalar', () {
     expect(Vector3(4, 6, 8) / 2, closeToVector3(Vector3(2, 3, 4)));
+  });
+
+  test('length and length2 calculate vector magnitude and its square', () {
+    final v = Vector3(3, 4, 0);
+    expect(v.length2, equals(25));
+    expect(v.length, equals(5));
   });
 
   test('dot product calculates scalar product of two vectors', () {
@@ -66,12 +93,6 @@ void main() {
       Vector3(1, 0, 0).cross(Vector3(0, 1, 0)),
       closeToVector3(Vector3(0, 0, 1)),
     );
-  });
-
-  test('length and length2 calculate vector magnitude and its square', () {
-    final v = Vector3(3, 4, 0);
-    expect(v.length2, equals(25));
-    expect(v.length, equals(5));
   });
 
   test('normalize scales vector to unit length', () {

@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:meta/meta.dart';
 
 import 'float32_list.dart';
+import 'matrix3.dart';
+import 'quaternion.dart';
 
 /// A 3D vector class for representing and manipulating vectors in
 /// three-dimensional space.
@@ -48,8 +50,25 @@ class Vector3 {
   /// Subtracts another [Vector3] from this vector.
   Vector3 operator -(Vector3 o) => Vector3(x - o.x, y - o.y, z - o.z);
 
-  /// Multiplies this vector by a scalar.
-  Vector3 operator *(num s) => Vector3(x * s, y * s, z * s);
+  /// Multiplies this vector.
+  Vector3 operator *(dynamic o) {
+    switch (o) {
+      case num n:
+        return Vector3(x * n, y * n, z * n);
+      case Vector3 v:
+        return cross(v);
+      case Matrix3 m:
+        return Vector3(
+          m.a * x + m.d * y + m.g * z,
+          m.b * x + m.e * y + m.h * z,
+          m.c * x + m.f * y + m.i * z,
+        );
+      default:
+        throw UnsupportedError(
+          'Unsupported operand type for *: ${o.runtimeType}',
+        );
+    }
+  }
 
   /// Divides this vector by a scalar.
   Vector3 operator /(num s) => Vector3(x / s, y / s, z / s);
@@ -80,4 +99,7 @@ class Vector3 {
   /// Applies a function [f] to each component of this vector and returns a new
   /// [Vector3].
   Vector3 apply(num Function(num) f) => Vector3(f(x), f(y), f(z));
+
+  /// Converts this vector to a quaternion with w = 0.
+  Quaternion toQuaternion() => Quaternion(x, y, z, 0);
 }
