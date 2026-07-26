@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 
 import 'float32_list.dart';
 import 'matrix3.dart';
+import 'quaternion.dart';
 import 'vector3.dart';
 
 const twoPi = pi * 2;
@@ -121,4 +122,7 @@ class EulerAngles {
       cx * cy,
     );
   }
+
+  /// Converts this Euler angles to a Quaternion.
+  Quaternion toQuaternion() => toRotationMatrix().toQuaternion();
 }

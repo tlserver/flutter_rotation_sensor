@@ -80,4 +80,11 @@ void main() {
     expect(zrEa.toRotationMatrix(), closeToMatrix3(zrMt));
     expect(ab1Ea.toRotationMatrix(), closeToMatrix3(ab1Mt));
   });
+
+  test('toQuaternion converts to quaternion', () {
+    expect(xrEa.toQuaternion(), closeToQuaternion(xrQt));
+    expect(yrEa.toQuaternion(), closeToQuaternion(yrQt));
+    expect(zrEa.toQuaternion(), closeToQuaternion(zrQt));
+    expect(ab1Ea.toQuaternion(), closeToQuaternion(ab1Qt));
+  });
 }
