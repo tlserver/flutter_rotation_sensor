@@ -214,16 +214,41 @@ class Matrix3 {
   // dart format on
   // @formatter:on
 
-  // @formatter:off
-  // dart format off
-  /// Multiplies this matrix by the given scalar.
-  Matrix3 operator *(num s) => Matrix3(
-    a * s, b * s, c * s,
-    d * s, e * s, f * s,
-    g * s, h * s, i * s,
-  );
-  // dart format on
-  // @formatter:on
+  /// Multiplies this matrix.
+  Matrix3 operator *(dynamic o) {
+    switch (o) {
+      case num n:
+        return Matrix3(
+          // @formatter:off
+          // dart format off
+          a * n, b * n, c * n,
+          d * n, e * n, f * n,
+          g * n, h * n, i * n,
+          // dart format on
+          // @formatter:on
+        );
+      case Matrix3 m:
+        return Matrix3(
+          a * m.a + b * m.d + c * m.g,
+          a * m.b + b * m.e + c * m.h,
+          a * m.c + b * m.f + c * m.i,
+
+          d * m.a + e * m.d + f * m.g,
+          d * m.b + e * m.e + f * m.h,
+          d * m.c + e * m.f + f * m.i,
+
+          g * m.a + h * m.d + i * m.g,
+          g * m.b + h * m.e + i * m.h,
+          g * m.c + h * m.f + i * m.i,
+        );
+      case Quaternion q:
+        return this * q.toRotationMatrix();
+      default:
+        throw UnsupportedError(
+          'Unsupported operand type for *: ${o.runtimeType}',
+        );
+    }
+  }
 
   // @formatter:off
   // dart format off
@@ -236,19 +261,11 @@ class Matrix3 {
   // dart format on
   // @formatter:on
 
-  /// Multiplies this matrix by the given matrix.
-  Matrix3 multiply(Matrix3 o) => Matrix3(
-    a * o.a + b * o.d + c * o.g,
-    a * o.b + b * o.e + c * o.h,
-    a * o.c + b * o.f + c * o.i,
-
-    d * o.a + e * o.d + f * o.g,
-    d * o.b + e * o.e + f * o.h,
-    d * o.c + e * o.f + f * o.i,
-
-    g * o.a + h * o.d + i * o.g,
-    g * o.b + h * o.e + i * o.h,
-    g * o.c + h * o.f + i * o.i,
+  /// Multiplies with a vector.
+  Vector3 multiplyVector(Vector3 v) => Vector3(
+    a * v.x + b * v.y + c * v.z,
+    d * v.x + e * v.y + f * v.z,
+    g * v.x + h * v.y + i * v.z,
   );
 
   /// Returns the trace of this matrix.

@@ -67,20 +67,33 @@ class Quaternion {
   Quaternion operator -(Quaternion o) =>
       Quaternion(x - o.x, y - o.y, z - o.z, w - o.w);
 
-  /// Multiplies this quaternion by a scalar.
-  Quaternion operator *(num s) => Quaternion(x * s, y * s, z * s, w * s);
+  /// Multiplies this quaternion.
+  Quaternion operator *(dynamic o) {
+    switch (o) {
+      case num n:
+        return Quaternion(x * n, y * n, z * n, w * n);
+      case Vector3 v:
+        return this * Quaternion(v.x, v.y, v.z, 0);
+      case Matrix3 m:
+        return this * m.toQuaternion();
+      // Computes the Hamilton product of this quaternion with another
+      // [Quaternion].
+      case Quaternion q:
+        return Quaternion(
+          w * q.x + x * q.w + y * q.z - z * q.y,
+          w * q.y + y * q.w + z * q.x - x * q.z,
+          w * q.z + z * q.w + x * q.y - y * q.x,
+          w * q.w - x * q.x - y * q.y - z * q.z,
+        );
+      default:
+        throw UnsupportedError(
+          'Unsupported operand type for *: ${o.runtimeType}',
+        );
+    }
+  }
 
   /// Divides this quaternion by a scalar.
   Quaternion operator /(num s) => Quaternion(x / s, y / s, z / s, w / s);
-
-  /// Computes the Hamilton product of this quaternion with another
-  /// [Quaternion].
-  Quaternion multiply(Quaternion o) => Quaternion(
-    w * o.x + x * o.w + y * o.z - z * o.y,
-    w * o.y + y * o.w + z * o.x - x * o.z,
-    w * o.z + z * o.w + x * o.y - y * o.x,
-    w * o.w - x * o.x - y * o.y - z * o.z,
-  );
 
   /// The squared length of this quaternion.
   double get length2 => x * x + y * y + z * z + w * w;
@@ -151,5 +164,15 @@ class Quaternion {
       // dart format on
       // @formatter:on
     );
+  }
+
+  /// Converts quaternion to a point vector if w is 0.
+  Vector3 toVector3() {
+    if (w.abs() > 0.000001) {
+      throw UnsupportedError(
+        'Cannot convert a quaternion with w != 0 to a vector.',
+      );
+    }
+    return Vector3(x, y, z);
   }
 }

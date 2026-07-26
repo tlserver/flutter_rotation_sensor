@@ -40,7 +40,7 @@ void main() {
     for (
       var t = 0, e = Matrix3.identity();
       t < orientations.length;
-      t++, e = e.multiply(pyNx)
+      t++, e = e * pyNx
     ) {
       displayCoordinateSystem.orientation = orientations[t];
       final orientationEvent = displayCoordinateSystem.apply(sourceEvent);

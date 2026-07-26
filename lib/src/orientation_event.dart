@@ -106,10 +106,10 @@ class OrientationEvent {
     final transformMatrix = Matrix3.columns(newX, newY, newZ);
 
     return OrientationEvent._(
-      quaternion.multiply(transformMatrix.toQuaternion()),
+      quaternion * transformMatrix,
       accuracy,
       timestamp,
-      coordinateSystem.multiply(transformMatrix),
+      coordinateSystem * transformMatrix,
     );
   }
 
@@ -118,7 +118,7 @@ class OrientationEvent {
     final transformMatrix = Matrix3.columns(Axis3.Y, -Axis3.X, Axis3.Z);
 
     return OrientationEvent._(
-      transformMatrix.toQuaternion().multiply(quaternion),
+      transformMatrix.toQuaternion() * quaternion,
       accuracy,
       timestamp,
       coordinateSystem,

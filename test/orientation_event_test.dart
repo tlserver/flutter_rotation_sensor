@@ -205,7 +205,7 @@ void main() {
       'system', () {
     final remapped = event2.remapCoordinateSystem(-Axis3.Y, Axis3.Z);
     expect(
-      remapped.rotationMatrix.multiply(remapped.coordinateSystem.invert()),
+      remapped.rotationMatrix * remapped.coordinateSystem.invert(),
       closeToMatrix3(event2.rotationMatrix),
     );
   });

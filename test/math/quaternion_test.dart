@@ -53,10 +53,38 @@ void main() {
     );
   });
 
-  test('multiplication scales each component by a scalar', () {
+  test('multiplies a scalar', () {
     expect(
       Quaternion(1, 2, 3, 4) * 2,
       closeToQuaternion(Quaternion(2, 4, 6, 8)),
+    );
+  });
+
+  test('multiplies a vector', () {
+    expect(
+      Quaternion(1, 2, 3, 4) * Vector3(5, 6, 7),
+      closeToQuaternion(Quaternion(16, 32, 24, -38)),
+    );
+  });
+
+  test('multiplies a matrix', () {
+    expect(
+      Quaternion(1, 2, 3, 4) *
+          Matrix3(
+            // @formatter:off
+             0.8571429, -0.2857143, -0.4285714,
+             0.1714286,  0.9428571, -0.2857143,
+             0.4857143,  0.1714286,  0.8571429,
+            // @formatter:on
+          ),
+      closeToQuaternion(Quaternion(2.3904574, 1.1952288, 2.8685488, 3.8247314)),
+    );
+  });
+
+  test('multiplies a quaternion', () {
+    expect(
+      Quaternion(1, 2, 3, 4) * Quaternion(5, 6, 7, 8),
+      closeToQuaternion(Quaternion(24, 48, 48, -6)),
     );
   });
 
@@ -64,13 +92,6 @@ void main() {
     expect(
       Quaternion(2, 4, 6, 8) / 2,
       closeToQuaternion(Quaternion(1, 2, 3, 4)),
-    );
-  });
-
-  test('multiplication quaternion calculates product of two quaternions', () {
-    expect(
-      Quaternion(1, 2, 3, 4).multiply(Quaternion(5, 6, 7, 8)),
-      closeToQuaternion(Quaternion(24, 48, 48, -6)),
     );
   });
 
