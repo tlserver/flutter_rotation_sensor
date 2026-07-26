@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../utils.dart';
+
 void main() {
   test('constructor returns a vector with correct components', () {
     final v = Vector3(1, 2, 3);
@@ -12,7 +14,7 @@ void main() {
   });
 
   test('zero constructor returns a zero vector', () {
-    expect(Vector3.zero(), equals(Vector3(0, 0, 0)));
+    expect(Vector3.zero(), closeToVector3(Vector3(0, 0, 0)));
   });
 
   test('equality and hashCode', () {
@@ -30,23 +32,29 @@ void main() {
   });
 
   test('negation changes sign of each component', () {
-    expect(-Vector3(1, 2, 3), equals(Vector3(-1, -2, -3)));
+    expect(-Vector3(1, 2, 3), closeToVector3(Vector3(-1, -2, -3)));
   });
 
   test('addition sums corresponding components', () {
-    expect(Vector3(1, 2, 3) + Vector3(4, 5, 6), equals(Vector3(5, 7, 9)));
+    expect(
+      Vector3(1, 2, 3) + Vector3(4, 5, 6),
+      closeToVector3(Vector3(5, 7, 9)),
+    );
   });
 
   test('subtraction subtracts corresponding components', () {
-    expect(Vector3(4, 5, 6) - Vector3(1, 2, 3), equals(Vector3(3, 3, 3)));
+    expect(
+      Vector3(4, 5, 6) - Vector3(1, 2, 3),
+      closeToVector3(Vector3(3, 3, 3)),
+    );
   });
 
   test('multiplication scales each component by a scalar', () {
-    expect(Vector3(1, 2, 3) * 2, equals(Vector3(2, 4, 6)));
+    expect(Vector3(1, 2, 3) * 2, closeToVector3(Vector3(2, 4, 6)));
   });
 
   test('division scales each component by a scalar', () {
-    expect(Vector3(4, 6, 8) / 2, equals(Vector3(2, 3, 4)));
+    expect(Vector3(4, 6, 8) / 2, closeToVector3(Vector3(2, 3, 4)));
   });
 
   test('dot product calculates scalar product of two vectors', () {
@@ -54,7 +62,10 @@ void main() {
   });
 
   test('cross product calculates perpendicular vector', () {
-    expect(Vector3(1, 0, 0).cross(Vector3(0, 1, 0)), equals(Vector3(0, 0, 1)));
+    expect(
+      Vector3(1, 0, 0).cross(Vector3(0, 1, 0)),
+      closeToVector3(Vector3(0, 0, 1)),
+    );
   });
 
   test('length and length2 calculate vector magnitude and its square', () {
@@ -71,7 +82,7 @@ void main() {
         Vector3(0.6, 0.8, 0.0),
       ),
     );
-    expect(Vector3(0, 0, 0).normalize(), equals(Vector3(0, 0, 0)));
+    expect(Vector3(0, 0, 0).normalize(), closeToVector3(Vector3(0, 0, 0)));
   });
 
   test('apply function applies function to each component', () {

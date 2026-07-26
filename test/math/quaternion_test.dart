@@ -15,7 +15,7 @@ void main() {
   });
 
   test('identity constructor returns a identity quaternion', () {
-    expect(Quaternion.identity(), equals(Quaternion(0, 0, 0, 1)));
+    expect(Quaternion.identity(), closeToQuaternion(Quaternion(0, 0, 0, 1)));
   });
 
   test('equality and hashCode', () {
@@ -33,48 +33,51 @@ void main() {
   });
 
   test('negation changes sign of each component', () {
-    expect(-Quaternion(1, 2, 3, 4), equals(Quaternion(-1, -2, -3, -4)));
+    expect(
+      -Quaternion(1, 2, 3, 4),
+      closeToQuaternion(Quaternion(-1, -2, -3, -4)),
+    );
   });
 
   test('addition sums corresponding components', () {
     expect(
       Quaternion(1, 2, 3, 4) + Quaternion(5, 6, 7, 8),
-      equals(Quaternion(6, 8, 10, 12)),
+      closeToQuaternion(Quaternion(6, 8, 10, 12)),
     );
   });
 
   test('subtraction subtracts corresponding components', () {
     expect(
       Quaternion(5, 6, 7, 8) - Quaternion(1, 2, 3, 4),
-      equals(Quaternion(4, 4, 4, 4)),
+      closeToQuaternion(Quaternion(4, 4, 4, 4)),
     );
   });
 
   test('multiplication scales each component by a scalar', () {
     expect(
       Quaternion(1, 2, 3, 4) * 2,
-      equals(Quaternion(2, 4, 6, 8)),
+      closeToQuaternion(Quaternion(2, 4, 6, 8)),
     );
   });
 
   test('division scales each component by a scalar', () {
     expect(
       Quaternion(2, 4, 6, 8) / 2,
-      equals(Quaternion(1, 2, 3, 4)),
+      closeToQuaternion(Quaternion(1, 2, 3, 4)),
     );
   });
 
   test('multiplication quaternion calculates product of two quaternions', () {
     expect(
       Quaternion(1, 2, 3, 4).multiply(Quaternion(5, 6, 7, 8)),
-      equals(Quaternion(24, 48, 48, -6)),
+      closeToQuaternion(Quaternion(24, 48, 48, -6)),
     );
   });
 
   test('length and length2 calculate quaternion magnitude and its square', () {
     final q = Quaternion(1, 2, 3, 4);
-    expect(q.length2, closeTo(30, delta));
-    expect(q.length, closeTo(5.4772256, delta));
+    expect(q.length2, closeToNum(30));
+    expect(q.length, closeToNum(5.4772256));
   });
 
   test('normalize scales quaternion to unit length', () {
@@ -87,7 +90,7 @@ void main() {
   test('conjugate', () {
     expect(
       Quaternion(1, 2, 3, 4).conjugate(),
-      equals(Quaternion(-1, -2, -3, 4)),
+      closeToQuaternion(Quaternion(-1, -2, -3, 4)),
     );
   });
 
@@ -103,7 +106,7 @@ void main() {
   test('apply function applies function to each component', () {
     expect(
       Quaternion(1, 2, 3, 4).apply((x) => min(x * 2, 5)),
-      equals(Quaternion(2, 4, 5, 5)),
+      closeToQuaternion(Quaternion(2, 4, 5, 5)),
     );
   });
 
@@ -121,7 +124,7 @@ void main() {
   test('toRotationMatrix converts quaternion to rotation matrix', () {
     expect(
       Quaternion(1, 0, 0, 0).toRotationMatrix(),
-      equals(Matrix3(1, 0, 0, 0, -1, 0, 0, 0, -1)),
+      closeToMatrix3(Matrix3(1, 0, 0, 0, -1, 0, 0, 0, -1)),
     );
   });
 }

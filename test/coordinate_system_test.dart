@@ -2,6 +2,8 @@ import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 
+import 'utils.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -14,7 +16,7 @@ void main() {
   test('DeviceCoordinateSystem remap OrientationEvent to itself', () async {
     final deviceCoordinateSystem = DeviceCoordinateSystem();
     final result = deviceCoordinateSystem.apply(sourceEvent);
-    expect(result.coordinateSystem, equals(Matrix3.identity()));
+    expect(result.coordinateSystem, closeToMatrix3(Matrix3.identity()));
   });
 
   test(
@@ -38,7 +40,7 @@ void main() {
         final orientationEvent = displayCoordinateSystem.apply(sourceEvent);
         expect(
           orientationEvent.coordinateSystem,
-          equals(e),
+          closeToMatrix3(e),
           reason: 'orientationEvents[$t]',
         );
       }
@@ -68,7 +70,7 @@ void main() {
       final result = transformedCoordinateSystem.apply(sourceEvent);
       expect(
         result.coordinateSystem,
-        equals(Matrix3(1, 0, 0, 0, 0, -1, 0, 1, 0)),
+        closeToMatrix3(Matrix3(1, 0, 0, 0, 0, -1, 0, 1, 0)),
       );
     },
   );

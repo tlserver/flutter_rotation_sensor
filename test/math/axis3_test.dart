@@ -1,12 +1,14 @@
 import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../utils.dart';
+
 void main() {
   test('predefined axes returns correct unit vectors', () {
-    expect(Axis3.X, equals(Vector3(1, 0, 0)));
-    expect(Axis3.Y, equals(Vector3(0, 1, 0)));
-    expect(Axis3.Z, equals(Vector3(0, 0, 1)));
-    expect(Axis3.invalid, equals(Vector3(0, 0, 0)));
+    expect(Axis3.X, closeToVector3(Vector3(1, 0, 0)));
+    expect(Axis3.Y, closeToVector3(Vector3(0, 1, 0)));
+    expect(Axis3.Z, closeToVector3(Vector3(0, 0, 1)));
+    expect(Axis3.invalid, closeToVector3(Vector3(0, 0, 0)));
   });
 
   test('negating axes reverse their direction', () {
@@ -14,9 +16,9 @@ void main() {
     final negY = -Axis3.Y;
     final negZ = -Axis3.Z;
 
-    expect(negX, equals(Vector3(-1, 0, 0)));
-    expect(negY, equals(Vector3(0, -1, 0)));
-    expect(negZ, equals(Vector3(0, 0, -1)));
+    expect(negX, closeToVector3(Vector3(-1, 0, 0)));
+    expect(negY, closeToVector3(Vector3(0, -1, 0)));
+    expect(negZ, closeToVector3(Vector3(0, 0, -1)));
   });
 
   test('cross product of axes produce correct orthogonal axis', () {

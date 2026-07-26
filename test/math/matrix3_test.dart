@@ -24,7 +24,7 @@ void main() {
   test('identity constructor returns an identity matrix', () {
     expect(
       Matrix3.identity(),
-      equals(Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1)),
+      closeToMatrix3(Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1)),
     );
   });
 
@@ -32,7 +32,7 @@ void main() {
     final v = Vector3(1, 2, 3);
     expect(
       Matrix3.rows(v, v, v),
-      equals(Matrix3(1, 2, 3, 1, 2, 3, 1, 2, 3)),
+      closeToMatrix3(Matrix3(1, 2, 3, 1, 2, 3, 1, 2, 3)),
     );
   });
 
@@ -40,15 +40,12 @@ void main() {
     final v = Vector3(1, 2, 3);
     expect(
       Matrix3.columns(v, v, v),
-      equals(Matrix3(1, 1, 1, 2, 2, 2, 3, 3, 3)),
+      closeToMatrix3(Matrix3(1, 1, 1, 2, 2, 2, 3, 3, 3)),
     );
   });
 
   test('zero constructor returns a zero matrix', () {
-    expect(
-      Matrix3.zero(),
-      equals(Matrix3(0, 0, 0, 0, 0, 0, 0, 0, 0)),
-    );
+    expect(Matrix3.zero(), closeToMatrix3(Matrix3(0, 0, 0, 0, 0, 0, 0, 0, 0)));
   });
 
   test('rotateX constructor returns a zero matrix', () {
@@ -128,49 +125,49 @@ void main() {
   test('row returns the corresponding elements at index', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9).row(1),
-      equals(Vector3(4, 5, 6)),
+      closeToVector3(Vector3(4, 5, 6)),
     );
   });
 
   test('column returns the corresponding elements at index', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9).column(1),
-      equals(Vector3(2, 5, 8)),
+      closeToVector3(Vector3(2, 5, 8)),
     );
   });
 
   test('negation changes sign of each element', () {
     expect(
       -Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9),
-      equals(Matrix3(-1, -2, -3, -4, -5, -6, -7, -8, -9)),
+      closeToMatrix3(Matrix3(-1, -2, -3, -4, -5, -6, -7, -8, -9)),
     );
   });
 
   test('addition sums corresponding elements', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9) + Matrix3(9, 8, 7, 6, 5, 4, 3, 2, 1),
-      equals(Matrix3(10, 10, 10, 10, 10, 10, 10, 10, 10)),
+      closeToMatrix3(Matrix3(10, 10, 10, 10, 10, 10, 10, 10, 10)),
     );
   });
 
   test('subtraction subtracts corresponding elements', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9) - Matrix3(9, 8, 7, 6, 5, 4, 3, 2, 1),
-      equals(Matrix3(-8, -6, -4, -2, 0, 2, 4, 6, 8)),
+      closeToMatrix3(Matrix3(-8, -6, -4, -2, 0, 2, 4, 6, 8)),
     );
   });
 
   test('multiplication scales each element by a scalar', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9) * 2,
-      equals(Matrix3(2, 4, 6, 8, 10, 12, 14, 16, 18)),
+      closeToMatrix3(Matrix3(2, 4, 6, 8, 10, 12, 14, 16, 18)),
     );
   });
 
   test('division scales each element by a scalar', () {
     expect(
       Matrix3(2, 4, 6, 8, 10, 12, 14, 16, 18) / 2,
-      equals(Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9)),
+      closeToMatrix3(Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9)),
     );
   });
 
@@ -178,50 +175,50 @@ void main() {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9)
           .multiply(Matrix3(9, 8, 7, 6, 5, 4, 3, 2, 1)),
-      equals(Matrix3(30, 24, 18, 84, 69, 54, 138, 114, 90)),
+      closeToMatrix3(Matrix3(30, 24, 18, 84, 69, 54, 138, 114, 90)),
     );
   });
 
   test('trace calculates the sum of main diagonal', () {
-    expect(Matrix3(1, 2, 3, 0, 1, 4, 5, 6, 0).trace, equals(2));
+    expect(Matrix3(1, 2, 3, 0, 1, 4, 5, 6, 0).trace, closeToNum(2));
   });
 
   test('determinant calculates the determinant value', () {
-    expect(Matrix3(1, 2, 3, 0, 1, 4, 5, 6, 0).determinant, equals(1));
+    expect(Matrix3(1, 2, 3, 0, 1, 4, 5, 6, 0).determinant, closeToNum(1));
   });
 
   test('transpose swaps rows and columns', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9).transpose(),
-      equals(Matrix3(1, 4, 7, 2, 5, 8, 3, 6, 9)),
+      closeToMatrix3(Matrix3(1, 4, 7, 2, 5, 8, 3, 6, 9)),
     );
   });
 
   test('adjoint calculates the adjugate matrix', () {
     expect(
       Matrix3(1, 2, 3, 0, 1, 4, 5, 6, 0).adjoint(),
-      equals(Matrix3(-24, 18, 5, 20, -15, -4, -5, 4, 1)),
+      closeToMatrix3(Matrix3(-24, 18, 5, 20, -15, -4, -5, 4, 1)),
     );
   });
 
   test('invert calculates the inverse matrix', () {
     expect(
       Matrix3(1, 2, 3, 0, 1, 4, 5, 6, 0).invert(),
-      equals(Matrix3(-24, 18, 5, 20, -15, -4, -5, 4, 1)),
+      closeToMatrix3(Matrix3(-24, 18, 5, 20, -15, -4, -5, 4, 1)),
     );
   });
 
   test('apply function applies function to each element', () {
     expect(
       Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9).apply((x) => min(x * 2, 9)),
-      equals(Matrix3(2, 4, 6, 8, 9, 9, 9, 9, 9)),
+      closeToMatrix3(Matrix3(2, 4, 6, 8, 9, 9, 9, 9, 9)),
     );
   });
 
   test('toQuaternion converts this rotation matrix to quaternion', () {
     expect(
       Matrix3(1, 0, 0, 0, -1, 0, 0, 0, -1).toQuaternion(),
-      equals(Quaternion(1, 0, 0, 0)),
+      closeToQuaternion(Quaternion(1, 0, 0, 0)),
     );
   });
 

@@ -6,8 +6,6 @@ import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'utils.dart';
 
-const threshold = 0.000001;
-
 void main() {
   final event1 = eventOf(00.0000000, 00.0000000, 00.0000000, 01.0000000);
   final event2 = eventOf(00.4299807, 00.4374203, -0.5786997, 00.5374818);
@@ -49,8 +47,8 @@ void main() {
     );
     final event = eventOf(00.7071068, 00.0000000, 00.0000000, 00.7071068);
     final eulerAngles = event.eulerAngles;
-    expect(eulerAngles.pitch, closeTo(pi / 2, threshold));
-    expect(eulerAngles.azimuth, closeTo(eulerAngles.roll, threshold));
+    expect(eulerAngles.pitch, closeToNum(pi / 2));
+    expect(eulerAngles.azimuth, closeToNum(eulerAngles.roll));
   });
 
   test('remapCoordinateSystem throws error with invalid axes', () {
