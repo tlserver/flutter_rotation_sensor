@@ -6,6 +6,7 @@ import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../utils.dart';
+import 'data.dart';
 
 void main() {
   test('constructor returns an matrix with correct elements', () {
@@ -308,8 +309,8 @@ void main() {
       ),
       closeToMatrix3(Matrix3(
         // @formatter:off
-        30,  24,  18,
-        84,  69,  54,
+         30,  24,  18,
+         84,  69,  54,
         138, 114,  90,
         // @formatter:on
       )),
@@ -379,6 +380,25 @@ void main() {
       5, 6, 0,
       // @formatter:on
     ).determinant, closeToNum(1));
+  });
+
+  test('scaleToRotationMatrix scales the matrix to a rotation matrix', () {
+    final m1 = Matrix3(
+      // @formatter:off
+      1, 2, 3,
+      0, 1, 4,
+      5, 6, 0,
+      // @formatter:on
+    );
+    expect(m1.scaleToRotationMatrix(), closeToMatrix3(m1));
+    final m2 = Matrix3(
+      // @formatter:off
+      1, 3, 3,
+      2, 2, 2,
+      1, 3, 1,
+      // @formatter:on
+    );
+    expect(m2.scaleToRotationMatrix(), closeToMatrix3(m2 / 2));
   });
 
   test('transpose swaps rows and columns', () {
@@ -458,38 +478,41 @@ void main() {
   });
 
   test('toEulerAngles converts this rotation matrix to Euler-angles', () {
-    expect(
-      Matrix3(
-        // @formatter:off
-         1,  0,  0,
-         0, -1,  0,
-         0,  0, -1,
-        // @formatter:on
-      ).toEulerAngles(),
-      closeToEulerAngles(EulerAngles(pi, 0, pi)),
-    );
-    expect(
-      Matrix3(
-        // @formatter:off
-         0.5403023,  0.0000000,  0.8414710,
-         0.8414710,  0.0000000, -0.5403023,
-         0.0000000,  1.0000000,  0.0000000,
-        // @formatter:on
-      ).toEulerAngles(),
-      closeToEulerAngles(EulerAngles(pi * 2 - 1, pi / 2, 0)),
-    );
+    expect(xrMt.toEulerAngles(), closeToEulerAngles(xrEa));
+    expect(yrMt.toEulerAngles(), closeToEulerAngles(yrEa));
+    expect(zrMt.toEulerAngles(), closeToEulerAngles(zrEa));
+    expect(ab1Mt.toEulerAngles(), closeToEulerAngles(ab1Ea));
+    expect(ab1Mt2.toEulerAngles(), closeToEulerAngles(ab1Ea));
   });
 
   test('toQuaternion converts this rotation matrix to quaternion', () {
+    expect(xrMt.toQuaternion(), closeToQuaternion(xrQt));
+    expect(yrMt.toQuaternion(), closeToQuaternion(yrQt));
+    expect(zrMt.toQuaternion(), closeToQuaternion(zrQt));
+    expect(ab1Mt.toQuaternion(), closeToQuaternion(ab1Qt));
+    expect(ab1Mt2.toQuaternion(), closeToQuaternion(ab1Qt2));
+  });
+
+  test('rotates vectors', () {
     expect(
-      Matrix3(
-        // @formatter:off
-        1,  0,  0,
-        0, -1,  0,
-        0,  0, -1,
-        // @formatter:on
-      ).toQuaternion(),
-      closeToQuaternion(Quaternion(1, 0, 0, 0)),
+      xrMt.multiplyVector(v1),
+      closeToVector3(Vector3(1, -3, 2)),
+    );
+    expect(
+      yrMt.multiplyVector(v1),
+      closeToVector3(Vector3(3, 2, -1)),
+    );
+    expect(
+      zrMt.multiplyVector(v1),
+      closeToVector3(Vector3(-2, 1, 3)),
+    );
+    expect(
+      ab1Mt.multiplyVector(v1),
+      closeToVector3(Vector3(1.9773995, 1.2583316, 2.9165893)),
+    );
+    expect(
+      ab1Mt2.multiplyVector(v1),
+      closeToVector3(Vector3(3.9547989, 2.5166633, 5.8331786)),
     );
   });
 }

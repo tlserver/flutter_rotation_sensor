@@ -126,41 +126,49 @@ class Quaternion {
 
   /// Converts quaternion to axis-angle representation.
   AxisAngle toAxisAngle() {
-    final d = 1 - (w * w);
-    if (d < 0.00001) {
-      return AxisAngle(Vector3(1, 0, 0), 0);
+    final l = length;
+    if (l == 0) {
+      throw StateError(
+        'Cannot convert a zero quaternion to an axis-angle representation.',
+      );
+    } else if ((l - 1).abs() > 0.000001) {
+      final a = normalize().toAxisAngle();
+      return AxisAngle(a.axis * length2, a.angle);
     } else {
-      final s = sqrt(d);
-      return AxisAngle(Vector3(x / s, y / s, z / s).normalize(), 2 * acos(w));
+      final d = 1 - (w * w);
+      if (d < 0.000001) {
+        return AxisAngle(Vector3(1, 0, 0), 0);
+      } else {
+        final s = sqrt(d);
+        return AxisAngle(Vector3(x / s, y / s, z / s).normalize(), 2 * acos(w));
+      }
     }
   }
 
   /// Converts quaternion to rotation matrix.
   Matrix3 toRotationMatrix() {
     final l = length2;
-    assert(l != 0.0, 'Cannot convert a zero quaternion to rotation matrix.');
-    final s = 2.0 / l;
 
-    final xs = x * s;
-    final ys = y * s;
-    final zs = z * s;
+    final x2 = x * 2;
+    final y2 = y * 2;
+    final z2 = z * 2;
 
-    final wx = w * xs;
-    final wy = w * ys;
-    final wz = w * zs;
-    final xx = x * xs;
-    final xy = x * ys;
-    final xz = x * zs;
-    final yy = y * ys;
-    final yz = y * zs;
-    final zz = z * zs;
+    final wx = w * x2;
+    final wy = w * y2;
+    final wz = w * z2;
+    final xx = x * x2;
+    final xy = x * y2;
+    final xz = x * z2;
+    final yy = y * y2;
+    final yz = y * z2;
+    final zz = z * z2;
 
     return Matrix3(
       // @formatter:off
       // dart format off
-      1 - yy - zz,     xy - wz,     xz + wy,
-          xy + wz, 1 - xx - zz,     yz - wx,
-          xz - wy,     yz + wx, 1 - xx - yy,
+      l - yy - zz,     xy - wz,     xz + wy,
+          xy + wz, l - xx - zz,     yz - wx,
+          xz - wy,     yz + wx, l - xx - yy,
       // dart format on
       // @formatter:on
     );

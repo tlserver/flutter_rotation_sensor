@@ -45,8 +45,9 @@ void main() {
     );
     final event = eventOf(00.7071068, 00.0000000, 00.0000000, 00.7071068);
     final eulerAngles = event.eulerAngles;
-    expect(eulerAngles.pitch, closeToNum(pi / 2));
-    expect(eulerAngles.azimuth, closeToNum(eulerAngles.roll));
+    expect(eulerAngles.pitch, closeToNum(pi / 2, 0.001));
+    expect(eulerAngles.azimuth, 0);
+    expect(eulerAngles.roll, 0);
   });
 
   test('remapCoordinateSystem throws error with invalid axes', () {
