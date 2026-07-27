@@ -4,6 +4,7 @@ import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../utils.dart';
+import 'data.dart';
 
 void main() {
   test('constructor returns a quaternion with correct components', () {
@@ -68,15 +69,20 @@ void main() {
   });
 
   test('multiplies a matrix', () {
+    final q = Quaternion(1, 2, 3, 4);
+    final m = Matrix3(
+      // @formatter:off
+       0.8571429, -0.2857143, -0.4285714,
+       0.1714286,  0.9428571, -0.2857143,
+       0.4857143,  0.1714286,  0.8571429,
+      // @formatter:on
+    );
+    expect(q.length, closeToNum(5.4772255));
+    expect(m.determinant, closeToNum(1));
+    expect(m.toQuaternion().length, closeToNum(1));
+    expect((q * m).length, closeToNum(5.4772255));
     expect(
-      Quaternion(1, 2, 3, 4) *
-          Matrix3(
-            // @formatter:off
-             0.8571429, -0.2857143, -0.4285714,
-             0.1714286,  0.9428571, -0.2857143,
-             0.4857143,  0.1714286,  0.8571429,
-            // @formatter:on
-          ),
+      q * m,
       closeToQuaternion(Quaternion(2.3904574, 1.1952288, 2.8685488, 3.8247314)),
     );
   });
@@ -132,20 +138,41 @@ void main() {
   });
 
   test('toAxisAngle converts quaternion to axis angle representation', () {
-    expect(
-      Quaternion(0, 0, sin(pi / 4), cos(pi / 4)).toAxisAngle(),
-      closeToAxisAngle(AxisAngle(Vector3(0, 0, 1), pi / 2)),
-    );
-    expect(
-      Quaternion(0, 0, 0, 1).toAxisAngle(),
-      closeToAxisAngle(AxisAngle(Vector3(1, 0, 0), 0)),
-    );
+    expect(xrQt.toAxisAngle(), closeToAxisAngle(xrAa));
+    expect(yrQt.toAxisAngle(), closeToAxisAngle(yrAa));
+    expect(zrQt.toAxisAngle(), closeToAxisAngle(zrAa));
+    expect(ab1Qt.toAxisAngle(), closeToAxisAngle(ab1Aa));
+    expect(ab1Qt2.toAxisAngle(), closeToAxisAngle(ab1Aa2));
   });
 
   test('toRotationMatrix converts quaternion to rotation matrix', () {
+    expect(xrQt.toRotationMatrix(), closeToMatrix3(xrMt));
+    expect(yrQt.toRotationMatrix(), closeToMatrix3(yrMt));
+    expect(zrQt.toRotationMatrix(), closeToMatrix3(zrMt));
+    expect(ab1Qt.toRotationMatrix(), closeToMatrix3(ab1Mt));
+    expect(ab1Qt2.toRotationMatrix(), closeToMatrix3(ab1Mt2));
+  });
+
+  test('rotates vectors', () {
     expect(
-      Quaternion(1, 0, 0, 0).toRotationMatrix(),
-      closeToMatrix3(Matrix3(1, 0, 0, 0, -1, 0, 0, 0, -1)),
+      (xrQt * v1 * xrQt.conjugate()).toVector3(),
+      closeToVector3(Vector3(1, -3, 2)),
+    );
+    expect(
+      (yrQt * v1 * yrQt.conjugate()).toVector3(),
+      closeToVector3(Vector3(3, 2, -1)),
+    );
+    expect(
+      (zrQt * v1 * zrQt.conjugate()).toVector3(),
+      closeToVector3(Vector3(-2, 1, 3)),
+    );
+    expect(
+      (ab1Qt * v1 * ab1Qt.conjugate()).toVector3(),
+      closeToVector3(Vector3(1.9773995, 1.2583316, 2.9165893)),
+    );
+    expect(
+      (ab1Qt2 * v1 * ab1Qt2.conjugate()).toVector3(),
+      closeToVector3(Vector3(3.9547989, 2.5166633, 5.8331786)),
     );
   });
 }

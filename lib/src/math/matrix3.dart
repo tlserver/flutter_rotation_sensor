@@ -275,6 +275,16 @@ class Matrix3 {
   double get determinant =>
       a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g;
 
+  /// Scales this matrix to make its determinant equal to 1.
+  Matrix3 scaleToRotationMatrix() {
+    final det = determinant;
+    if (det == 0) {
+      throw StateError('Cannot scale a singular matrix to rotation matrix.');
+    } else {
+      return this / pow(det, 1 / 3);
+    }
+  }
+
   // @formatter:off
   // dart format off
   /// Returns the transpose of this matrix.
@@ -331,38 +341,47 @@ class Matrix3 {
 
   /// Converts this matrix to Euler angles.
   EulerAngles toEulerAngles() {
-    final x = asin(clampDouble(h, -1, 1));
-    final double y;
-    final double z;
-    if (h.abs() < 0.9999999) {
-      y = atan2(-g, i);
-      z = atan2(-b, e);
+    if ((determinant - 1).abs() > 0.000001) {
+      return scaleToRotationMatrix().toEulerAngles();
     } else {
-      y = 0;
-      z = atan2(d, a);
+      final x = asin(clampDouble(h, -1, 1));
+      final double y;
+      final double z;
+      if (h.abs() < 0.9999999) {
+        y = atan2(-g, i);
+        z = atan2(-b, e);
+      } else {
+        y = 0;
+        z = atan2(d, a);
+      }
+      return EulerAngles(-z, x, y);
     }
-    return EulerAngles(-z, x, y);
   }
 
   /// Converts this matrix to a quaternion.
   Quaternion toQuaternion() {
-    final t = trace;
-    if (t > 0) {
-      final s = sqrt(t + 1);
-      final r = 0.5 / s;
-      return Quaternion((h - f) * r, (c - g) * r, (d - b) * r, s * 0.5);
+    final det = determinant;
+    if ((det - 1).abs() > 0.000001) {
+      return scaleToRotationMatrix().toQuaternion() * pow(det, 1 / 6);
     } else {
-      final u = a < e ? (e < i ? 2 : 1) : (a < i ? 2 : 0);
-      final v = (u + 1) % 3;
-      final w = (u + 2) % 3;
-      final s = sqrt(this[u * 4] - this[v * 4] - this[w * 4] + 1);
-      final q = Float32List(4);
-      final r = 0.5 / s;
-      q[u] = s * 0.5;
-      q[v] = (this[v * 3 + u] + this[u * 3 + v]) * r;
-      q[w] = (this[w * 3 + u] + this[u * 3 + w]) * r;
-      q[3] = (this[w * 3 + v] - this[v * 3 + w]) * r;
-      return Quaternion(q[0], q[1], q[2], q[3]);
+      final trc = trace;
+      if (trc > 0) {
+        final s = sqrt(trc + 1);
+        final r = 0.5 / s;
+        return Quaternion((h - f) * r, (c - g) * r, (d - b) * r, s * 0.5);
+      } else {
+        final u = a < e ? (e < i ? 2 : 1) : (a < i ? 2 : 0);
+        final v = (u + 1) % 3;
+        final w = (u + 2) % 3;
+        final s = sqrt(this[u * 4] - this[v * 4] - this[w * 4] + 1);
+        final q = Float32List(4);
+        final r = 0.5 / s;
+        q[u] = s * 0.5;
+        q[v] = (this[v * 3 + u] + this[u * 3 + v]) * r;
+        q[w] = (this[w * 3 + u] + this[u * 3 + w]) * r;
+        q[3] = (this[w * 3 + v] - this[v * 3 + w]) * r;
+        return Quaternion(q[0], q[1], q[2], q[3]);
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_rotation_sensor/flutter_rotation_sensor.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../utils.dart';
+import 'data.dart';
 
 void main() {
   test('constructor sets azimuth, pitch, and roll correctly', () {
@@ -64,10 +65,7 @@ void main() {
   });
 
   test('pitch outside -π/2 to π/2 throws InvalidPitchException', () {
-    expect(
-          () => EulerAngles(0, pi, 0),
-      throwsA(isA<UnsupportedError>()),
-    );
+    expect(() => EulerAngles(0, pi, 0), throwsA(isA<UnsupportedError>()));
   });
 
   test('roll is normalized to the range -π to π', () {
@@ -77,17 +75,9 @@ void main() {
   });
 
   test('toRotationMatrix converts to matrix', () {
-    expect(
-      EulerAngles(0.1, 0.2, 0.3).toRotationMatrix(),
-      closeToMatrix3(
-        Matrix3(
-          //@formatter:off
-           0.9564251,  0.0978434,  0.2750959,
-          -0.0369570,  0.9751703, -0.2183507,
-          -0.2896295,  0.1986693,  0.9362934,
-          //@formatter:on
-        ),
-      ),
-    );
+    expect(xrEa.toRotationMatrix(), closeToMatrix3(xrMt));
+    expect(yrEa.toRotationMatrix(), closeToMatrix3(yrMt));
+    expect(zrEa.toRotationMatrix(), closeToMatrix3(zrMt));
+    expect(ab1Ea.toRotationMatrix(), closeToMatrix3(ab1Mt));
   });
 }

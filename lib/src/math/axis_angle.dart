@@ -18,10 +18,21 @@ class AxisAngle {
   /// Constructs an AxisAngle.
   const AxisAngle(this.axis, this.angle);
 
+  /// Multiplies the axis by the given scalar.
+  AxisAngle operator *(num s) => AxisAngle(axis * s, angle);
+
+  /// Divides the axis by the given scalar.
+  AxisAngle operator /(num s) => AxisAngle(axis / s, angle);
+
+  /// Normalizes the axis.
+  AxisAngle normalize() => AxisAngle(axis.normalize(), angle);
+
   /// Converts this axis-angle representation to a quaternion.
   Quaternion toQuaternion() {
+    final rl = sqrt(axis.length);
     final a = angle * 0.5;
-    final s = sin(a);
-    return Quaternion(s * axis.x, s * axis.y, s * axis.z, cos(a));
+    final s = sin(a) / rl;
+    final c = cos(a) * rl;
+    return Quaternion(s * axis.x, s * axis.y, s * axis.z, c);
   }
 }
