@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 
+import 'float32_list.dart';
 import 'matrix3.dart';
 import 'vector3.dart';
 
@@ -23,7 +24,7 @@ class EulerAngles {
   final Float32List _v3Storage;
 
   /// Constructs an EulerAngles.
-  factory EulerAngles(double azimuth, double pitch, double roll) {
+  factory EulerAngles(num azimuth, num pitch, num roll) {
     azimuth %= twoPi;
     if (pitch.abs() > halfPi) {
       throw UnsupportedError(
@@ -35,8 +36,7 @@ class EulerAngles {
     return EulerAngles._(pitch, roll, -azimuth);
   }
 
-  EulerAngles._(double x, double y, double z)
-    : _v3Storage = Float32List.fromList([x, y, z]);
+  EulerAngles._(num x, num y, num z) : _v3Storage = numList([x, y, z]);
 
   /// Constructs an [EulerAngles] initialized to zero (0, 0, 0).
   EulerAngles.zero() : _v3Storage = Float32List(3);
@@ -99,7 +99,7 @@ class EulerAngles {
 
   /// Applies a function [f] to each component of this euler angles and returns
   /// a new [EulerAngles].
-  EulerAngles apply(double Function(double) f) => EulerAngles(f(x), f(y), f(z));
+  EulerAngles apply(num Function(num) f) => EulerAngles(f(x), f(y), f(z));
 
   /// Converts this Euler angles to a rotation matrix.
   Matrix3 toRotationMatrix() {

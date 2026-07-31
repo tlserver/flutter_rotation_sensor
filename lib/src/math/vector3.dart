@@ -3,6 +3,8 @@ import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 
+import 'float32_list.dart';
+
 /// A 3D vector class for representing and manipulating vectors in
 /// three-dimensional space.
 @immutable
@@ -10,8 +12,7 @@ class Vector3 {
   final Float32List _v3Storage;
 
   /// Constructs a [Vector3] with the given [x], [y], and [z] components.
-  Vector3(double x, double y, double z)
-    : _v3Storage = Float32List.fromList([x, y, z]);
+  Vector3(num x, num y, num z) : _v3Storage = numList([x, y, z]);
 
   /// Constructs a [Vector3] initialized to zero (0, 0, 0).
   Vector3.zero() : _v3Storage = Float32List(3);
@@ -48,10 +49,10 @@ class Vector3 {
   Vector3 operator -(Vector3 o) => Vector3(x - o.x, y - o.y, z - o.z);
 
   /// Multiplies this vector by a scalar.
-  Vector3 operator *(double s) => Vector3(x * s, y * s, z * s);
+  Vector3 operator *(num s) => Vector3(x * s, y * s, z * s);
 
   /// Divides this vector by a scalar.
-  Vector3 operator /(double s) => Vector3(x / s, y / s, z / s);
+  Vector3 operator /(num s) => Vector3(x / s, y / s, z / s);
 
   /// Computes the dot product of this vector with another [Vector3].
   double dot(Vector3 o) => x * o.x + y * o.y + z * o.z;
@@ -78,5 +79,5 @@ class Vector3 {
 
   /// Applies a function [f] to each component of this vector and returns a new
   /// [Vector3].
-  Vector3 apply(double Function(double) f) => Vector3(f(x), f(y), f(z));
+  Vector3 apply(num Function(num) f) => Vector3(f(x), f(y), f(z));
 }
