@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:meta/meta.dart';
 
 import 'euler_angles.dart';
+import 'float32_list.dart';
 import 'quaternion.dart';
 import 'vector3.dart';
 
@@ -19,10 +20,10 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   Matrix3(
-    double a, double b, double c,
-    double d, double e, double f,
-    double g, double h, double i,
-  ) : _m3Storage = Float32List.fromList([
+    num a, num b, num c,
+    num d, num e, num f,
+    num g, num h, num i,
+  ) : _m3Storage = numList([
     a, b, c,
     d, e, f,
     g, h, i,
@@ -32,7 +33,7 @@ class Matrix3 {
 
   /// Constructs a Matrix3 from the given row vectors.
   Matrix3.rows(Vector3 r0, Vector3 r1, Vector3 r2)
-    : _m3Storage = Float32List.fromList([
+    : _m3Storage = numList([
         // skip formatting
         r0.x, r0.y, r0.z,
         r1.x, r1.y, r1.z,
@@ -41,7 +42,7 @@ class Matrix3 {
 
   /// Constructs a Matrix3 from the given column vectors.
   Matrix3.columns(Vector3 c0, Vector3 c1, Vector3 c2)
-    : _m3Storage = Float32List.fromList([
+    : _m3Storage = numList([
         // skip formatting
         c0.x, c1.x, c2.x,
         c0.y, c1.y, c2.y,
@@ -61,7 +62,7 @@ class Matrix3 {
       ]);
 
   /// Constructs a rotation matrix around the X-axis.
-  factory Matrix3.rotateX(double r) {
+  factory Matrix3.rotateX(num r) {
     final cr = cos(r);
     final sr = sin(r);
     return Matrix3(
@@ -76,7 +77,7 @@ class Matrix3 {
   }
 
   /// Constructs a rotation matrix around the Y-axis.
-  factory Matrix3.rotateY(double r) {
+  factory Matrix3.rotateY(num r) {
     final cr = cos(r);
     final sr = sin(r);
     return Matrix3(
@@ -91,7 +92,7 @@ class Matrix3 {
   }
 
   /// Constructs a rotation matrix around the Z-axis.
-  factory Matrix3.rotateZ(double r) {
+  factory Matrix3.rotateZ(num r) {
     final cr = cos(r);
     final sr = sin(r);
     return Matrix3(
@@ -216,7 +217,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Multiplies this matrix by the given scalar.
-  Matrix3 operator *(double s) => Matrix3(
+  Matrix3 operator *(num s) => Matrix3(
     a * s, b * s, c * s,
     d * s, e * s, f * s,
     g * s, h * s, i * s,
@@ -227,7 +228,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Divides this matrix by the given scalar.
-  Matrix3 operator /(double s) => Matrix3(
+  Matrix3 operator /(num s) => Matrix3(
     a / s, b / s, c / s,
     d / s, e / s, f / s,
     g / s, h / s, i / s,
@@ -303,7 +304,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Applies the given function to each element of the matrix.
-  Matrix3 apply(double Function(double) t) => Matrix3(
+  Matrix3 apply(num Function(num) t) => Matrix3(
     t(a), t(b), t(c),
     t(d), t(e), t(f),
     t(g), t(h), t(i),

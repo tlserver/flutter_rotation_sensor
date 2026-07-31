@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:meta/meta.dart';
 
 import 'axis_angle.dart';
+import 'float32_list.dart';
 import 'matrix3.dart';
 import 'vector3.dart';
 
@@ -21,8 +22,7 @@ class Quaternion {
   final Float32List _qStorage;
 
   /// Constructs a Quaternion with given x, y, z, w components
-  Quaternion(double x, double y, double z, double w)
-    : _qStorage = Float32List.fromList([x, y, z, w]);
+  Quaternion(num x, num y, num z, num w) : _qStorage = numList([x, y, z, w]);
 
   /// constructs an identity Quaternion (0, 0, 0, 1)
   factory Quaternion.identity() => Quaternion(0, 0, 0, 1);
@@ -68,10 +68,10 @@ class Quaternion {
       Quaternion(x - o.x, y - o.y, z - o.z, w - o.w);
 
   /// Multiplies this quaternion by a scalar.
-  Quaternion operator *(double s) => Quaternion(x * s, y * s, z * s, w * s);
+  Quaternion operator *(num s) => Quaternion(x * s, y * s, z * s, w * s);
 
   /// Divides this quaternion by a scalar.
-  Quaternion operator /(double s) => Quaternion(x / s, y / s, z / s, w / s);
+  Quaternion operator /(num s) => Quaternion(x / s, y / s, z / s, w / s);
 
   /// Computes the Hamilton product of this quaternion with another
   /// [Quaternion].
@@ -109,8 +109,7 @@ class Quaternion {
 
   /// Applies a function [f] to each component of this quaternion and returns a
   /// new [Quaternion].
-  Quaternion apply(double Function(double) f) =>
-      Quaternion(f(x), f(y), f(z), f(w));
+  Quaternion apply(num Function(num) f) => Quaternion(f(x), f(y), f(z), f(w));
 
   /// Converts quaternion to axis-angle representation.
   AxisAngle toAxisAngle() {
