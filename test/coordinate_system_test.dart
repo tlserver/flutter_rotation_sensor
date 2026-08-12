@@ -62,15 +62,21 @@ void main() {
   test(
     'TransformedCoordinateSystem remap OrientationEvent to custom coordinate system',
     () async {
-      final transformedCoordinateSystem = TransformedCoordinateSystem(
+      final deviceCoordinateSystem = DeviceCoordinateSystem();
+      final transformedCoordinateSystem1 = TransformedCoordinateSystem(
+        -Axis3.X,
+        -Axis3.Y,
+        deviceCoordinateSystem,
+      );
+      final transformedCoordinateSystem2 = TransformedCoordinateSystem(
         Axis3.X,
         Axis3.Z,
-        TransformedCoordinateSystem(Axis3.X, Axis3.Y, DeviceCoordinateSystem()),
+        transformedCoordinateSystem1,
       );
-      final result = transformedCoordinateSystem.apply(sourceEvent);
+      final result = transformedCoordinateSystem2.apply(sourceEvent);
       expect(
         result.coordinateSystem,
-        closeToMatrix3(Matrix3(1, 0, 0, 0, 0, -1, 0, 1, 0)),
+        closeToMatrix3(Matrix3.columns(-Axis3.X, Axis3.Z, Axis3.Y)),
       );
     },
   );
