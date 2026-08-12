@@ -1,10 +1,17 @@
+## [0.3.1] (2026-08-13)
+
+**Bug Fixes**
+
+* Corrected the orientation event values for the iOS north reference frame. (#100)
+* Fixed the azimuth value for the west direction in the README.
+
 ## [0.3.0] (2026-06-28)
 
 **Features**
 
-* Added configurable reference frame (#12, #95, #96)
-* Added Swift package manager support (#93)
-* Migrated to built-in Kotlin with AGP 9 (#99)
+* Added configurable reference frame. (#12, #95, #96)
+* Added Swift Package Manager support. (#93)
+* Migrated to AGP 9 with built-in Kotlin support. (#99)
 
 **Bug Fixes**
 
@@ -16,17 +23,17 @@ Thanks to [camilleRiquet](https://github.com/camilleRiquet).
 
 **Features**
 
-* Added an indicator for platform support
+* Added an indicator for platform support.
 
 **Bug Fixes**
 
-* Fixed readme. (#62)
+* Fixed the README. (#62)
 
 ## [0.1.1] (2024-10-22)
 
 **Bug Fixes**
 
-* Fixed an issue during the build process on iOS.
+* Fixed an issue during the iOS build process.
 
 ## [0.1.0] (2024-07-25)
 
