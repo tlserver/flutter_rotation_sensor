@@ -1,3 +1,15 @@
+## [0.4.0] (2026-08-27)
+
+**Features**
+
+* Added web platform support.
+* Migrated to the new logging package.
+* Added a diagnostic mode.
+* Changed `double` inputs to `num`.
+* Extended the multiply operator for math objects to support additional types.
+* Added support for calculations involving non-normalized AxisAngle, Matrix3 or Quaternion values.
+* Improved example app.
+
 ## [0.3.1] (2026-08-13)
 
 **Bug Fixes**
