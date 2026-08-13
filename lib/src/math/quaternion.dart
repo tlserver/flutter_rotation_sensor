@@ -144,15 +144,13 @@ class Quaternion {
     final zz = z * zs;
 
     return Matrix3(
-      1 - yy - zz,
-      xy - wz,
-      xz + wy,
-      xy + wz,
-      1 - xx - zz,
-      yz - wx,
-      xz - wy,
-      yz + wx,
-      1 - xx - yy,
+      // @formatter:off
+      // dart format off
+      1 - yy - zz,     xy - wz,     xz + wy,
+          xy + wz, 1 - xx - zz,     yz - wx,
+          xz - wy,     yz + wx, 1 - xx - yy,
+      // dart format on
+      // @formatter:on
     );
   }
 }
