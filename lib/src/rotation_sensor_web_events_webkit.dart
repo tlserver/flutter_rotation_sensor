@@ -13,6 +13,9 @@ class RotationSensorWebEventsWebkit extends RotationSensorWebEvents {
   late final JSFunction _onDataJS = onData.toJS;
 
   @override
+  String get implementation => 'WebEventsWebKit';
+
+  @override
   void setSamplingPeriod() {
     log(
       'Changing the sampling period is not supported on this browser.',

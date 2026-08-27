@@ -80,8 +80,9 @@ class RotationSensor {
   static set coordinateSystem(CoordinateSystem value) =>
       RotationSensorPlatform.instance.coordinateSystem = value;
 
+  /// The name of the current platform implementation.
   static String get implementation =>
-      RotationSensorPlatform.instance.runtimeType.toString();
+      RotationSensorPlatform.instance.implementation;
 
   RotationSensor._();
 }

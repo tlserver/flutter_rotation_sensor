@@ -8,6 +8,9 @@ import 'rotation_sensor_platform.dart';
 /// platforms. Used as a fallback to indicate that device rotation sensing is
 /// not available.
 class RotationSensorUnsupported extends RotationSensorPlatform {
+  @override
+  String get implementation => 'Unsupported';
+
   /// Throws an [UnsupportedError] indicating that the rotation sensor is not
   /// supported on the current platform. This getter does not return a
   /// functional stream.

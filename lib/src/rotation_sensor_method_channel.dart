@@ -25,6 +25,9 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
         TargetPlatform.iOS,
       ].contains(defaultTargetPlatform);
 
+  @override
+  String get implementation => 'MethodChannel';
+
   Stream<OrientationEvent>? _orientationStream;
 
   /// A broadcast [Stream] of [OrientationEvent]s which emits events containing

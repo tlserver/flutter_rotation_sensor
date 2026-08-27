@@ -22,6 +22,9 @@ class RotationSensorWebSensorApi extends RotationSensorWeb {
     _createSensor();
   }
 
+  @override
+  String get implementation => 'WebSensorApi';
+
   OrientationSensor _createSensor() {
     var frequency = Duration(seconds: 1).inMicroseconds / samplingMicroseconds;
     final options = OrientationSensorOptions(

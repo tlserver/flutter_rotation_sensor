@@ -47,6 +47,9 @@ abstract class RotationSensorPlatform extends PlatformInterface {
 
   LogHandler get log => logHandler;
 
+  /// The name of the current platform implementation.
+  String get implementation => 'Unknown';
+
   /// Determines whether the rotation sensor is in diagnostic mode. If enabled,
   /// the plugin logs more events for testing and debugging purposes.
   bool diagnosticMode = false;

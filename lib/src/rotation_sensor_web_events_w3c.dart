@@ -15,6 +15,9 @@ class RotationSensorWebEventsW3c extends RotationSensorWebEvents {
   String? _listeningEvent;
 
   @override
+  String get implementation => 'WebEventsW3c';
+
+  @override
   void setSamplingPeriod() {
     log('Changing the sampling period is not supported on this browser.');
   }
