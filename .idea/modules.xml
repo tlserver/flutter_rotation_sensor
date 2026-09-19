@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/flutter_rotation_sensor.iml" filepath="$PROJECT_DIR$/flutter_rotation_sensor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/flutter_rotation_sensor_android.iml" filepath="$PROJECT_DIR$/android/flutter_rotation_sensor_android.iml" />
     </modules>
   </component>
 </project>
