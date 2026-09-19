@@ -82,4 +82,6 @@ class RotationSensor {
 
   static String get implementation =>
       RotationSensorPlatform.instance.runtimeType.toString();
+
+  RotationSensor._();
 }
