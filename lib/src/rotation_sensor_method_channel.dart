@@ -8,6 +8,9 @@ import 'rotation_sensor_platform.dart';
 
 /// An implementation of [RotationSensorPlatform] that uses method channels.
 class RotationSensorMethodChannel extends RotationSensorPlatform {
+  @override
+  String get implementationName => 'MethodChannel';
+
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   static const methodChannel = MethodChannel('rotation_sensor/method');

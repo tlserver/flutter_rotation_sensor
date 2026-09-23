@@ -5,9 +5,6 @@ import 'orientation_event.dart';
 import 'reference_frame.dart';
 import 'rotation_sensor_method_channel.dart';
 import 'rotation_sensor_platform.dart';
-import 'rotation_sensor_web_events_w3c.dart';
-import 'rotation_sensor_web_events_webkit.dart';
-import 'rotation_sensor_web_sensor_api.dart';
 import 'rotation_sensor_web_stub.dart'
     if (dart.library.js_interop_unsafe) 'rotation_sensor_web.dart';
 import 'sensor_interval.dart';
@@ -83,13 +80,8 @@ class RotationSensor {
   static set coordinateSystem(CoordinateSystem value) =>
       RotationSensorPlatform.instance.coordinateSystem = value;
 
-  static String get implementation => switch (RotationSensorPlatform.instance) {
-    RotationSensorMethodChannel _ => 'MethodChannel',
-    RotationSensorWebEventsW3c _ => 'WebEventsW3c',
-    RotationSensorWebEventsWebkit _ => 'WebEventsWebkit',
-    RotationSensorWebSensorApi _ => 'WebSensorApi',
-    _ => 'Unknown',
-  };
+  static String get implementation =>
+      RotationSensorPlatform.instance.implementationName;
 
   RotationSensor._();
 }
