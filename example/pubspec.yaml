@@ -14,7 +14,7 @@ dependencies:
     path: ../
   native_device_orientation: any
   simple_3d: any
-  simple_3d_renderer: ^23.0.4
+  simple_3d_renderer: ^24.0.0
   util_simple_3d: any
 
 dev_dependencies:
