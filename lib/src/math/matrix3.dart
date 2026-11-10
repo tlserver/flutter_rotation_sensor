@@ -12,8 +12,6 @@ import 'vector3.dart';
 /// A class representing a 3x3 matrix.
 @immutable
 class Matrix3 {
-  static const dimension = 3;
-
   final Float32List _m3Storage;
 
   /// Constructs a Matrix3 with the specified elements.
