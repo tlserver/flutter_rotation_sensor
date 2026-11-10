@@ -8,8 +8,8 @@ import 'matrix3.dart';
 import 'quaternion.dart';
 import 'vector3.dart';
 
-const twoPi = pi * 2;
-const halfPi = pi / 2;
+const _twoPi = pi * 2;
+const _halfPi = pi / 2;
 
 /// Represents the orientation as
 /// [Euler angles](https://en.wikipedia.org/wiki/Euler_angles), which are angles
@@ -26,14 +26,14 @@ class EulerAngles {
 
   /// Constructs an EulerAngles.
   factory EulerAngles(num azimuth, num pitch, num roll) {
-    azimuth %= twoPi;
-    if (pitch.abs() > halfPi) {
+    azimuth %= _twoPi;
+    if (pitch.abs() > _halfPi) {
       throw UnsupportedError(
         'The value $pitch is not a valid pitch angle. A valid pitch angle must '
         'be in the range -π/2 (inclusive) to π/2 (inclusive).',
       );
     }
-    roll = -(-(roll + pi) % twoPi) + pi;
+    roll = -(-(roll + pi) % _twoPi) + pi;
     return EulerAngles._(pitch, roll, -azimuth);
   }
 
