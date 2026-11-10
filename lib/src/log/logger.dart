@@ -2,6 +2,8 @@ import 'dart:developer' as developer;
 
 import 'level.dart';
 
+/// A function type that defines a log handler for logging messages with
+/// different severity levels.
 typedef LogHandler =
     void Function(
       String message, {
@@ -10,6 +12,8 @@ typedef LogHandler =
       StackTrace? stackTrace,
     });
 
+/// The default log handler that logs messages using the `developer.log`
+/// function.
 void defaultLogHandler(
   String message, {
   LogLevel level = .info,

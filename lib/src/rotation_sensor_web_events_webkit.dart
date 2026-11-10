@@ -81,8 +81,16 @@ class RotationSensorWebEventsWebkit extends RotationSensorWebEvents {
   }
 }
 
+/// Instances of the DeviceOrientationEvent class are fired only when the device
+/// has a gyroscope and while the user is changing the orientation. The
+/// DeviceOrientationEvent class encapsulates the angles of rotation in degrees
+/// and heading.
+///
+/// See also
+/// https://developer.apple.com/documentation/webkitjs/deviceorientationevent.
 extension type WebkitDeviceOrientationEvent._(DeviceOrientationEvent _)
     implements DeviceOrientationEvent {
+  /// Constructs a WebkitDeviceOrientationEvent.
   WebkitDeviceOrientationEvent(DeviceOrientationEvent event) : _ = event;
 
   /// A direction that is measured in degrees relative to magnetic north.

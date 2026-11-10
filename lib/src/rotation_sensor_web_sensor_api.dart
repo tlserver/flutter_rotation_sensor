@@ -18,6 +18,7 @@ class RotationSensorWebSensorApi extends RotationSensorWeb {
 
   late OrientationSensor _sensor;
 
+  /// Constructs a RotationSensorWebSensorApi.
   RotationSensorWebSensorApi() : super() {
     _createSensor();
   }

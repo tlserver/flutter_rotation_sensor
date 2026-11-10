@@ -52,12 +52,21 @@ abstract class RotationSensorWebEvents extends RotationSensorWeb {
   }
 
   @protected
+  // ignore: public_member_api_docs
   void onData(DeviceOrientationEvent event) {
     _noEventsTimer?.cancel();
     _noEventsTimer = null;
   }
 }
 
+/// The [DeviceOrientationEvent] interface of the Device Orientation Events
+/// provides web developers with information from the physical orientation of
+/// the device running the web page.
+///
+/// See also
+/// https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent.
 extension type DeviceOrientationEventClass._(JSObject _) implements JSObject {
+  /// Requests the user's permission to access device orientation data. Returns
+  /// a Promise that resolves with a string of "granted" or "denied".
   external JSPromise<JSString> requestPermission(JSBoolean absolute);
 }

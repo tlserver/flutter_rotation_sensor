@@ -11,12 +11,16 @@ import 'orientation_event.dart';
 /// coordinate system to express orientation data values.
 // ignore: one_member_abstracts
 abstract class CoordinateSystem {
+  /// Constructs a CoordinateSystem.
   const CoordinateSystem();
 
+  /// Constructs a [DeviceCoordinateSystem].
   factory CoordinateSystem.device() = DeviceCoordinateSystem;
 
+  /// Constructs a [DisplayCoordinateSystem].
   factory CoordinateSystem.display() = DisplayCoordinateSystem;
 
+  /// Constructs a [TransformedCoordinateSystem].
   factory CoordinateSystem.transformed(
     Axis3 newX,
     Axis3 newY, [
@@ -42,6 +46,7 @@ abstract class CoordinateSystem {
 class DeviceCoordinateSystem extends CoordinateSystem {
   static DeviceCoordinateSystem? _instance;
 
+  /// Constructs a DeviceCoordinateSystem.
   factory DeviceCoordinateSystem() => _instance ??= DeviceCoordinateSystem._();
 
   const DeviceCoordinateSystem._();
@@ -62,6 +67,8 @@ class DisplayCoordinateSystem extends CoordinateSystem {
 
   NativeDeviceOrientationCommunicator? _communicator;
 
+  /// A communicator that listens to the device's orientation changes and
+  /// provides the current orientation.
   @visibleForTesting
   NativeDeviceOrientationCommunicator? get communicator => _communicator;
 
@@ -76,9 +83,13 @@ class DisplayCoordinateSystem extends CoordinateSystem {
 
   StreamSubscription<NativeDeviceOrientation>? _orientationStreamSubscription;
 
+  /// The current orientation of the device, which is used to adjust the
+  /// coordinate system accordingly. It is initialized to
+  /// [NativeDeviceOrientation.portraitUp].
   @visibleForTesting
   NativeDeviceOrientation orientation = .portraitUp;
 
+  /// Constructs a DisplayCoordinateSystem.
   factory DisplayCoordinateSystem() =>
       _instance ??= DisplayCoordinateSystem._();
 
@@ -120,10 +131,16 @@ class DisplayCoordinateSystem extends CoordinateSystem {
 ///           `base` coordinate system, ensuring a right-handed coordinate
 ///           system.
 class TransformedCoordinateSystem extends CoordinateSystem {
+  /// The base coordinate system on which the transformation is applied.
   final CoordinateSystem base;
+
+  /// The new X axis in the transformed coordinate system.
   final Axis3 newX;
+
+  /// The new Y axis in the transformed coordinate system.
   final Axis3 newY;
 
+  /// Constructs a TransformedCoordinateSystem.
   TransformedCoordinateSystem(this.newX, this.newY, [CoordinateSystem? base])
     : base = base ?? CoordinateSystem.display();
 

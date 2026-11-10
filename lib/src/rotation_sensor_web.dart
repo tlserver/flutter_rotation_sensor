@@ -34,6 +34,7 @@ abstract class RotationSensorWeb extends RotationSensorPlatform {
   }
 
   @protected
+  // ignore: public_member_api_docs
   late StreamController<OrientationEvent> streamController =
       StreamController<OrientationEvent>.broadcast(
         onListen: subscribe,
@@ -46,15 +47,18 @@ abstract class RotationSensorWeb extends RotationSensorPlatform {
   Stream<OrientationEvent> get orientationStream => streamController.stream;
 
   @protected
+  // ignore: public_member_api_docs
   bool get absolute => switch (referenceFrame) {
     .arbitrary || .arbitraryCorrected => false,
     .magneticNorth || .trueNorth => true,
   };
 
   @protected
+  // ignore: public_member_api_docs
   void subscribe();
 
   @protected
+  // ignore: public_member_api_docs
   void unsubscribe();
 
   /// Closes the stream.

@@ -113,6 +113,11 @@ class OrientationEvent {
     );
   }
 
+  /// Converts the orientation event from the X convention to the Y convention.
+  ///
+  /// Under the X convention system, azimuth is defined as the angle between the
+  /// X axis and North Pole, while under the Y convention system, azimuth is
+  /// defined as the angle between the Y axis and North Pole.
   @internal
   OrientationEvent xToYConvention() {
     final transformMatrix = Matrix3.columns(Axis3.Y, -Axis3.X, Axis3.Z);

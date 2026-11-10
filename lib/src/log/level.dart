@@ -25,6 +25,8 @@ enum LogLevel {
   /// Key for extra debugging loudness.
   shout(1200);
 
+  /// The severity level, which is a value between 0 and 2000. See the `Level`
+  /// class in `package:logging` for an overview of the possible values.
   final int value;
 
   const LogLevel(this.value);

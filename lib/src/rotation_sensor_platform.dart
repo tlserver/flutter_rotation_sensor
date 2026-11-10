@@ -24,6 +24,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   /// The [RotationSensorPlatform] for current platform.
   static RotationSensorPlatform? _instance;
 
+  /// The [RotationSensorPlatform] for current platform.
   static RotationSensorPlatform get instance {
     if (_instance != null) return _instance!;
     return createPlatformInstance();
@@ -34,6 +35,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// Creates a platform-specific instance of [RotationSensorPlatform].
   @visibleForTesting
   static RotationSensorPlatform createPlatformInstance() {
     if (RotationSensorMethodChannel.isPlatformSupported) {
@@ -42,9 +44,13 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     return instance = RotationSensorUnsupported();
   }
 
+  /// The [LogHandler] used for logging messages. By default, it is set to
+  /// [defaultLogHandler].
   @visibleForTesting
   late LogHandler logHandler;
 
+  /// The [LogHandler] used for logging messages. By default, it is set to
+  /// [defaultLogHandler].
   LogHandler get log => logHandler;
 
   /// The name of the current platform implementation.
@@ -65,6 +71,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   Stream<OrientationEvent> get orientationStream;
 
   @protected
+  //ignore: public_member_api_docs
   int samplingMicroseconds = SensorInterval.normalInterval.inMicroseconds;
 
   /// The [samplingPeriod] for the device's rotation sensor. The events may
@@ -119,16 +126,19 @@ abstract class RotationSensorPlatform extends PlatformInterface {
   CoordinateSystem coordinateSystem = DisplayCoordinateSystem();
 
   @protected
+  // ignore: public_member_api_docs
   void setSamplingPeriod() {
     // no-op
   }
 
   @protected
+  // ignore: public_member_api_docs
   void setReferenceFrame() {
     // no-op
   }
 
   @protected
+  // ignore: public_member_api_docs
   OrientationEvent transform(
     OrientationEvent event, {
     bool isXConvention = false,
