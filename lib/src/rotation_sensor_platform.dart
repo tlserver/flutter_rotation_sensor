@@ -97,7 +97,7 @@ abstract class RotationSensorPlatform extends PlatformInterface {
     if (samplingMicroseconds != oldValue) setSamplingPeriod();
   }
 
-  ReferenceFrame _referenceFrame = ReferenceFrame.magneticNorth;
+  ReferenceFrame _referenceFrame = .magneticNorth;
 
   /// The world [ReferenceFrame] from which the azimuth is measured.
   ///

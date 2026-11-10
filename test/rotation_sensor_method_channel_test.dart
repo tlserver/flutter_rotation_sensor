@@ -102,7 +102,7 @@ void main() {
 
   test('north-referenced frame preserves cardinal headings on '
       'Android', () async {
-    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    debugDefaultTargetPlatformOverride = .android;
     expectedReferenceFrame = 'magneticNorth';
     platform.referenceFrame = .magneticNorth;
 
@@ -123,7 +123,7 @@ void main() {
 
   test('north-referenced frame applies x-convention to y-convention conversion '
       'on iOS', () async {
-    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    debugDefaultTargetPlatformOverride = .iOS;
     expectedReferenceFrame = 'magneticNorth';
     platform.referenceFrame = .magneticNorth;
 

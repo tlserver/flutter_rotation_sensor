@@ -12,10 +12,10 @@ import 'permission_handler.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    .portraitUp,
+    .portraitDown,
+    .landscapeLeft,
+    .landscapeRight,
   ]);
   runApp(const ExampleApp());
 }
@@ -58,7 +58,7 @@ class _ExampleAppState extends State<ExampleApp> {
             final previousTimestamp = lastTimestamp ?? data.timestamp;
             lastTimestamp = data.timestamp;
             return Flex(
-              direction: orientation == Orientation.portrait
+              direction: orientation == .portrait
                   ? Axis.vertical
                   : Axis.horizontal,
               children: [
@@ -268,19 +268,19 @@ class _ExampleAppState extends State<ExampleApp> {
         mainAxisSize: MainAxisSize.min,
         children: [
           buildReferenceFrameRadioTile(
-            value: ReferenceFrame.magneticNorth,
+            value: .magneticNorth,
             title: 'Magnetic North',
           ),
           buildReferenceFrameRadioTile(
-            value: ReferenceFrame.trueNorth,
+            value: .trueNorth,
             title: 'True North',
           ),
           buildReferenceFrameRadioTile(
-            value: ReferenceFrame.arbitrary,
+            value: .arbitrary,
             title: 'Arbitrary',
           ),
           buildReferenceFrameRadioTile(
-            value: ReferenceFrame.arbitraryCorrected,
+            value: .arbitraryCorrected,
             title: 'Arbitrary Corrected',
           ),
         ],

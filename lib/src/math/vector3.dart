@@ -42,13 +42,13 @@ class Vector3 {
   double get z => _v3Storage[2];
 
   /// Negates this vector.
-  Vector3 operator -() => Vector3(-x, -y, -z);
+  Vector3 operator -() => .new(-x, -y, -z);
 
   /// Adds this vector with another [Vector3].
-  Vector3 operator +(Vector3 o) => Vector3(x + o.x, y + o.y, z + o.z);
+  Vector3 operator +(Vector3 o) => .new(x + o.x, y + o.y, z + o.z);
 
   /// Subtracts another [Vector3] from this vector.
-  Vector3 operator -(Vector3 o) => Vector3(x - o.x, y - o.y, z - o.z);
+  Vector3 operator -(Vector3 o) => .new(x - o.x, y - o.y, z - o.z);
 
   /// Multiplies this vector.
   Vector3 operator *(dynamic o) {
@@ -71,14 +71,14 @@ class Vector3 {
   }
 
   /// Divides this vector by a scalar.
-  Vector3 operator /(num s) => Vector3(x / s, y / s, z / s);
+  Vector3 operator /(num s) => .new(x / s, y / s, z / s);
 
   /// Computes the dot product of this vector with another [Vector3].
   double dot(Vector3 o) => x * o.x + y * o.y + z * o.z;
 
   /// Computes the cross product of this vector with another [Vector3].
   Vector3 cross(Vector3 o) =>
-      Vector3(y * o.z - z * o.y, z * o.x - x * o.z, x * o.y - y * o.x);
+      .new(y * o.z - z * o.y, z * o.x - x * o.z, x * o.y - y * o.x);
 
   /// The squared length of this vector.
   double get length2 => x * x + y * y + z * z;
@@ -98,8 +98,8 @@ class Vector3 {
 
   /// Applies a function [f] to each component of this vector and returns a new
   /// [Vector3].
-  Vector3 apply(num Function(num) f) => Vector3(f(x), f(y), f(z));
+  Vector3 apply(num Function(num) f) => .new(f(x), f(y), f(z));
 
   /// Converts this vector to a quaternion with w = 0.
-  Quaternion toQuaternion() => Quaternion(x, y, z, 0);
+  Quaternion toQuaternion() => .new(x, y, z, 0);
 }

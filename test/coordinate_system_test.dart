@@ -23,11 +23,11 @@ void main() {
       'system', () async {
     final displayCoordinateSystem = DisplayCoordinateSystem();
 
-    final orientations = [
-      NativeDeviceOrientation.portraitUp,
-      NativeDeviceOrientation.landscapeRight,
-      NativeDeviceOrientation.portraitDown,
-      NativeDeviceOrientation.landscapeLeft,
+    final orientations = <NativeDeviceOrientation>[
+      .portraitUp,
+      .landscapeRight,
+      .portraitDown,
+      .landscapeLeft,
     ];
 
     final pyNx = Matrix3(

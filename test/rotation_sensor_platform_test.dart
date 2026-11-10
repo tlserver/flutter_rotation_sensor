@@ -7,13 +7,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 const webImplementation = RotationSensorUnsupported;
 
-const implementations = {
-  TargetPlatform.android: RotationSensorMethodChannel,
-  TargetPlatform.iOS: RotationSensorMethodChannel,
-  TargetPlatform.fuchsia: RotationSensorUnsupported,
-  TargetPlatform.linux: RotationSensorUnsupported,
-  TargetPlatform.macOS: RotationSensorUnsupported,
-  TargetPlatform.windows: RotationSensorUnsupported,
+const implementations = <TargetPlatform, Type>{
+  .android: RotationSensorMethodChannel,
+  .iOS: RotationSensorMethodChannel,
+  .fuchsia: RotationSensorUnsupported,
+  .linux: RotationSensorUnsupported,
+  .macOS: RotationSensorUnsupported,
+  .windows: RotationSensorUnsupported,
 };
 
 void main() {

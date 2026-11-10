@@ -34,7 +34,7 @@ void main() {
       debugDefaultTargetPlatformOverride = platform;
       expect(
         RotationSensor.isPlatformSupported,
-        equals([TargetPlatform.android, TargetPlatform.iOS].contains(platform)),
+        equals(<TargetPlatform>[.android, .iOS].contains(platform)),
       );
     }
   });
@@ -75,12 +75,12 @@ void main() {
   });
 
   test('referenceFrame can be set and retrieved correctly', () {
-    RotationSensor.referenceFrame = ReferenceFrame.trueNorth;
+    RotationSensor.referenceFrame = .trueNorth;
     expect(RotationSensor.referenceFrame, equals(ReferenceFrame.trueNorth));
   });
 
   test('coordinateSystem can be set and retrieved correctly', () {
-    RotationSensor.coordinateSystem = CoordinateSystem.display();
+    RotationSensor.coordinateSystem = .display();
     expect(RotationSensor.coordinateSystem, same(CoordinateSystem.display()));
   });
 }

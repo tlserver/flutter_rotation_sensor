@@ -178,7 +178,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Returns the negation of this matrix.
-  Matrix3 operator -() => Matrix3(
+  Matrix3 operator -() => .new(
     -a, -b, -c,
     -d, -e, -f,
     -g, -h, -i,
@@ -189,7 +189,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Adds the given matrix to this matrix.
-  Matrix3 operator +(Matrix3 o) => Matrix3(
+  Matrix3 operator +(Matrix3 o) => .new(
     a + o.a, b + o.b, c + o.c,
     d + o.d, e + o.e, f + o.f,
     g + o.g, h + o.h, i + o.i,
@@ -200,7 +200,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Subtracts the given matrix from this matrix.
-  Matrix3 operator -(Matrix3 o) => Matrix3(
+  Matrix3 operator -(Matrix3 o) => .new(
     a - o.a, b - o.b, c - o.c,
     d - o.d, e - o.e, f - o.f,
     g - o.g, h - o.h, i - o.i,
@@ -247,7 +247,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Divides this matrix by the given scalar.
-  Matrix3 operator /(num s) => Matrix3(
+  Matrix3 operator /(num s) => .new(
     a / s, b / s, c / s,
     d / s, e / s, f / s,
     g / s, h / s, i / s,
@@ -256,7 +256,7 @@ class Matrix3 {
   // @formatter:on
 
   /// Multiplies with a vector.
-  Vector3 multiplyVector(Vector3 v) => Vector3(
+  Vector3 multiplyVector(Vector3 v) => .new(
     a * v.x + b * v.y + c * v.z,
     d * v.x + e * v.y + f * v.z,
     g * v.x + h * v.y + i * v.z,
@@ -282,7 +282,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Returns the transpose of this matrix.
-  Matrix3 transpose() => Matrix3(
+  Matrix3 transpose() => .new(
     a, d, g,
     b, e, h,
     c, f, i,
@@ -293,7 +293,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Returns the adjoint of this matrix.
-  Matrix3 adjoint() => Matrix3(
+  Matrix3 adjoint() => .new(
     e * i - f * h, c * h - b * i, b * f - c * e,
     f * g - d * i, a * i - c * g, c * d - a * f,
     d * h - e * g, b * g - a * h, a * e - b * d,
@@ -325,7 +325,7 @@ class Matrix3 {
   // @formatter:off
   // dart format off
   /// Applies the given function to each element of the matrix.
-  Matrix3 apply(num Function(num) t) => Matrix3(
+  Matrix3 apply(num Function(num) t) => .new(
     t(a), t(b), t(c),
     t(d), t(e), t(f),
     t(g), t(h), t(i),

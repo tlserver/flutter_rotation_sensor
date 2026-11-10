@@ -12,7 +12,7 @@ typedef LogHandler =
 
 void defaultLogHandler(
   String message, {
-  LogLevel level = LogLevel.info,
+  LogLevel level = .info,
   Object? error,
   StackTrace? stackTrace,
 }) {

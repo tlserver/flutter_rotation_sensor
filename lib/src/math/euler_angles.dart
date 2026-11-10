@@ -100,7 +100,7 @@ class EulerAngles {
 
   /// Applies a function [f] to each component of this euler angles and returns
   /// a new [EulerAngles].
-  EulerAngles apply(num Function(num) f) => EulerAngles(f(x), f(y), f(z));
+  EulerAngles apply(num Function(num) f) => .new(f(x), f(y), f(z));
 
   /// Converts this Euler angles to a rotation matrix.
   Matrix3 toRotationMatrix() {

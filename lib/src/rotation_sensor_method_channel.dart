@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'environment.dart';
-import 'math/quaternion.dart';
 import 'orientation_event.dart';
 import 'rotation_sensor_platform.dart';
 
@@ -20,10 +19,7 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
   /// Determines whether the current platform is supported.
   static bool get isPlatformSupported =>
       !isWeb &&
-      [
-        TargetPlatform.android,
-        TargetPlatform.iOS,
-      ].contains(defaultTargetPlatform);
+      <TargetPlatform>[.android, .iOS].contains(defaultTargetPlatform);
 
   @override
   String get implementation => 'MethodChannel';
@@ -47,13 +43,13 @@ class RotationSensorMethodChannel extends RotationSensorPlatform {
     final data = event as List<dynamic>;
     return transform(
       OrientationEvent(
-        quaternion: Quaternion(data[0], data[1], data[2], data[3]),
+        quaternion: .new(data[0], data[1], data[2], data[3]),
         accuracy: data[4],
         timestamp: data[5],
       ),
       // Core Motion uses a world frame with X = north and Z = up.
       isXConvention:
-          defaultTargetPlatform == TargetPlatform.iOS &&
+          defaultTargetPlatform == .iOS &&
           (referenceFrame == .magneticNorth || referenceFrame == .trueNorth),
     );
   }

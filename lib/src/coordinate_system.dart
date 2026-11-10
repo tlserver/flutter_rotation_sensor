@@ -77,17 +77,14 @@ class DisplayCoordinateSystem extends CoordinateSystem {
   StreamSubscription<NativeDeviceOrientation>? _orientationStreamSubscription;
 
   @visibleForTesting
-  NativeDeviceOrientation orientation = NativeDeviceOrientation.portraitUp;
+  NativeDeviceOrientation orientation = .portraitUp;
 
   factory DisplayCoordinateSystem() =>
       _instance ??= DisplayCoordinateSystem._();
 
   DisplayCoordinateSystem._() {
     if (!isWeb &&
-        [
-          TargetPlatform.android,
-          TargetPlatform.iOS,
-        ].contains(defaultTargetPlatform)) {
+        <TargetPlatform>[.android, .iOS].contains(defaultTargetPlatform)) {
       communicator = NativeDeviceOrientationCommunicator();
     }
   }
@@ -95,15 +92,15 @@ class DisplayCoordinateSystem extends CoordinateSystem {
   @override
   OrientationEvent apply(OrientationEvent event) {
     switch (orientation) {
-      case NativeDeviceOrientation.portraitUp:
+      case .portraitUp:
         return event;
-      case NativeDeviceOrientation.portraitDown:
+      case .portraitDown:
         return event.remapCoordinateSystem(-Axis3.X, -Axis3.Y);
-      case NativeDeviceOrientation.landscapeLeft:
+      case .landscapeLeft:
         return event.remapCoordinateSystem(-Axis3.Y, Axis3.X);
-      case NativeDeviceOrientation.landscapeRight:
+      case .landscapeRight:
         return event.remapCoordinateSystem(Axis3.Y, -Axis3.X);
-      case NativeDeviceOrientation.unknown:
+      case .unknown:
         throw StateError('Cannot get display orientation.');
     }
   }

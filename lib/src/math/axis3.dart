@@ -23,7 +23,7 @@ class Axis3 extends Vector3 {
   /// Negates the axis vector, effectively representing the axis in the opposite
   /// direction.
   @override
-  Axis3 operator -() => Axis3._(-x, -y, -z);
+  Axis3 operator -() => ._(-x, -y, -z);
 
   /// Converts the Axis to a human-readable string, identifying the Axis by its
   /// standard Cartesian coordinate name.

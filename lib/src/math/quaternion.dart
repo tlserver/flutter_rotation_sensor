@@ -25,7 +25,7 @@ class Quaternion {
   Quaternion(num x, num y, num z, num w) : _qStorage = numList([x, y, z, w]);
 
   /// constructs an identity Quaternion (0, 0, 0, 1)
-  factory Quaternion.identity() => Quaternion(0, 0, 0, 1);
+  factory Quaternion.identity() => .new(0, 0, 0, 1);
 
   /// Determines whether this quaternion is equal to another object. Returns
   /// true if the other object is an Quaternion with the same components.
@@ -57,15 +57,15 @@ class Quaternion {
   double get w => _qStorage[3];
 
   /// Negates this quaternion.
-  Quaternion operator -() => Quaternion(-x, -y, -z, -w);
+  Quaternion operator -() => .new(-x, -y, -z, -w);
 
   /// Adds this quaternion with another [Quaternion].
   Quaternion operator +(Quaternion o) =>
-      Quaternion(x + o.x, y + o.y, z + o.z, w + o.w);
+      .new(x + o.x, y + o.y, z + o.z, w + o.w);
 
   /// Subtracts another [Quaternion] from this quaternion.
   Quaternion operator -(Quaternion o) =>
-      Quaternion(x - o.x, y - o.y, z - o.z, w - o.w);
+      .new(x - o.x, y - o.y, z - o.z, w - o.w);
 
   /// Multiplies this quaternion.
   Quaternion operator *(dynamic o) {
@@ -93,7 +93,7 @@ class Quaternion {
   }
 
   /// Divides this quaternion by a scalar.
-  Quaternion operator /(num s) => Quaternion(x / s, y / s, z / s, w / s);
+  Quaternion operator /(num s) => .new(x / s, y / s, z / s, w / s);
 
   /// The squared length of this quaternion.
   double get length2 => x * x + y * y + z * z + w * w;
@@ -112,7 +112,7 @@ class Quaternion {
   }
 
   /// Returns the conjugate of this quaternion.
-  Quaternion conjugate() => Quaternion(-x, -y, -z, w);
+  Quaternion conjugate() => .new(-x, -y, -z, w);
 
   /// Inverts the quaternion.
   Quaternion invert() {
@@ -122,7 +122,7 @@ class Quaternion {
 
   /// Applies a function [f] to each component of this quaternion and returns a
   /// new [Quaternion].
-  Quaternion apply(num Function(num) f) => Quaternion(f(x), f(y), f(z), f(w));
+  Quaternion apply(num Function(num) f) => .new(f(x), f(y), f(z), f(w));
 
   /// Converts quaternion to axis-angle representation.
   AxisAngle toAxisAngle() {
