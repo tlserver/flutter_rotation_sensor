@@ -3,6 +3,7 @@ import 'dart:math' show pi;
 
 import 'package:web/web.dart';
 
+import 'exceptions/not_available_exception.dart';
 import 'math/euler_angles.dart';
 import 'orientation_event.dart';
 import 'rotation_sensor_platform.dart';
@@ -54,6 +55,8 @@ class RotationSensorWebEventsWebkit extends RotationSensorWebEvents {
     if (alpha != null && beta != null && gamma != null) {
       final timestamp = event.timeStamp;
       _handleData(alpha, beta, gamma, accuracy, timestamp);
+    } else {
+      streamController.addError(NotAvailableException());
     }
   }
 
