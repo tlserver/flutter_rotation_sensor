@@ -1,3 +1,18 @@
+## [0.4.1] (2026-11-12)
+
+**Bug Fixes**
+
+* Fixed iOS plugin integration with Swift Package Manager and CocoaPods. (#104)
+* Fixed `RotationSensor.implementation` to report the active platform implementation.
+* Web event implementations now emit `NotAvailableException` when orientation values are unavailable.
+
+**Breaking Changes**
+
+* Removed `Matrix3.dimension`.
+* Renamed the public constants `twoPi` and `halfPi` to private constants.
+
+Thanks to [jiazeh](https://github.com/jiazeh) and [tagadvance](https://github.com/tagadvance).
+
 ## [0.4.0] (2026-08-27)
 
 **Features**
