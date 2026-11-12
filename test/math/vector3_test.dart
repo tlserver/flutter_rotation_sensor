@@ -65,9 +65,11 @@ void main() {
       Vector3(1, 2, 3) *
           Matrix3(
             // @formatter:off
+            // dart format off
             1, 2, 3,
             4, 5, 6,
             7, 8, 9,
+            // dart format on
             // @formatter:on
           ),
       closeToVector3(Vector3(30, 36, 42)),

@@ -12,9 +12,11 @@ void main() {
   test('constructor returns an matrix with correct elements', () {
     final m = Matrix3(
       // @formatter:off
+      // dart format off
       1, 2, 3,
       4, 5, 6,
       7, 8, 9,
+      // dart format on
       // @formatter:on
     );
     expect(m.a, equals(1));
@@ -33,9 +35,11 @@ void main() {
       Matrix3.identity(),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 0, 0,
         0, 1, 0,
         0, 0, 1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -47,9 +51,11 @@ void main() {
       Matrix3.rows(v, v, v),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         1, 2, 3,
         1, 2, 3,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -61,9 +67,11 @@ void main() {
       Matrix3.columns(v, v, v),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 1, 1,
         2, 2, 2,
         3, 3, 3,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -72,9 +80,11 @@ void main() {
   test('zero constructor returns a zero matrix', () {
     expect(Matrix3.zero(), closeToMatrix3(Matrix3(
       // @formatter:off
+      // dart format off
       0, 0, 0,
       0, 0, 0,
       0, 0, 0,
+      // dart format on
       // @formatter:on
     )));
   });
@@ -85,9 +95,11 @@ void main() {
       closeToMatrix3(
         Matrix3(
           // @formatter:off
+          // dart format off
            1.0000000,  0.0000000,  0.0000000,
            0.0000000,  0.5403023, -0.8414710,
            0.0000000,  0.8414710,  0.5403023,
+          // dart format on
           // @formatter:on
         ),
       ),
@@ -100,9 +112,11 @@ void main() {
       closeToMatrix3(
         Matrix3(
           // @formatter:off
+          // dart format off
           -0.4161468,  0.0000000,  0.9092974,
            0.0000000,  1.0000000,  0.0000000,
           -0.9092974,  0.0000000, -0.4161468,
+          // dart format on
           // @formatter:on
         ),
       ),
@@ -115,9 +129,11 @@ void main() {
       closeToMatrix3(
         Matrix3(
           // @formatter:off
+          // dart format off
           -0.9899925, -0.1411200,  0.0000000,
            0.1411200, -0.9899925,  0.0000000,
            0.0000000,  0.0000000,  1.0000000,
+          // dart format on
           // @formatter:on
         ),
       ),
@@ -127,23 +143,29 @@ void main() {
   test('equality and hashCode', () {
     final m1 = Matrix3(
       // @formatter:off
+      // dart format off
       1, 2, 3,
       4, 5, 6,
       7, 8, 9,
+      // dart format on
       // @formatter:on
     );
     final m2 = Matrix3(
       // @formatter:off
+      // dart format off
       1, 2, 3,
       4, 5, 6,
       7, 8, 9,
+      // dart format on
       // @formatter:on
     );
     final m3 = Matrix3(
       // @formatter:off
+      // dart format off
       9, 8, 7,
       6, 5, 4,
       3, 2, 1,
+      // dart format on
       // @formatter:on
     );
     expect(m1 == m2, isTrue);
@@ -156,9 +178,11 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ).toString(),
       equals('⌈1.0,2.0,3.0⌉\n|4.0,5.0,6.0|\n⌊7.0,8.0,9.0⌋\n'),
@@ -169,9 +193,11 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ).row(1),
       closeToVector3(Vector3(4, 5, 6)),
@@ -182,9 +208,11 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ).column(1),
       closeToVector3(Vector3(2, 5, 8)),
@@ -195,16 +223,20 @@ void main() {
     expect(
       -Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -1, -2, -3,
         -4, -5, -6,
         -7, -8, -9,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -214,22 +246,28 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ) + Matrix3(
         // @formatter:off
+        // dart format off
         9, 8, 7,
         6, 5, 4,
         3, 2, 1,
+        // dart format on
         // @formatter:on
       ),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         10, 10, 10,
         10, 10, 10,
         10, 10, 10,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -239,22 +277,28 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ) - Matrix3(
         // @formatter:off
+        // dart format off
         9, 8, 7,
         6, 5, 4,
         3, 2, 1,
+        // dart format on
         // @formatter:on
       ),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -8, -6, -4,
         -2,  0,  2,
          4,  6,  8,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -264,16 +308,20 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ) * 2,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          2,  4,  6,
          8, 10, 12,
         14, 16, 18,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -283,9 +331,11 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ).multiplyVector(Vector3(5, 4, 3)),
       closeToVector3(Vector3(22, 58, 94)),
@@ -296,22 +346,28 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ) * Matrix3(
         // @formatter:off
+        // dart format off
         9, 8, 7,
         6, 5, 4,
         3, 2, 1,
+        // dart format on
         // @formatter:on
       ),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          30,  24,  18,
          84,  69,  54,
         138, 114,  90,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -319,24 +375,30 @@ void main() {
 
   test('multiplies a quaternion', () {
     // @formatter:off
+    // dart format off
     final u1 =  0.8221058;
     final u2 = -0.3036843;
     final u3 =  0.4815785;
+    // dart format on
     // @formatter:on
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         u1, u2, u3,
         u3, u1, u2,
         u2, u3, u1,
+        // dart format on
         // @formatter:on
       ) * Quaternion(0.1825742, 0.3651484, 0.5477226, 0.7302967),
       closeToMatrix3(
         Matrix3(
           // @formatter:off
+          // dart format off
           -0.3343507, -0.3282463,  0.8834387,
            0.9327373, -0.2494733,  0.2603154,
            0.1349468,  0.9110529,  0.3895792,
+          // dart format on
           // @formatter:on
         ),
       ),
@@ -347,16 +409,20 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
          2,  4,  6,
          8, 10, 12,
         14, 16, 18,
+        // dart format on
         // @formatter:on
       ) / 2,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -365,9 +431,11 @@ void main() {
   test('trace calculates the sum of main diagonal', () {
     expect(Matrix3(
       // @formatter:off
+      // dart format off
       1, 2, 3,
       0, 1, 4,
       5, 6, 0,
+      // dart format on
       // @formatter:on
     ).trace, closeToNum(2));
   });
@@ -375,9 +443,11 @@ void main() {
   test('determinant calculates the determinant value', () {
     expect(Matrix3(
       // @formatter:off
+      // dart format off
       1, 2, 3,
       0, 1, 4,
       5, 6, 0,
+      // dart format on
       // @formatter:on
     ).determinant, closeToNum(1));
   });
@@ -385,17 +455,21 @@ void main() {
   test('scaleToRotationMatrix scales the matrix to a rotation matrix', () {
     final m1 = Matrix3(
       // @formatter:off
+      // dart format off
       1, 2, 3,
       0, 1, 4,
       5, 6, 0,
+      // dart format on
       // @formatter:on
     );
     expect(m1.scaleToRotationMatrix(), closeToMatrix3(m1));
     final m2 = Matrix3(
       // @formatter:off
+      // dart format off
       1, 3, 3,
       2, 2, 2,
       1, 3, 1,
+      // dart format on
       // @formatter:on
     );
     expect(m2.scaleToRotationMatrix(), closeToMatrix3(m2 / 2));
@@ -405,16 +479,20 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ).transpose(),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 4, 7,
         2, 5, 8,
         3, 6, 9,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -424,16 +502,20 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         0, 1, 4,
         5, 6, 0,
+        // dart format on
         // @formatter:on
       ).adjoint(),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -24,  18,   5,
          20, -15, - 4,
         - 5,   4,   1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -443,16 +525,20 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         0, 1, 4,
         5, 6, 0,
+        // dart format on
         // @formatter:on
       ).invert(),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -24,  18,   5,
          20, -15, - 4,
         - 5,   4,   1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -462,16 +548,20 @@ void main() {
     expect(
       Matrix3(
         // @formatter:off
+        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
+        // dart format on
         // @formatter:on
       ).apply((x) => min(x * 2, 9)),
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         2, 4, 6,
         8, 9, 9,
         9, 9, 9,
+        // dart format on
         // @formatter:on
       )),
     );

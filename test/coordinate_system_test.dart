@@ -32,9 +32,11 @@ void main() {
 
     final pyNx = Matrix3(
       // @formatter:off
+      // dart format off
        0, -1,  0,
        1,  0,  0,
        0,  0,  1,
+      // dart format on
       // @formatter:on
     );
     for (

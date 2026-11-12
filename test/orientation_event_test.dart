@@ -16,9 +16,11 @@ void main() {
       event1.rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 0, 0,
         0, 1, 0,
         0, 0, 1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -26,9 +28,11 @@ void main() {
       event2.rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -0.0524597,  0.9982457, -0.0274485,
         -0.2459166, -0.0395536, -0.9684836,
         -0.9678704, -0.0440563,  0.2475601,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -68,9 +72,11 @@ void main() {
       event1xy.rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 0, 0,
         0, 1, 0,
         0, 0, 1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -78,9 +84,11 @@ void main() {
       event1xy.coordinateSystem,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         1, 0, 0,
         0, 1, 0,
         0, 0, 1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -90,9 +98,11 @@ void main() {
       event1xz.rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          1,  0,  0,
          0,  0, -1,
          0,  1,  0,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -100,9 +110,11 @@ void main() {
       event1xz.coordinateSystem,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          1,  0,  0,
          0,  0, -1,
          0,  1,  0,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -112,9 +124,11 @@ void main() {
       event1yZ.rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          0,  0, -1,
          1,  0,  0,
          0, -1,  0,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -122,9 +136,11 @@ void main() {
       event1yZ.coordinateSystem,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         0,  0, -1,
         1,  0,  0,
         0, -1,  0,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -134,9 +150,11 @@ void main() {
       event1YX.rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          0, -1,  0,
         -1,  0,  0,
          0,  0, -1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -144,9 +162,11 @@ void main() {
       event1YX.coordinateSystem,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          0, -1,  0,
         -1,  0,  0,
          0,  0, -1,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -157,9 +177,11 @@ void main() {
           .rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -0.0524597, -0.0274485, -0.9982457,
         -0.2459166, -0.9684836,  0.0395536,
         -0.9678704,  0.2475601,  0.0440563,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -170,9 +192,11 @@ void main() {
           .rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
          0.9982457,  0.0274485,  0.0524597,
         -0.0395536,  0.9684836,  0.2459166,
         -0.0440563, -0.2475601,  0.9678704,
+        // dart format on
         // @formatter:on
       )),
     );
@@ -183,9 +207,11 @@ void main() {
           .rotationMatrix,
       closeToMatrix3(Matrix3(
         // @formatter:off
+        // dart format off
         -0.9982457,  0.0524597,  0.0274485,
          0.0395536,  0.2459166,  0.9684836,
          0.0440563,  0.9678704, -0.2475601,
+        // dart format on
         // @formatter:on
       )),
     );

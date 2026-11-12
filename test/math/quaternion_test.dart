@@ -72,9 +72,11 @@ void main() {
     final q = Quaternion(1, 2, 3, 4);
     final m = Matrix3(
       // @formatter:off
+      // dart format off
        0.8571429, -0.2857143, -0.4285714,
        0.1714286,  0.9428571, -0.2857143,
        0.4857143,  0.1714286,  0.8571429,
+      // dart format on
       // @formatter:on
     );
     expect(q.length, closeToNum(5.4772255));
