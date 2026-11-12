@@ -111,15 +111,13 @@ class EulerAngles {
     final sy = sin(y);
     final sz = sin(z);
     return Matrix3(
-      cz * cy - sz * sx * sy,
-      -cx * sz,
-      cz * sy + cy * sz * sx,
-      cy * sz + cz * sx * sy,
-      cz * cx,
-      sz * sy - cz * cy * sx,
-      -cx * sy,
-      sx,
-      cx * cy,
+      // @formatter:off
+      // dart format off
+       cz * cy - sz * sx * sy, -cx * sz, cz * sy + cy * sz * sx,
+       cy * sz + cz * sx * sy,  cz * cx, sz * sy - cz * cy * sx,
+      -cx * sy               ,  sx     , cx * cy               ,
+      // dart format on
+      // @formatter:on
     );
   }
 
