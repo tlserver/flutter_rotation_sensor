@@ -33,15 +33,17 @@ void main() {
   test('identity constructor returns an identity matrix', () {
     expect(
       Matrix3.identity(),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -49,15 +51,17 @@ void main() {
     final v = Vector3(1, 2, 3);
     expect(
       Matrix3.rows(v, v, v),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 2, 3,
-        1, 2, 3,
-        1, 2, 3,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 2, 3,
+          1, 2, 3,
+          1, 2, 3,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -65,28 +69,35 @@ void main() {
     final v = Vector3(1, 2, 3);
     expect(
       Matrix3.columns(v, v, v),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 1, 1,
-        2, 2, 2,
-        3, 3, 3,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 1, 1,
+          2, 2, 2,
+          3, 3, 3,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
   test('zero constructor returns a zero matrix', () {
-    expect(Matrix3.zero(), closeToMatrix3(Matrix3(
-      // @formatter:off
-      // dart format off
-      0, 0, 0,
-      0, 0, 0,
-      0, 0, 0,
-      // dart format on
-      // @formatter:on
-    )));
+    expect(
+      Matrix3.zero(),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
+    );
   });
 
   test('rotateX constructor returns a zero matrix', () {
@@ -230,100 +241,100 @@ void main() {
         // dart format on
         // @formatter:on
       ),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -1, -2, -3,
-        -4, -5, -6,
-        -7, -8, -9,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -1, -2, -3,
+          -4, -5, -6,
+          -7, -8, -9,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
   test('addition sums corresponding elements', () {
     expect(
+      // @formatter:off
+      // dart format off
       Matrix3(
-        // @formatter:off
-        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
-        // dart format on
-        // @formatter:on
       ) + Matrix3(
-        // @formatter:off
-        // dart format off
         9, 8, 7,
         6, 5, 4,
         3, 2, 1,
-        // dart format on
-        // @formatter:on
       ),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        10, 10, 10,
-        10, 10, 10,
-        10, 10, 10,
-        // dart format on
-        // @formatter:on
-      )),
+      // dart format on
+      // @formatter:on
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          10, 10, 10,
+          10, 10, 10,
+          10, 10, 10,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
   test('subtraction subtracts corresponding elements', () {
     expect(
+      // @formatter:off
+      // dart format off
       Matrix3(
-        // @formatter:off
-        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
-        // dart format on
-        // @formatter:on
       ) - Matrix3(
-        // @formatter:off
-        // dart format off
         9, 8, 7,
         6, 5, 4,
         3, 2, 1,
-        // dart format on
-        // @formatter:on
       ),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -8, -6, -4,
-        -2,  0,  2,
-         4,  6,  8,
-        // dart format on
-        // @formatter:on
-      )),
+      // dart format on
+      // @formatter:on
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -8, -6, -4,
+          -2,  0,  2,
+          4,  6,  8,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
   test('multiplies a scalar', () {
     expect(
+      // @formatter:off
+      // dart format off
       Matrix3(
-        // @formatter:off
-        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
-        // dart format on
-        // @formatter:on
       ) * 2,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         2,  4,  6,
-         8, 10, 12,
-        14, 16, 18,
-        // dart format on
-        // @formatter:on
-      )),
+      // dart format on
+      // @formatter:on
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           2,  4,  6,
+           8, 10, 12,
+          14, 16, 18,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -344,32 +355,30 @@ void main() {
 
   test('multiplies a matrices', () {
     expect(
+      // @formatter:off
+      // dart format off
       Matrix3(
-        // @formatter:off
-        // dart format off
         1, 2, 3,
         4, 5, 6,
         7, 8, 9,
-        // dart format on
-        // @formatter:on
       ) * Matrix3(
-        // @formatter:off
-        // dart format off
         9, 8, 7,
         6, 5, 4,
         3, 2, 1,
-        // dart format on
-        // @formatter:on
       ),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         30,  24,  18,
-         84,  69,  54,
-        138, 114,  90,
-        // dart format on
-        // @formatter:on
-      )),
+      // dart format on
+      // @formatter:on
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           30,  24,  18,
+           84,  69,  54,
+          138, 114,  90,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -382,15 +391,15 @@ void main() {
     // dart format on
     // @formatter:on
     expect(
+      // @formatter:off
+      // dart format off
       Matrix3(
-        // @formatter:off
-        // dart format off
         u1, u2, u3,
         u3, u1, u2,
         u2, u3, u1,
-        // dart format on
-        // @formatter:on
       ) * Quaternion(0.1825742, 0.3651484, 0.5477226, 0.7302967),
+      // dart format on
+      // @formatter:on
       closeToMatrix3(
         Matrix3(
           // @formatter:off
@@ -407,49 +416,57 @@ void main() {
 
   test('division scales each element by a scalar', () {
     expect(
+      // @formatter:off
+      // dart format off
       Matrix3(
-        // @formatter:off
-        // dart format off
          2,  4,  6,
          8, 10, 12,
         14, 16, 18,
-        // dart format on
-        // @formatter:on
       ) / 2,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 2, 3,
-        4, 5, 6,
-        7, 8, 9,
-        // dart format on
-        // @formatter:on
-      )),
+      // dart format on
+      // @formatter:on
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 2, 3,
+          4, 5, 6,
+          7, 8, 9,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
   test('trace calculates the sum of main diagonal', () {
-    expect(Matrix3(
-      // @formatter:off
-      // dart format off
-      1, 2, 3,
-      0, 1, 4,
-      5, 6, 0,
-      // dart format on
-      // @formatter:on
-    ).trace, closeToNum(2));
+    expect(
+      Matrix3(
+        // @formatter:off
+        // dart format off
+        1, 2, 3,
+        0, 1, 4,
+        5, 6, 0,
+        // dart format on
+        // @formatter:on
+      ).trace,
+      closeToNum(2),
+    );
   });
 
   test('determinant calculates the determinant value', () {
-    expect(Matrix3(
-      // @formatter:off
-      // dart format off
-      1, 2, 3,
-      0, 1, 4,
-      5, 6, 0,
-      // dart format on
-      // @formatter:on
-    ).determinant, closeToNum(1));
+    expect(
+      Matrix3(
+        // @formatter:off
+        // dart format off
+        1, 2, 3,
+        0, 1, 4,
+        5, 6, 0,
+        // dart format on
+        // @formatter:on
+      ).determinant,
+      closeToNum(1),
+    );
   });
 
   test('scaleToRotationMatrix scales the matrix to a rotation matrix', () {
@@ -486,15 +503,17 @@ void main() {
         // dart format on
         // @formatter:on
       ).transpose(),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 4, 7,
-        2, 5, 8,
-        3, 6, 9,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 4, 7,
+          2, 5, 8,
+          3, 6, 9,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -509,15 +528,17 @@ void main() {
         // dart format on
         // @formatter:on
       ).adjoint(),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -24,  18,   5,
-         20, -15, - 4,
-        - 5,   4,   1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -24,  18,   5,
+           20, -15, - 4,
+          - 5,   4,   1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -532,15 +553,17 @@ void main() {
         // dart format on
         // @formatter:on
       ).invert(),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -24,  18,   5,
-         20, -15, - 4,
-        - 5,   4,   1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -24,  18,   5,
+           20, -15, - 4,
+          - 5,   4,   1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -555,15 +578,17 @@ void main() {
         // dart format on
         // @formatter:on
       ).apply((x) => min(x * 2, 9)),
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        2, 4, 6,
-        8, 9, 9,
-        9, 9, 9,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          2, 4, 6,
+          8, 9, 9,
+          9, 9, 9,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -584,18 +609,9 @@ void main() {
   });
 
   test('rotates vectors', () {
-    expect(
-      xrMt.multiplyVector(v1),
-      closeToVector3(Vector3(1, -3, 2)),
-    );
-    expect(
-      yrMt.multiplyVector(v1),
-      closeToVector3(Vector3(3, 2, -1)),
-    );
-    expect(
-      zrMt.multiplyVector(v1),
-      closeToVector3(Vector3(-2, 1, 3)),
-    );
+    expect(xrMt.multiplyVector(v1), closeToVector3(Vector3(1, -3, 2)));
+    expect(yrMt.multiplyVector(v1), closeToVector3(Vector3(3, 2, -1)));
+    expect(zrMt.multiplyVector(v1), closeToVector3(Vector3(-2, 1, 3)));
     expect(
       ab1Mt.multiplyVector(v1),
       closeToVector3(Vector3(1.9773995, 1.2583316, 2.9165893)),

@@ -14,27 +14,31 @@ void main() {
   test('rotationMatrix returns correct matrix for some known quaternions', () {
     expect(
       event1.rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
     expect(
       event2.rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -0.0524597,  0.9982457, -0.0274485,
-        -0.2459166, -0.0395536, -0.9684836,
-        -0.9678704, -0.0440563,  0.2475601,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -0.0524597,  0.9982457, -0.0274485,
+          -0.2459166, -0.0395536, -0.9684836,
+          -0.9678704, -0.0440563,  0.2475601,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
@@ -56,11 +60,11 @@ void main() {
 
   test('remapCoordinateSystem throws error with invalid axes', () {
     expect(
-          () => event1.remapCoordinateSystem(Axis3.X, Axis3.X),
+      () => event1.remapCoordinateSystem(Axis3.X, Axis3.X),
       throwsUnsupportedError,
     );
     expect(
-          () => event1.remapCoordinateSystem(Axis3.X, -Axis3.X),
+      () => event1.remapCoordinateSystem(Axis3.X, -Axis3.X),
       throwsUnsupportedError,
     );
   });
@@ -70,150 +74,166 @@ void main() {
     final event1xy = event1.remapCoordinateSystem(Axis3.X, Axis3.Y);
     expect(
       event1xy.rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
     expect(
       event1xy.coordinateSystem,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        1, 0, 0,
-        0, 1, 0,
-        0, 0, 1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          1, 0, 0,
+          0, 1, 0,
+          0, 0, 1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
 
     final event1xz = event1.remapCoordinateSystem(Axis3.X, Axis3.Z);
     expect(
       event1xz.rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         1,  0,  0,
-         0,  0, -1,
-         0,  1,  0,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           1,  0,  0,
+           0,  0, -1,
+           0,  1,  0,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
     expect(
       event1xz.coordinateSystem,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         1,  0,  0,
-         0,  0, -1,
-         0,  1,  0,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           1,  0,  0,
+           0,  0, -1,
+           0,  1,  0,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
 
     final event1yZ = event1.remapCoordinateSystem(Axis3.Y, -Axis3.Z);
     expect(
       event1yZ.rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         0,  0, -1,
-         1,  0,  0,
-         0, -1,  0,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           0,  0, -1,
+           1,  0,  0,
+           0, -1,  0,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
     expect(
       event1yZ.coordinateSystem,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        0,  0, -1,
-        1,  0,  0,
-        0, -1,  0,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          0,  0, -1,
+          1,  0,  0,
+          0, -1,  0,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
 
     final event1YX = event1.remapCoordinateSystem(-Axis3.Y, -Axis3.X);
     expect(
       event1YX.rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         0, -1,  0,
-        -1,  0,  0,
-         0,  0, -1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           0, -1,  0,
+          -1,  0,  0,
+           0,  0, -1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
     expect(
       event1YX.coordinateSystem,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         0, -1,  0,
-        -1,  0,  0,
-         0,  0, -1,
-        // dart format on
-        // @formatter:on
-      )),
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           0, -1,  0,
+          -1,  0,  0,
+           0,  0, -1,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
 
     expect(
-      event2
-          .remapCoordinateSystem(Axis3.X, Axis3.Z)
-          .rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -0.0524597, -0.0274485, -0.9982457,
-        -0.2459166, -0.9684836,  0.0395536,
-        -0.9678704,  0.2475601,  0.0440563,
-        // dart format on
-        // @formatter:on
-      )),
+      event2.remapCoordinateSystem(Axis3.X, Axis3.Z).rotationMatrix,
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -0.0524597, -0.0274485, -0.9982457,
+          -0.2459166, -0.9684836,  0.0395536,
+          -0.9678704,  0.2475601,  0.0440563,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
 
     expect(
-      event2
-          .remapCoordinateSystem(Axis3.Y, -Axis3.Z)
-          .rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-         0.9982457,  0.0274485,  0.0524597,
-        -0.0395536,  0.9684836,  0.2459166,
-        -0.0440563, -0.2475601,  0.9678704,
-        // dart format on
-        // @formatter:on
-      )),
+      event2.remapCoordinateSystem(Axis3.Y, -Axis3.Z).rotationMatrix,
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+           0.9982457,  0.0274485,  0.0524597,
+          -0.0395536,  0.9684836,  0.2459166,
+          -0.0440563, -0.2475601,  0.9678704,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
 
     expect(
-      event2
-          .remapCoordinateSystem(-Axis3.Y, -Axis3.X)
-          .rotationMatrix,
-      closeToMatrix3(Matrix3(
-        // @formatter:off
-        // dart format off
-        -0.9982457,  0.0524597,  0.0274485,
-         0.0395536,  0.2459166,  0.9684836,
-         0.0440563,  0.9678704, -0.2475601,
-        // dart format on
-        // @formatter:on
-      )),
+      event2.remapCoordinateSystem(-Axis3.Y, -Axis3.X).rotationMatrix,
+      closeToMatrix3(
+        Matrix3(
+          // @formatter:off
+          // dart format off
+          -0.9982457,  0.0524597,  0.0274485,
+           0.0395536,  0.2459166,  0.9684836,
+           0.0440563,  0.9678704, -0.2475601,
+          // dart format on
+          // @formatter:on
+        ),
+      ),
     );
   });
 
